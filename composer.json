@@ -1,0 +1,35 @@
+{
+    "name": "ms580/mini-rest",
+    "autoload": {
+        "psr-4": {
+            "MiniRest\\": "src/"
+        },
+        "classmap": [
+            "src/Models"
+        ],
+        "files": ["src/Helpers/helpers.php"]
+    },
+    "authors": [
+        {
+            "name": "Marcone Santos",
+            "email": "98716688+Marcone-Santos1@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.5",
+        "illuminate/database": "^10.19",
+        "symfony/console": "^6.3",
+        "illuminate/pagination": "^10.19",
+        "firebase/php-jwt": "^6.8",
+        "ircmaxell/password-compat": "^1.0",
+        "aws/aws-sdk-php": "^3.281",
+        "ramsey/uuid": "^4.7",
+      "ext-pdo": "*",
+        "ext-fileinfo": "*",
+        "cboden/ratchet": "^0.4.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.3"
+    }
+}
