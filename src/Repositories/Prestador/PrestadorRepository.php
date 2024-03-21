@@ -7,9 +7,6 @@ use MiniRest\Exceptions\PrestadorNotFoundException;
 use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Prestador\Prestador;
 use Illuminate\Database\Capsule\Manager as DB;
-use MiniRest\Models\Prestador\PrestadorApresentacao;
-use MiniRest\Models\Prestador\PrestadorHabilidades;
-use MiniRest\Models\Prestador\PrestadorProfissao;
 
 class PrestadorRepository
 {
@@ -26,31 +23,16 @@ class PrestadorRepository
         $data = [];
 
         foreach ($prestadores as $prestador) {
-            $prestadorAll = Prestador::select('Nome_Empresa', 'Nome_completo', 'CNPJ', 'tb_user_idtb_user', 'idtb_prestador', 'Valor_Da_Hora', 'Valor_diaria')
-                ->where('idtb_prestador', $prestador->idtb_prestador)
-                ->join('tb_user', 'tb_prestador.tb_user_idtb_user', 'tb_user.idtb_user')
+            $prestadorAll = Prestador::select('prestador.id','users.id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno', 'users.shippingAddress', 'users.shippingState', 'users.shippingCity','users.created_at')
+                ->where('users_id', $prestador->users_id)
+                ->join('users', 'prestador.users_id','=','users.id')
                 ->first();
 
-            $prestadorProfissao = PrestadorProfissao::select('Profissao', 'idtb_profissoes', 'Experiencia', 'Categoria', 'tb_categoria_idtb_categoria')
-                ->join('tb_profissoes', 'tb_profissoes.idtb_profissoes', '=', 'tb_prestador_profissao.tb_profissoes_idtb_profissoes')
-                ->join('tb_categoria', 'tb_categoria.idtb_categoria', '=', 'tb_profissoes.tb_categoria_idtb_categoria')
-                ->where('tb_prestador_profissao.tb_prestador_idtb_prestador', $prestador->idtb_prestador)
-                ->get();
-
-            $prestadorHabilidades = PrestadorHabilidades::select('Habilidade', 'idtb_habilidades')
-                ->join('tb_habilidades', 'tb_habilidades.idtb_habilidades', '=', 'tb_prestador_habilidade.tb_habilidades_idtb_habilidades')
-                ->where('tb_prestador_habilidade.tb_prestador_idtb_prestador', $prestador->idtb_prestador)
-                ->get();
-
-            $prestadorApresentacao = PrestadorApresentacao::select('Apresentacao')
-                ->where('tb_prestador_idtb_prestador', $prestador->idtb_prestador)
-                ->first();
+            
 
             $data[] = [
                 'prestadorInfo' => $prestadorAll,
-                'prestadorProfessions' => $prestadorProfissao,
-                'prestadorSkills' => $prestadorHabilidades,
-                'prestadorGrettings' => $prestadorApresentacao,
+
             ];
         }
 
@@ -64,41 +46,7 @@ class PrestadorRepository
      */
     public function find(int|string $prestadorId)
     {
-        $data = [];
-
-        $prestadorAll = Prestador::select('tb_user.*', 'tb_prestador.*')
-            ->where('idtb_prestador', $prestadorId)
-            ->join('tb_user', 'tb_prestador.tb_user_idtb_user', 'tb_user.idtb_user')
-            ->first();
-
-        $prestadorProfissao = PrestadorProfissao::select('Profissao', 'idtb_profissoes', 'Experiencia', 'Categoria', 'tb_categoria_idtb_categoria')
-            ->join('tb_profissoes', 'tb_profissoes.idtb_profissoes', '=', 'tb_prestador_profissao.tb_profissoes_idtb_profissoes')
-            ->join('tb_categoria', 'tb_categoria.idtb_categoria', '=', 'tb_profissoes.tb_categoria_idtb_categoria')
-            ->where('tb_prestador_profissao.tb_prestador_idtb_prestador', $prestadorId)
-            ->get();
-
-        $prestadorHabilidades = PrestadorHabilidades::select('Habilidade', 'idtb_habilidades')
-            ->join('tb_habilidades', 'tb_habilidades.idtb_habilidades', '=', 'tb_prestador_habilidade.tb_habilidades_idtb_habilidades')
-            ->where('tb_prestador_habilidade.tb_prestador_idtb_prestador', $prestadorId)
-            ->get();
-
-        $prestadorApresentacao = PrestadorApresentacao::select('Apresentacao')
-            ->where('tb_prestador_idtb_prestador', $prestadorId)
-            ->first();
-
-        if (
-            !$prestadorAll ||
-            count($prestadorProfissao) <= 0 ||
-            count($prestadorHabilidades) <= 0 ||
-            !$prestadorApresentacao
-        )
-
-            return [
-                'prestadorInfo' => $prestadorAll,
-                'prestadorProfessions' => $prestadorProfissao,
-                'prestadorSkills' => $prestadorHabilidades,
-                'prestadorGrettings' => $prestadorApresentacao,
-            ];
+        return $this->prestador->where('id', $prestadorId)->first();
     }
 
     public function me(int $userId)
@@ -106,29 +54,6 @@ class PrestadorRepository
 
         $prestador = $this->prestador->where('users_id', $userId)->first();
 
-
-        // $prestador = $this->prestador->with('user')->where('users_id', $userId)->firstOrFail();
-        // dd($prestador->user->email);
-
-        // $prestadorAll = Prestador::select('Nome_Empresa', 'CNPJ', 'idtb_prestador', 'Valor_Da_Hora', 'Valor_diaria', 'Telefone', 'Email')
-        //     ->join('tb_user', 'tb_prestador.tb_user_idtb_user', 'tb_user.idtb_user')
-        //     ->where('idtb_prestador', $prestador->idtb_prestador)
-        //     ->first();
-
-        // $prestadorProfissao = PrestadorProfissao::select('Profissao', 'idtb_profissoes', 'Experiencia', 'Categoria', 'tb_categoria_idtb_categoria')
-        //     ->join('tb_profissoes', 'tb_profissoes.idtb_profissoes', '=', 'tb_prestador_profissao.tb_profissoes_idtb_profissoes')
-        //     ->join('tb_categoria', 'tb_categoria.idtb_categoria', '=', 'tb_profissoes.tb_categoria_idtb_categoria')
-        //     ->where('tb_prestador_profissao.tb_prestador_idtb_prestador', $prestador->idtb_prestador)
-        //     ->get();
-
-        // $prestadorHabilidades = PrestadorHabilidades::select('Habilidade', 'idtb_habilidades')
-        //     ->join('tb_habilidades', 'tb_habilidades.idtb_habilidades', '=', 'tb_prestador_habilidade.tb_habilidades_idtb_habilidades')
-        //     ->where('tb_prestador_habilidade.tb_prestador_idtb_prestador', $prestador->idtb_prestador)
-        //     ->get();
-
-        // $prestadorApresentacao = PrestadorApresentacao::select('Apresentacao')
-        //     ->where('tb_prestador_idtb_prestador', $prestador->idtb_prestador)
-        //     ->first();
 
         return $prestador;
     }

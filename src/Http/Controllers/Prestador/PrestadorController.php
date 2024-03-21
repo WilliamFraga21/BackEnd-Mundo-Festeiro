@@ -30,14 +30,14 @@ class PrestadorController extends Controller
         Response::json(['prestador' => $this->prestador->getAll()]);
     }
 
-    // public function findById(int $prestadorId)
-    // {
-    //     try {
-    //         Response::json(['prestador' => $this->prestador->find($prestadorId)]);
-    //     } catch (PrestadorNotFoundException $e) {
-    //         Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
-    //     }
-    // }
+    public function findById(int $id)
+    {
+        try {
+            Response::json(['prestador' => $this->prestador->find($id)]);
+        } catch (PrestadorNotFoundException $e) {
+            Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
+        }
+    }
 
     public function me(Request $request)
     {

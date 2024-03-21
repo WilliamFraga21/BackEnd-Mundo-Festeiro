@@ -7,9 +7,14 @@ use MiniRest\Http\Controllers\{
     Users\UserController,AuthController
 };
 use MiniRest\Http\Controllers\Prestador\PrestadorController;
+use MiniRest\Http\Controllers\Professions\ProfessionsController;
+
 
 Router::post('/auth/login', [AuthController::class, 'login']);
 Router::post('/api/user/create', [UserController::class, 'store']);
+Router::get('/prestador/getALL', [PrestadorController::class, 'index']);
+Router::get('/profissao/getALL', [ProfessionsController::class, 'index']);
+
 
 Router::prefix('/api')->group([AuthMiddleware::class], function () {
 
@@ -23,7 +28,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/prestador/create', [PrestadorController::class, 'store']);
     Router::post('/prestador/update', [PrestadorController::class, 'update']);
     Router::get('/prestador/me', [PrestadorController::class, 'me']);
-
+    Router::post('/prestador/id/{id}', [PrestadorController::class, 'findById']);
 
 
 
