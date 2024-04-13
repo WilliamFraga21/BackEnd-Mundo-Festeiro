@@ -13,16 +13,21 @@ use MiniRest\Http\Controllers\Controller;
 use MiniRest\Http\Request\Request;
 use MiniRest\Http\Response\Response;
 use MiniRest\Repositories\Prestador\PrestadorRepository;
+use MiniRest\Repositories\Prestador\PrestadorProfesionRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use MiniRest\Actions\Prestador\PrestadorProfessionCreateAction;
+use MiniRest\DTO\Prestador\PrestadorProfessionCreateDTO;
 use MiniRest\Helpers\StatusCode\StatusCode;
 
 class PrestadorController extends Controller
 {
     private PrestadorRepository $prestador;
+    private PrestadorProfesionRepository $prestadorPrefesion;
 
     public function __construct()
     {
         $this->prestador = new PrestadorRepository();
+        $this->prestadorPrefesion = new PrestadorProfesionRepository();
     }
 
     public function index()
@@ -74,6 +79,8 @@ class PrestadorController extends Controller
 
 
     }
+
+    
 
     public function update(Request $request)
     {

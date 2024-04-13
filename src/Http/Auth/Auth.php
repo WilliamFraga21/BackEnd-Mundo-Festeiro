@@ -67,6 +67,12 @@ class Auth
         return $user ? $user->id : null;
     }
 
+    public static function idPrestador(Request $request): ?int
+    {
+        $user = self::user($request);
+        return $user ? $user->id : null;
+    }
+
     private static function getTokenFromRequest(Request $request): ?string
     {
         $authorizationHeader = $request->headers('Authorization');
