@@ -33,11 +33,15 @@ class PrestadorProfesionRepository
     } 
     public function dellid(int $userId, $profe)
     {
-        $profession =  $this->prestadorProfesion->where('profissao_id',$profe)->where('prestador_id',$userId)->first();
-        // dd($profession);
-        $profession->delete();
+        $profession =  $this->prestadorProfesion->where('profissao_id',$profe)->where('prestador_id',$userId)->delete();
         
         return $profession;
+    }
+
+    
+    public function ifdellid(int $userId, $profe)
+    {
+        return $this->prestadorProfesion->where('profissao_id',$profe)->where('prestador_id',$userId)->first();
     } 
     
     

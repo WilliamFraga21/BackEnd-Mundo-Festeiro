@@ -2,6 +2,7 @@
 
 namespace MiniRest\Http\Controllers\Prestador;
 
+use Exception;
 use MiniRest\Actions\Prestador\PrestadorCreateAction;
 use MiniRest\Actions\Prestador\PrestadorProfessionUpdateAction;
 use MiniRest\DTO\Prestador\PrestadorCreateDTO;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MiniRest\Actions\Prestador\PrestadorProfessionCreateAction;
 use MiniRest\DTO\Prestador\PrestadorProfessionCreateDTO;
 use MiniRest\Helpers\StatusCode\StatusCode;
+use RuntimeException;
 
 class PrestadorProfessionController extends Controller
 {
@@ -49,18 +51,21 @@ class PrestadorProfessionController extends Controller
 
     public function delete(Request $request,$idprofession)
     {
-    
-        try {
-            try {
-                $idPrestador = $this->prestador->me(Auth::id($request));
-                
-            } catch (ModelNotFoundException $exception) {
-                Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
-            }
-            Response::json(['Profissão Deletada:' ,$this->prestadorPrefesion->dellid($idPrestador->id,$idprofession)]);
-        } catch (ModelNotFoundException $exception) {
-            Response::json(['error' => 'Prestador Não tem Profissão até o momento!!', $exception->getMessage()], StatusCode::SERVER_ERROR);
+
+        $idPrestador = $this->prestador->me(Auth::id($request));
+
+        if (!$idPrestador) {
+            Response::json(['error' => 'Usuário não cadastrado como prestador'], StatusCode::SERVER_ERROR);
+            return;
         }
+
+
+        if (!$this->prestadorPrefesion->ifdellid($idPrestador->id,$idprofession)) {
+            Response::json(['error' => 'Profissão já deletada'], StatusCode::SERVER_ERROR);
+            return;
+        }
+
+        Response::json(['Profissão Deletada:' => $this->prestadorPrefesion->dellid($idPrestador->id,$idprofession)]);   
     }
 
 
