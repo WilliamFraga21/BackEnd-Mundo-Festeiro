@@ -6,6 +6,7 @@ use MiniRest\Router\Router;
 use MiniRest\Http\Controllers\{
     Users\UserController,AuthController
 };
+use MiniRest\Http\Controllers\Evento\EventoController;
 use MiniRest\Http\Controllers\Prestador\PrestadorController;
 use MiniRest\Http\Controllers\Prestador\PrestadorProfessionController;
 use MiniRest\Http\Controllers\Professions\ProfessionsController;
@@ -34,6 +35,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/prestador/updateProfession', [PrestadorProfessionController::class, 'update']);
     Router::get('/prestadorprofession/me', [PrestadorProfessionController::class, 'me']);
     Router::post('/prestadorprofession/delete/{id}', [PrestadorProfessionController::class, 'delete']);
-
-
+    
+    
+    Router::post('/evento/create', [EventoController::class, 'store']);
 });
