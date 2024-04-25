@@ -52,10 +52,50 @@ class EventoRepository
         
         return $idEvent;
     }
-
-    public function byid(int $userId)
+    public function all(int $userId)
     {
-        return $this->evento->where('profissao_id', $userId)->first();
+        $Evento = $this->evento->select('*')->where('users_id', $userId)->get();
+        $iduser = $this->user->where('id',$userId)->first();
+        foreach ($Evento as $evento) {
+            $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
+            $idprofession = DB::table('evento_has_profissao')
+                                ->select('profissao', 'profissao_id')
+                                ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
+                                ->where('evento_has_profissao.evento_id', $evento->id)
+                                ->get();
+            $object = [
+                'user' => $iduser,
+                'evento' => $evento,
+                'localidadeEvento' => $idlocalidade,
+                'profissao' => $idprofession
+            ];
+            $idEvent[] = $object;
+        }
+        
+        return $idEvent;
+    }
+
+    public function find(int $eventoid)
+    {
+        $Evento = $this->evento->select('*')->where('id', $eventoid)->get();
+        foreach ($Evento as $evento) {
+            $iduser = $this->user->where('id',$evento->users_id)->first();
+            $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
+            $idprofession = DB::table('evento_has_profissao')
+                                ->select('profissao', 'profissao_id')
+                                ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
+                                ->where('evento_has_profissao.evento_id', $evento->id)
+                                ->get();
+            $object = [
+                'user' => $iduser,
+                'evento' => $evento,
+                'localidadeEvento' => $idlocalidade,
+                'profissao' => $idprofession
+            ];
+            $idEvent[] = $object;
+        }
+        
+        return $idEvent;
     } 
 
 

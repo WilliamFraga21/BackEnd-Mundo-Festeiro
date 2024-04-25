@@ -36,11 +36,11 @@ class EventoController extends Controller
 
     public function findById(int $id)
     {
-        // try {
-        //     Response::json(['prestador' => $this->Evento->find($id)]);
-        // } catch (PrestadorNotFoundException $e) {
-        //     Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
-        // }
+        try {
+            Response::json(['Evento' => $this->Evento->find($id)]);
+        } catch (\Exception $e) {
+            Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
+        }
     }
 
     public function me(Request $request)
