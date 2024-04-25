@@ -42,6 +42,14 @@ class EventoController extends Controller
             Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
         }
     }
+    public function all()
+    {
+        try {
+            Response::json(['Evento' => $this->Evento->all()]);
+        } catch (\Exception $e) {
+            Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
+        }
+    }
 
     public function me(Request $request)
     {

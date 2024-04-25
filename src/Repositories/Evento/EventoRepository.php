@@ -52,11 +52,11 @@ class EventoRepository
         
         return $idEvent;
     }
-    public function all(int $userId)
+    public function all()
     {
-        $Evento = $this->evento->select('*')->where('users_id', $userId)->get();
-        $iduser = $this->user->where('id',$userId)->first();
+        $Evento = $this->evento->select('*')->get();
         foreach ($Evento as $evento) {
+            $iduser = $this->user->where('id',$evento->users_id)->first();
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
             $idprofession = DB::table('evento_has_profissao')
                                 ->select('profissao', 'profissao_id')

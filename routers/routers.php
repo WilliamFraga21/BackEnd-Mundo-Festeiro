@@ -16,6 +16,7 @@ Router::post('/auth/login', [AuthController::class, 'login']);
 Router::post('/api/user/create', [UserController::class, 'store']);
 Router::get('/prestador/getALL', [PrestadorController::class, 'index']);
 Router::get('/profissao/getALL', [ProfessionsController::class, 'index']);
+Router::get('/evento', [EventoController::class, 'all']);
 
 
 Router::prefix('/api')->group([AuthMiddleware::class], function () {
