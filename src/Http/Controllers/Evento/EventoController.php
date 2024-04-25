@@ -13,17 +13,20 @@ use MiniRest\Http\Controllers\Controller;
 use MiniRest\Http\Request\Request;
 use MiniRest\Http\Response\Response;
 use MiniRest\Repositories\Evento\EventoRepository;
-use MiniRest\Repositories\Evento\EventoProfesionRepository;
+use MiniRest\Repositories\Evento\EventoProfessionRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MiniRest\Helpers\StatusCode\StatusCode;
+use MiniRest\Models\Evento\EventoProfession;
 
 class EventoController extends Controller
 {
     private EventoRepository $Evento;
+    private EventoProfessionRepository $EventoProfession;
 
     public function __construct()
     {
         $this->Evento = new EventoRepository();
+        $this->EventoProfession = new EventoProfessionRepository();
     }
 
     public function index()
@@ -46,6 +49,45 @@ class EventoController extends Controller
             Response::json(['prestador' => $this->Evento->me(Auth::id($request))]);
         } catch (ModelNotFoundException $exception) {
             // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
+        }
+    }
+
+    public function deletePro(Request $request,$idProf)
+    {
+        try {
+            $idUser = Auth::id($request);
+            if ($this->EventoProfession->ifdellidPro((int)$idProf,$idUser) == NULL) {
+                Response::json(['error' => 'Você não pode deletar ou alterar Profissões de eventos de outros usuarios!!'], StatusCode::SERVER_ERROR);
+                return;
+            }
+            if ($this->EventoProfession->ifdellidPro((int)$idProf,$idUser) == 'ja deletada') {
+                Response::json(['error' => 'Profissão já deletada'], StatusCode::SERVER_ERROR);
+                return;
+            }
+
+            // dd($this->EventoProfession->ifdellidPro((int)$idEvento,$idUser));
+            Response::json(['success' => 'Profissão deletada',$this->EventoProfession->dellidPro((int)$idProf,(int)$idProf)]);
+        } catch (ModelNotFoundException $exception) {
+            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
+        }
+    }
+    public function delete(Request $request,$idEvent)
+    {
+        try {
+            $idUser = Auth::id($request);
+            if ($this->Evento->ifdellid($idUser,(int)$idEvent) == NULL) {
+                Response::json(['error' => 'Você não pode deletar ou alterar eventos de outros usuarios!!'], StatusCode::SERVER_ERROR);
+                return;
+            }
+            if ($this->Evento->ifdellid($idUser,(int)$idEvent) == 'ja deletado') {
+                Response::json(['error' => 'Evento já deletado'], StatusCode::SERVER_ERROR);
+                return;
+            }
+
+            // dd($this->EventoProfession->ifdellidPro((int)$idEvento,$idUser));
+            Response::json(['success' => 'Evento deletado',$this->Evento->dellid((int)$idEvent)]);
+        } catch (ModelNotFoundException $exception) {
+            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
         }
     }
 
@@ -85,14 +127,21 @@ class EventoController extends Controller
 
     
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $validation = $request->rules([
-            'promotorEvento' => 'required',
+            'nomeEvento' => 'required',
+            'tipoEvento' => 'required',
+            'data' => 'required',
+            'quantidadePessoas' => 'required',
+            'quantidadeFuncionarios' => 'required',
+            'statusEvento' => 'required',
+            'descricaoEvento' => 'required',
             'endereco' => 'required',
             'bairro' => 'required',
             'cidade' => 'required',
             'estado' => 'required',
+            'professions' => 'required|array:int',
         ])->validate();
 
         if (!$validation) {
@@ -100,12 +149,22 @@ class EventoController extends Controller
             return;
         }
 
+        $idUser = Auth::id($request);
+        // dd($this->Evento->ifdellid($idUser,(int)$id));
+        if ($this->Evento->ifdellid($idUser,(int)$id) == NULL) {
+            Response::json(['error' => 'Você não pode deletar ou alterar eventos de outros usuarios!!'], StatusCode::SERVER_ERROR);
+            return;
+        }
+
+            
+
         (new EventoUpdateAction())->execute(
             Auth::id($request),
-            new EventoCreateDTO($request)
+            new EventoCreateDTO($request),
+            $id
         );
 
-        Response::json(['success' => ['message' => 'prestador atualizado com sucesso']]);
+        Response::json(['success' => ['message' => 'Evento atualizado com sucesso']]);
 
     }
 }

@@ -5,30 +5,41 @@ namespace MiniRest\Actions\Evento;
 use Illuminate\Database\Capsule\Manager as DB;
 use MiniRest\DTO\Evento\EventoCreateDTO;
 use MiniRest\Exceptions\DatabaseInsertException;
+use MiniRest\Exceptions\Exception;
 use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Evento\Evento;
 use MiniRest\Repositories\Localidade\LocalidadeRepository;
 use MiniRest\Repositories\Evento\EventoRepository;
+use MiniRest\Repositories\Evento\EventoProfessionRepository;
+use MiniRest\Http\Response\Response;
 
 class EventoUpdateAction
 {
+
+    private EventoRepository $Evento;
+
+    public function __construct()
+    {
+        $this->Evento = new EventoRepository();
+    }
+
     /**
      * @throws DatabaseInsertException
      */
-    public function execute(int $userId, EventoCreateDTO $prestadorCreateDTO)
+    public function execute(int $userId, EventoCreateDTO $eventoCreateDTO,int $id)
     {
-        $prestadorData = $prestadorCreateDTO->toArray();
+        $eventoData = $eventoCreateDTO->toArray();
 
         DB::beginTransaction();
         try {
+            
+            $idLocalidade = (new LocalidadeRepository())->storeLocalidade($eventoData);
+            $eventoId = (new EventoRepository())->update($userId, $eventoData,$idLocalidade,$id);
 
-            $prestador = Evento::where('users_id', $userId)->firstOrFail();
-            $prestadorId = $prestador->users_id;
-
-
-
-            $idLocalidade = (new LocalidadeRepository())->storeLocalidade($prestadorData);
-            // (new EventoRepository())->updatePrestador($userId, $prestadorData,$idLocalidade);
+            foreach  ($eventoData['professions'] as $profession){
+                
+                $professionId = (new EventoProfessionRepository())->store($profession,$id);
+            }
 
 
 

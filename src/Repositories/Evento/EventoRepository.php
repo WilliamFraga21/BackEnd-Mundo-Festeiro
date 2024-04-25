@@ -31,17 +31,26 @@ class EventoRepository
     {
         return $this->evento->where('profissao_id', $userId)->first();
     } 
-    public function dellid(int $userId, $profe)
+
+
+    
+    public function dellid( $id)
     {
-        $profession =  $this->evento->where('profissao_id',$profe)->where('prestador_id',$userId)->delete();
         
-        return $profession;
+        $Evento =  $this->evento->where('id',$id)->delete();
+        
+        return $Evento;
     }
 
     
-    public function ifdellid(int $userId, $profe)
+    public function ifdellid(int $userId, $id)
     {
-        return $this->evento->where('profissao_id',$profe)->where('prestador_id',$userId)->first();
+        
+        if (!$this->evento->select('deleted_at')->where('users_id',$userId)->where('id',$id)->first() ) {
+            return 'ja deletado';
+        }
+    
+        return $this->evento->where('users_id',$userId)->where('id',$id)->first();
     } 
     
     
@@ -68,15 +77,22 @@ class EventoRepository
         
     }
 
-    public function updateProfesionPrestador( array $data,int $prestadorId)
+    public function update( int $idUser, array $data , int $localidade,int $idEvento)
     {
         return $this->evento
-            ->where('prestador_id', $prestadorId)->where('profissao_id',$data['profissao_id'])
+            ->where('users_id', $idUser)->where('id',$idEvento)
             ->update(
                 
                 [
-                    'valorDiaServicoProfissao' => $data['valorDiaServicoProfissao'],
-                    'valorHoraServicoProfissao' => $data['valorHoraServicoProfissao']
+                    'nomeEvento' => $data['nomeEvento'],
+                    'tipoEvento' => $data['tipoEvento'],
+                    'data' => $data['data'],
+                    'quantidadePessoas' => $data['quantidadePessoas'],
+                    'quantidadeFuncionarios' => $data['quantidadeFuncionarios'],
+                    'statusEvento' => $data['statusEvento'],
+                    'descricaoEvento' => $data['descricaoEvento'],
+                    'users_id' => $idUser,
+                    'localidade_id' => $localidade,
                 ]
             );
     }

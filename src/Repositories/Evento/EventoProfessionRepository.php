@@ -6,16 +6,21 @@ use Exception;
 use MiniRest\Exceptions\DatabaseInsertException;
 use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Evento\EventoProfession;
+use MiniRest\Models\Evento\Evento;
 use Illuminate\Database\Capsule\Manager as DB;
 use SoftDeletes;
+
+use function PHPUnit\Framework\isNull;
 
 class EventoProfessionRepository
 {
     private EventoProfession $ProfessionEvento;
+    private Evento $Evento;
 
     public function __construct()
     {
         $this->ProfessionEvento = new EventoProfession();
+        $this->Evento = new Evento();
     }
 
     public function me(int $userId)
@@ -37,12 +42,34 @@ class EventoProfessionRepository
         
         return $profession;
     }
+    public function dellidPro( $id)
+    {
+        if (isNull($this->ProfessionEvento->where('id',$id)->delete())) {
+            return 'ja deletada';
+        }
+
+        $profession =  $this->ProfessionEvento->where('id',$id)->delete();
+        
+        return $profession;
+    }
 
     
     public function ifdellid(int $userId, $profe)
     {
         return $this->ProfessionEvento->where('profissao_id',$profe)->where('prestador_id',$userId)->first();
     } 
+
+    public function ifdellidPro(int $id, int $idUser)
+    {   
+
+        
+        if (is_null($this->ProfessionEvento->select('evento_id')->where('id',$id)->first())) {
+            return 'ja deletada';
+        }
+        $idprofession = $this->ProfessionEvento->select('evento_id')->where('id',$id)->first();
+        return $this->Evento->where('users_id',$idUser)->where('id',$idprofession->evento_id)->first();
+    } 
+    
     
     
 
@@ -51,7 +78,7 @@ class EventoProfessionRepository
      */
     public function store( int $data ,int $idEvento)
     {
-        $evento = $this->ProfessionEvento->create([
+        $evento = $this->ProfessionEvento->firstOrCreate([
             'evento_id' => $idEvento,
             'profissao_id' => $data,
         ]);
