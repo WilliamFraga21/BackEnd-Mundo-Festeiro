@@ -46,7 +46,13 @@ class EventoController extends Controller
     public function me(Request $request)
     {
         try {
-            Response::json(['prestador' => $this->Evento->me(Auth::id($request))]);
+
+            $dateEvento = $this->Evento->me(Auth::id($request));
+
+            // dd($dateEvento);
+
+
+            Response::json(['Evento' => $this->Evento->me(Auth::id($request))]);
         } catch (ModelNotFoundException $exception) {
             // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
         }

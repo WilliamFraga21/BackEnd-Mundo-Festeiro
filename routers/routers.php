@@ -41,4 +41,5 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/evento/update/{id}', [EventoController::class, 'update']);
     Router::delete('/evento/deletepro/{id}', [EventoController::class, 'deletePro']);
     Router::delete('/evento/delete/{id}', [EventoController::class, 'delete']);
+    Router::get('/evento/me', [EventoController::class, 'me']);
 });

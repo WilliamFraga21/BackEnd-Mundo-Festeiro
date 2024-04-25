@@ -6,25 +6,51 @@ use Exception;
 use MiniRest\Exceptions\DatabaseInsertException;
 use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Evento\Evento;
+use MiniRest\Models\Evento\EventoProfession;
+use MiniRest\Models\User;
+use MiniRest\Models\Localidade\Localidade;
+use MiniRest\Models\Profession\Profession;
 use Illuminate\Database\Capsule\Manager as DB;
 use SoftDeletes;
 
 class EventoRepository
 {
     private Evento $evento;
+    private User $user;
+    private Localidade $localidade;
+    private Profession $profession;
+    private EventoProfession $eventoprofession;
 
     public function __construct()
     {
         $this->evento = new Evento();
+        $this->user = new User();
+        $this->localidade = new Localidade();
+        $this->profession = new Profession();
+        $this->eventoprofession = new EventoProfession();
     }
 
     public function me(int $userId)
     {
-
-        $prestador = $this->evento->select('*')->where('prestador_id', $userId)->get();
-
-
-        return $prestador;
+        $Evento = $this->evento->select('*')->where('users_id', $userId)->get();
+        $iduser = $this->user->where('id',$userId)->first();
+        foreach ($Evento as $evento) {
+            $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
+            $idprofession = DB::table('evento_has_profissao')
+                                ->select('profissao', 'profissao_id')
+                                ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
+                                ->where('evento_has_profissao.evento_id', $evento->id)
+                                ->get();
+            $object = [
+                'user' => $iduser,
+                'evento' => $evento,
+                'localidadeEvento' => $idlocalidade,
+                'profissao' => $idprofession
+            ];
+            $idEvent[] = $object;
+        }
+        
+        return $idEvent;
     }
 
     public function byid(int $userId)
