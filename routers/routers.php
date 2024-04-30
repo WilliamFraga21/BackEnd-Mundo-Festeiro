@@ -31,7 +31,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/prestador/create', [PrestadorController::class, 'store']);
     Router::post('/prestador/update', [PrestadorController::class, 'update']);
     Router::get('/prestador/me', [PrestadorController::class, 'me']);
-    Router::post('/prestador/id/{id}', [PrestadorController::class, 'findById']);
+    Router::get('/prestador/id/{id}', [PrestadorController::class, 'findById']);
     Router::post('/prestador/createProfession', [PrestadorProfessionController::class, 'store']);
     Router::post('/prestador/updateProfession', [PrestadorProfessionController::class, 'update']);
     Router::get('/prestadorprofession/me', [PrestadorProfessionController::class, 'me']);

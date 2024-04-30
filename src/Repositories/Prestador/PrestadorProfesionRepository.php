@@ -23,6 +23,7 @@ class PrestadorProfesionRepository
 
         $prestador = $this->prestadorProfesion->select('*')->where('prestador_id', $userId)->get();
 
+        
 
         return $prestador;
     }
