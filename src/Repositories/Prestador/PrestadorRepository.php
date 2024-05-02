@@ -6,15 +6,18 @@ use MiniRest\Exceptions\DatabaseInsertException;
 use MiniRest\Exceptions\PrestadorNotFoundException;
 use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Prestador\Prestador;
+use MiniRest\Models\Prestador\PrestadorProfissao;
 use Illuminate\Database\Capsule\Manager as DB;
 
 class PrestadorRepository
 {
     private Prestador $prestador;
+    private PrestadorProfissao $prestadorprofession;
 
     public function __construct()
     {
         $this->prestador = new Prestador();
+        $this->prestadorprofession = new PrestadorProfissao();
     }
 
     public function getAll()
@@ -46,6 +49,14 @@ class PrestadorRepository
      */
     public function find(int|string $prestadorId)
     {
+
+
+        $dataPrestador = $this->prestador->where('id', $prestadorId)->first();
+
+        $professionPrestador = $this->prestadorprofession->where('prestador_id',$dataPrestador->id)->get();
+
+        dd( $professionPrestador);
+
         return $this->prestador->where('id', $prestadorId)->first();
     }
 
@@ -60,7 +71,9 @@ class PrestadorRepository
 
     public function byid(int $userId)
     {
-        return $this->prestador->where('users_id', $userId)->firstOrFail();
+
+        // dd( $this->prestador->where('users_id', $userId)->first());
+        return $this->prestador->where('users_id', $userId)->first();
     }
 
     /**
@@ -69,13 +82,14 @@ class PrestadorRepository
     public function storePrestador(int $userId, array $data, int $localidade)
     {
 
+        // dd($localidade);
         if ($this->byid($userId)) {
             throw new DatabaseInsertException(
                 'error ao fazer o insert, prestador já foi cadastrado.',
                 StatusCode::NOT_FOUND
             );
         }
-
+        
         $id = $this->prestador
             ->firstOrCreate(
                 ['users_id' => $userId],
@@ -83,6 +97,7 @@ class PrestadorRepository
                     'localidade_id' => $localidade,
                     'users_id' => $userId,
                     'promotorEvento' => $data['promotorEvento'],
+                    'curriculo' => $data['curriculo'],
                 ]
             );
 

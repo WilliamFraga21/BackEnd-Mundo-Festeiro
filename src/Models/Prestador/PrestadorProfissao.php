@@ -13,7 +13,8 @@ class PrestadorProfissao extends Model
         'prestador_id',
         'profissao_id',
         'valorDiaServicoProfissao',
-        'valorHoraServicoProfissao'
+        'valorHoraServicoProfissao',
+        'tempoexperiencia'
     ];
     protected $dates = ['deleted_at'];
 }

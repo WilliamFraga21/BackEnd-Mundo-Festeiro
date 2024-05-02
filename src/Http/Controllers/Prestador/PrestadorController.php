@@ -38,7 +38,10 @@ class PrestadorController extends Controller
     public function findById(int $id)
     {
         try {
+            
             Response::json(['prestador' => $this->prestador->find($id)]);
+
+
         } catch (PrestadorNotFoundException $e) {
             Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
         }
@@ -61,6 +64,7 @@ class PrestadorController extends Controller
             'bairro' => 'required',
             'cidade' => 'required',
             'estado' => 'required',
+            'curriculo' => 'required',
         ])->validate();
 
         if (!$validation) {
@@ -68,6 +72,7 @@ class PrestadorController extends Controller
             return;
         }
         try {
+
             $prestadorId = (new PrestadorCreateAction())->execute(
                 Auth::id($request),
                 new PrestadorCreateDTO($request)
@@ -90,6 +95,7 @@ class PrestadorController extends Controller
             'bairro' => 'required',
             'cidade' => 'required',
             'estado' => 'required',
+            'curriculo' => 'required',
         ])->validate();
 
         if (!$validation) {

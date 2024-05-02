@@ -23,8 +23,8 @@ class PrestadorCreateAction
             
             $idLocalidade = (new LocalidadeRepository())->storeLocalidade($prestadorData);
             $prestadorId = (new PrestadorRepository())->storePrestador($userId, $prestadorData,$idLocalidade);
+            // dd($prestadorId);
 
-        
 
             DB::commit();
             return $prestadorId;

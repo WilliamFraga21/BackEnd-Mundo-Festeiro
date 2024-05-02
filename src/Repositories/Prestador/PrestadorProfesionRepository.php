@@ -69,6 +69,7 @@ class PrestadorProfesionRepository
                 [
                     'prestador_id' => $idPrestador,
                     'profissao_id' => $data['profissao_id'],
+                    'tempoexperiencia' => $data['tempoexperiencia'],
                     'valorDiaServicoProfissao' => $data['valorDiaServicoProfissao'],
                     'valorHoraServicoProfissao' => $data['valorHoraServicoProfissao'],
                 ]
@@ -86,6 +87,7 @@ class PrestadorProfesionRepository
                 
                 [
                     'valorDiaServicoProfissao' => $data['valorDiaServicoProfissao'],
+                    'tempoexperiencia' => $data['tempoexperiencia'],
                     'valorHoraServicoProfissao' => $data['valorHoraServicoProfissao']
                 ]
             );

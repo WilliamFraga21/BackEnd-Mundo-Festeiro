@@ -126,11 +126,9 @@ class EventoRepository
      */
     public function store(int $idUser, array $data , int $localidade)
     {
-
         $evento = $this->evento->create([
             'nomeEvento' => $data['nomeEvento'],
             'tipoEvento' => $data['tipoEvento'],
-            'data' => $data['data'],
             'quantidadePessoas' => $data['quantidadePessoas'],
             'quantidadeFuncionarios' => $data['quantidadeFuncionarios'],
             'statusEvento' => $data['statusEvento'],
@@ -138,7 +136,8 @@ class EventoRepository
             'users_id' => $idUser,
             'localidade_id' => $localidade,
         ]);
-
+        dd($evento);
+        
         return $evento->id;
         
     }

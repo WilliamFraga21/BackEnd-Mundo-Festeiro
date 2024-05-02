@@ -110,7 +110,6 @@ class EventoController extends Controller
         $validation = $request->rules([
             'nomeEvento' => 'required',
             'tipoEvento' => 'required',
-            'data' => 'required',
             'quantidadePessoas' => 'required',
             'quantidadeFuncionarios' => 'required',
             'statusEvento' => 'required',

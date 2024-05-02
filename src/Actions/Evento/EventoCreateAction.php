@@ -22,6 +22,7 @@ class EventoCreateAction
         try {
             $idLocalidade = (new LocalidadeRepository())->storeLocalidade($eventoData);
             $eventoId = (new EventoRepository())->store($userId, $eventoData,$idLocalidade);
+            dd($userId);
 
             
             foreach  ($eventoData['professions'] as $profession){
@@ -33,7 +34,7 @@ class EventoCreateAction
 
             return $eventoId;
 
-        } catch (\Exception $exception) {
+        } catch (DatabaseInsertException $exception) {
             throw new DatabaseInsertException(
                 $exception->getMessage(),
                 $exception->getCode()
