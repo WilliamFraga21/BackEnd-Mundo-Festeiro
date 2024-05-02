@@ -12,7 +12,7 @@ class RunServeCommand extends Command
     {
         $this->setName('serve')
             ->setDescription('Start the PHP Server')
-            ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'The host address', 'localhost')
+            ->addOption('host', null, InputOption::VALUE_OPTIONAL, 'The host address', '0.0.0.0')
             ->addOption('port', null, InputOption::VALUE_OPTIONAL, 'The port number', 8000);
     }
 

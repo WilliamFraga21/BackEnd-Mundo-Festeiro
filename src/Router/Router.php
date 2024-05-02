@@ -59,46 +59,79 @@ class Router {
     /**
      * @throws \ReflectionException
      */
+    // public static function dispatch(Request $request): void
+    // {
+    //     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    //     $method = $_SERVER['REQUEST_METHOD'];
+
+
+    //     if ($_SERVER['HTTP_HOST'] !== '192.1681.26:8000') {
+    //         if ($_SERVER['HTTPS'] !== 'on') {
+    //             $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    //             header('Location: ' . $url, true, 301);
+    //             exit();
+    //         }
+    //     }
+
+    //     if ($method == 'OPTIONS') {
+    //         http_response_code(200);
+    //         exit();
+    //     }
+
+    //     $matches = [];
+
+    //     foreach (self::$routers as $route)
+    //     {
+    //         if ($route['method'] === $method && preg_match($route['route'], $uri, $matches)) {
+    //             array_shift($matches);
+    //             $middlewareList = [];
+    //             if (isset($route['middlewares']) && count($route['middlewares']) > 0) {
+
+    //                 foreach ($route['middlewares'] as $middleware) {
+    //                     $middlewareList[] = new $middleware();
+    //                 }
+    //             }
+
+    //             self::executeAction($request ,$route['action'], $matches, $middlewareList);
+    //             return;
+    //         }
+    //     }
+
+    //     Response::notFound();
+    // }
+
     public static function dispatch(Request $request): void
-    {
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $method = $_SERVER['REQUEST_METHOD'];
+{
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $method = $_SERVER['REQUEST_METHOD'];
 
-
-        if ($_SERVER['HTTP_HOST'] !== 'localhost:8000') {
-            if ($_SERVER['HTTPS'] !== 'on') {
-                $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-                header('Location: ' . $url, true, 301);
-                exit();
-            }
-        }
-
-        if ($method == 'OPTIONS') {
-            http_response_code(200);
-            exit();
-        }
-
-        $matches = [];
-
-        foreach (self::$routers as $route)
-        {
-            if ($route['method'] === $method && preg_match($route['route'], $uri, $matches)) {
-                array_shift($matches);
-                $middlewareList = [];
-                if (isset($route['middlewares']) && count($route['middlewares']) > 0) {
-
-                    foreach ($route['middlewares'] as $middleware) {
-                        $middlewareList[] = new $middleware();
-                    }
-                }
-
-                self::executeAction($request ,$route['action'], $matches, $middlewareList);
-                return;
-            }
-        }
-
-        Response::notFound();
+    if ($method == 'OPTIONS') {
+        http_response_code(200);
+        exit();
     }
+
+    $matches = [];
+
+    foreach (self::$routers as $route)
+    {
+        if ($route['method'] === $method && preg_match($route['route'], $uri, $matches)) {
+            array_shift($matches);
+            $middlewareList = [];
+            if (isset($route['middlewares']) && count($route['middlewares']) > 0) {
+
+                foreach ($route['middlewares'] as $middleware) {
+                    $middlewareList[] = new $middleware();
+                }
+            }
+
+            self::executeAction($request ,$route['action'], $matches, $middlewareList);
+            return;
+        }
+    }
+
+    Response::notFound();
+}
+
 
     /**
      * @throws \ReflectionException
