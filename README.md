@@ -12,3 +12,4 @@ $ composer install
 
 $ php miniRest serve
 ```
+

@@ -34,6 +34,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $validation = $request->rules([
             'name' => 'required|string|max:255',
             'email' => 'required|string|unique:users,email',
@@ -43,11 +45,7 @@ class UserController extends Controller
             'shippingState' => 'required|string',
             'shippingCity' => 'required|string',
             'shippingPincode' => 'required|string',
-            'billingAddress' => 'required|string',
-            'billingState' => 'required|string',
-            'billingCity' => 'required|string',
-            'billingPincode' => 'required|string',
-            'regDate' => 'required|string',
+            
         ])->validate();
 
         if (!$validation) {
@@ -78,11 +76,7 @@ class UserController extends Controller
             'shippingState' => 'required|string',
             'shippingCity' => 'required|string',
             'shippingPincode' => 'required|string',
-            'billingAddress' => 'required|string',
-            'billingState' => 'required|string',
-            'billingCity' => 'required|string',
-            'billingPincode' => 'required|string',
-            'regDate' => 'required|string',
+            
         ])->validate();
 
         if (!$validation) {
