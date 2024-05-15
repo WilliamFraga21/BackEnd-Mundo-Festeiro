@@ -38,7 +38,7 @@ class PrestadorProfessionController extends Controller
     {
         try {
             try {
-                $idPrestador = $this->prestador->me(Auth::id($request));
+                $idPrestador = $this->prestador->meProfession(Auth::id($request));
                 
             } catch (ModelNotFoundException $exception) {
                 // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
@@ -49,22 +49,19 @@ class PrestadorProfessionController extends Controller
         }
     }
 
-    public function delete(Request $request,$idprofession)
+    public function delete(Request $request,int $idprofession)
     {
 
-        $idPrestador = $this->prestador->me(Auth::id($request));
+        $idPrestador = $this->prestador->meProfession(Auth::id($request));
 
         if (!$idPrestador) {
             Response::json(['error' => 'Usuário não cadastrado como prestador'], StatusCode::SERVER_ERROR);
             return;
         }
-
-
-        if (!$this->prestadorPrefesion->ifdellid($idPrestador->id,$idprofession)) {
-            Response::json(['error' => 'Profissão já deletada'], StatusCode::SERVER_ERROR);
+        if ($this->prestadorPrefesion->ifdellid($idPrestador->id,$idprofession) == null ) {
+            Response::json(['error' => 'Profissão já deletada ou nenhuma profissão encontrada'], StatusCode::SERVER_ERROR);
             return;
         }
-
         Response::json(['Profissão Deletada:' => $this->prestadorPrefesion->dellid($idPrestador->id,$idprofession)]);   
     }
 
@@ -84,11 +81,12 @@ class PrestadorProfessionController extends Controller
         
         try {
             try {
-                $idPrestador = $this->prestador->me(Auth::id($request));
+                $idPrestador = $this->prestador->meProfession(Auth::id($request));
                 
             } catch (ModelNotFoundException $exception) {
                 // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
             }
+
             $prestadorId = (new PrestadorProfessionCreateAction())->execute(
 
                 new PrestadorProfessionCreateDTO($request),
@@ -117,7 +115,7 @@ class PrestadorProfessionController extends Controller
 
 
         try {
-            $idPrestador = $this->prestador->me(Auth::id($request));
+            $idPrestador = $this->prestador->meProfession(Auth::id($request));
             (new PrestadorProfessionUpdateAction())->execute(
     
                 new PrestadorProfessionCreateDTO($request),

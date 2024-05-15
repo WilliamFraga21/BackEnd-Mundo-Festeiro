@@ -85,14 +85,34 @@ class PrestadorRepository
     public function find(int|string $prestadorId)
     {
 
+        $prestadorinfo = Prestador::select('prestador.id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno', 'users.shippingAddress', 'users.shippingState', 'users.shippingCity','users.created_at','prestador.curriculo','prestador.localidade_id')
+                                    ->where('prestador.id', $prestadorId)
+                                    ->join('users', 'prestador.users_id','=','users.id')
+                                    ->first();
+        $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
+            if ($this->prestadorprofession->where('prestador_id',$prestadorinfo->id)->first()) {
+                $prestadorProfessions = $this->prestadorprofession->where('prestador_id', $prestadorinfo->id)->get();
+                $profissaoArray = [];
+                foreach ($prestadorProfessions as $prestadorProfession) {
+                    $profissaoInfo = Profession::join('prestador_has_profissao', 'profissao.id', '=', 'prestador_has_profissao.profissao_id')
+                        ->where('prestador_has_profissao.profissao_id', $prestadorProfession->profissao_id)
+                        ->first(['profissao.id','profissao.profissao', 'prestador_has_profissao.tempoexperiencia', 'prestador_has_profissao.valorDiaServicoProfissao', 'prestador_has_profissao.valorHoraServicoProfissao']);
 
-        $dataPrestador = $this->prestador->where('id', $prestadorId)->first();
+                    if ($profissaoInfo) {
+                        $profissaoArray[] = $profissaoInfo->toArray();
+                    }
+                }
+            }else {
+                $profissaoArray = null;
+            }
+        $data[] = [
+            'prestadorInfo' => $prestadorinfo,
+            'prestadorprofessions' => $profissaoArray,
+            'infoPrestadorEnd' => $infoPrestadorEnd,
+        ];
+        return $data;
 
-        $professionPrestador = $this->prestadorprofession->where('prestador_id',$dataPrestador->id)->get();
 
-        dd( $professionPrestador);
-
-        return $this->prestador->where('id', $prestadorId)->first();
     }
 
     public function me(int $userId)
@@ -124,6 +144,14 @@ class PrestadorRepository
             'infoPrestadorEnd' => $infoPrestadorEnd,
         ];
         return $data;
+    }
+    public function meProfession(int $userId)
+    {
+
+        $prestador = $this->prestador->where('users_id', $userId)->first();
+
+
+        return $prestador;
     }
 
     public function byid(int $userId)

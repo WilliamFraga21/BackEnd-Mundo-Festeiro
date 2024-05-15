@@ -28,20 +28,22 @@ class PrestadorProfesionRepository
         return $prestador;
     }
 
-    public function byid(int $userId)
+    public function byid(int $userId,int $idprestador)
     {
-        return $this->prestadorProfesion->where('profissao_id', $userId)->first();
+        return $this->prestadorProfesion->where('profissao_id', $userId)->where('prestador_id',$idprestador)->first();
     } 
     public function dellid(int $userId, $profe)
     {
         $profession =  $this->prestadorProfesion->where('profissao_id',$profe)->where('prestador_id',$userId)->delete();
-        
         return $profession;
     }
 
     
     public function ifdellid(int $userId, $profe)
     {
+        // dd($userId, $profe);
+        
+        // dd($this->prestadorProfesion->where('profissao_id',$profe)->where('prestador_id',$userId)->first());
         return $this->prestadorProfesion->where('profissao_id',$profe)->where('prestador_id',$userId)->first();
     } 
     
@@ -52,18 +54,12 @@ class PrestadorProfesionRepository
      */
     public function store(array $data ,int $idPrestador)
     {
-
-        
-        
-        
-        if ($this->byid($data['profissao_id'])) {
+        if ($this->byid($data['profissao_id'],$idPrestador)) {
             throw new DatabaseInsertException(
                 'error ao fazer o insert, Profissão do prestador já foi cadastrado.',
                 StatusCode::NOT_FOUND
             );
         }
-        
-
         $id = $this->prestadorProfesion
             ->firstOrCreate(
                 [
