@@ -32,6 +32,7 @@ class PrestadorController extends Controller
 
     public function index()
     {   
+        
         Response::json(['prestador' => $this->prestador->getAll()]);
     }
 
