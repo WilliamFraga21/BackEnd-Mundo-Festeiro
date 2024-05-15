@@ -76,11 +76,12 @@ class EventoProfessionRepository
     /**
      * @throws DatabaseInsertException
      */
-    public function store( int $data ,int $idEvento)
+    public function store(  $data ,int $idEvento)
     {
         $evento = $this->ProfessionEvento->firstOrCreate([
             'evento_id' => $idEvento,
-            'profissao_id' => $data,
+            'profissao_id' => $data['id'],
+            'quantidade' => $data['quantidade'],
         ]);
         
         return $evento->id;

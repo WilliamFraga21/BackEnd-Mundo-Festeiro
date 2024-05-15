@@ -12,6 +12,7 @@ class EventoProfession extends Model
     protected $fillable = [
         'evento_id',
         'profissao_id',
+        'quantidade',
     ];
     protected $dates = ['deleted_at'];
 }

@@ -110,6 +110,7 @@ class EventoController extends Controller
         $validation = $request->rules([
             'nomeEvento' => 'required',
             'tipoEvento' => 'required',
+            'data' => 'required',
             'quantidadePessoas' => 'required',
             'quantidadeFuncionarios' => 'required',
             'statusEvento' => 'required',
@@ -118,13 +119,13 @@ class EventoController extends Controller
             'bairro' => 'required',
             'cidade' => 'required',
             'estado' => 'required',
-            'professions' => 'required|array:int',
+            'professions' => 'required|array',
             ])->validate();
             
-        if (!$validation) {
-            $request->errors();
-            return;
-        }
+            if (!$validation) {
+                $request->errors();
+                return;
+            }
         try {
             $eventoId = (new EventoCreateAction())->execute(
                 Auth::id($request),

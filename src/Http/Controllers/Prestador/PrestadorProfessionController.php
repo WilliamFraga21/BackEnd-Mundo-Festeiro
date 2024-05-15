@@ -73,7 +73,6 @@ class PrestadorProfessionController extends Controller
             'profession' => 'required|array',
 
         ])->validate();
-
         if (!$validation) {
             $request->errors();
             return;

@@ -16,7 +16,7 @@ class PrestadorProfessionCreateAction
     public function execute(PrestadorProfessionCreateDTO $prestadorCreateDTO, $userId)
     {
         $prestadorData = $prestadorCreateDTO->toArray();
-
+        dd($prestadorCreateDTO);
         DB::beginTransaction();
         try {
 

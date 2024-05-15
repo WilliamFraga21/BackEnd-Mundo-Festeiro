@@ -18,6 +18,7 @@ class Evento extends Model
         'descricaoEvento',
         'users_id',
         'localidade_id',
+        'data'
     ];
     protected $dates = ['deleted_at'];
 }

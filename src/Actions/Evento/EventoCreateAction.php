@@ -18,13 +18,11 @@ class EventoCreateAction
     public function execute(int $userId, EventoCreateDTO $eventoCreateDTO)
     {
         $eventoData = $eventoCreateDTO->toArray();
-
         try {
+            
             $idLocalidade = (new LocalidadeRepository())->storeLocalidade($eventoData);
             $eventoId = (new EventoRepository())->store($userId, $eventoData,$idLocalidade);
-            dd($userId);
 
-            
             foreach  ($eventoData['professions'] as $profession){
                 
                 $professionId = (new EventoProfessionRepository())->store($profession,$eventoId);
@@ -35,10 +33,8 @@ class EventoCreateAction
             return $eventoId;
 
         } catch (DatabaseInsertException $exception) {
-            throw new DatabaseInsertException(
-                $exception->getMessage(),
-                $exception->getCode()
-            );
+
+            throw new $exception;
         }
     }
 }

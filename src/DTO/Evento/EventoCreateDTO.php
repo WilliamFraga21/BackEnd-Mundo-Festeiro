@@ -18,6 +18,7 @@ class EventoCreateDTO implements DTO
     private string $bairro;
     private string $cidade;
     private string $estado;
+    private string $data;
     private array $professions;
     private int $users_id;
     private int $localidade_id;
@@ -27,6 +28,7 @@ class EventoCreateDTO implements DTO
         $this->request = $request;
         $this->nomeEvento = $this->request->json('nomeEvento');
         $this->tipoEvento = $this->request->json('tipoEvento');
+        $this->data = $this->request->json('data');
         $this->quantidadePessoas = $this->request->json('quantidadePessoas');
         $this->quantidadeFuncionarios = $this->request->json('quantidadeFuncionarios');
         $this->statusEvento = $this->request->json('statusEvento');
@@ -43,6 +45,7 @@ class EventoCreateDTO implements DTO
         return [
             'nomeEvento' => $this->nomeEvento,
             'tipoEvento' => $this->tipoEvento,
+            'data' => $this->data,
             'quantidadePessoas' => $this->quantidadePessoas,
             'quantidadeFuncionarios' => $this->quantidadeFuncionarios,
             'statusEvento' => $this->statusEvento,
