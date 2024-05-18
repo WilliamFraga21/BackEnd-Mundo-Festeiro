@@ -7,6 +7,7 @@ use MiniRest\Http\Controllers\{
     Users\UserController,AuthController
 };
 use MiniRest\Http\Controllers\Evento\EventoController;
+use MiniRest\Http\Controllers\Evento\EventoPrestadorController;
 use MiniRest\Http\Controllers\Prestador\PrestadorController;
 use MiniRest\Http\Controllers\Prestador\PrestadorProfessionController;
 use MiniRest\Http\Controllers\Professions\ProfessionsController;
@@ -44,4 +45,12 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::delete('/evento/delete/{id}', [EventoController::class, 'delete']);
     Router::get('/evento/me', [EventoController::class, 'me']);
     Router::get('/evento/find/{id}', [EventoController::class, 'findById']);
+    
+    
+    Router::post('/evento/aceitar', [EventoPrestadorController::class, 'store']);
+
+
+
+
+
 });
