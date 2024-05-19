@@ -8,10 +8,12 @@ use MiniRest\Models\User;
 class UserRepository
 {
     protected User $user;
+    protected Photos $Photos;
 
     public function __construct()
     {
         $this->user = new User();
+        $this->Photos = new Photos();
     }
 
     public function getAll()
@@ -26,7 +28,6 @@ class UserRepository
         $user = $this->user->where('id', '=', $userId)
             ->first();
 
-        
 
 
         return [

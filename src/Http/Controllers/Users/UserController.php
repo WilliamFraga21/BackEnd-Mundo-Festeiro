@@ -14,6 +14,7 @@ use MiniRest\Http\Request\Request;
 use MiniRest\Http\Response\Response;
 use MiniRest\Models\User;
 use MiniRest\Repositories\UserRepository;
+use MiniRest\Repositories\AvatarRepository;
 
 class UserController extends Controller
 {
@@ -26,7 +27,10 @@ class UserController extends Controller
     public function me(Request $request)
     {
         $userId = Auth::id($request);
-        Response::json((new UserRepository())->me($userId));
+        $user = (new UserRepository())->me($userId);
+        $photo = (new AvatarRepository())->getUserAvatar($userId);
+
+        Response::json(['user' => $user, 'photo' => asset("avatar/" . $photo)]);
     }
 
     /**
