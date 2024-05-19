@@ -52,6 +52,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     
     
     Router::post('/user/avatar/create', [AvatarController::class, 'uploadAvatar']);
+    Router::get('/user/avatar/{userId?}', [AvatarController::class, 'avatar']);
 
 
 

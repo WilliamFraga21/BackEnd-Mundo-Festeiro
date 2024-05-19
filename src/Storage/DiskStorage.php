@@ -15,8 +15,9 @@ class DiskStorage extends Storage
     {
         $fullPath = $this->basePath . '/' . $path;
         file_put_contents($fullPath, file_get_contents($contents));
-    }
 
+    }
+    
     public function get($path)
     {
         $fullPath = $this->basePath . '/' . $path;

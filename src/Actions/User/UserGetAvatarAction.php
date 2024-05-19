@@ -14,15 +14,12 @@ class UserGetAvatarAction
      */
     public function execute(int $userId): string
     {
-        $basePath = __DIR__ . '/../../../storage/';
+        $basePath = __DIR__ . '/../../../storage';
         $storage = new DiskStorage($basePath);
-
         $name = (new AvatarRepository())->getUserAvatar($userId);
-
         if (strlen($name) < 1) {
             throw new AvatarNotFoundException();
         }
-
-        return ($storage->get("avatar/" . $name));
+        return $name;
     }
 }

@@ -28,23 +28,24 @@ class AvatarController
 
         try {
             $avatar = (new UserUploadAvatarAction())->execute($request, $userId);
+            dd($avatar);
             Response::json(['success' => ['message' => 'Upload efetuado com sucesso', 'avatar_url' => asset("avatar/" . $avatar)]]);
         } catch (UploadErrorException $e) {
             Response::json(['error' => ['message' => 'Error ao fazer o upload do arquivo']], $e->getCode());
             return;
         }
     }
-
+    
     public function avatar(Request $request, ?int $userId)
     {
         if (!$userId) $userId = Auth::id($request);
         try {
             $avatar = (new UserGetAvatarAction())->execute($userId);
+            Response::json(['success' => ['avatar_url' => asset("avatar/" . $avatar)]]);
         } catch (AvatarNotFoundException $e) {
             Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
             return;
         }
 
-        Response::json(['success' => ['avatar_url' => $avatar]]);
     }
 }

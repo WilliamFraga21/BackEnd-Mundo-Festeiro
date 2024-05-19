@@ -15,15 +15,26 @@ class AvatarRepository
 
     public function storeAvatar(int $id, string $fileName)
     {
-        return $this->photos
+        if ($this->getUserAvatar($id)) {
+            $avatar = $this->photos->where('users_id', $id)
+            ->update(
+                ['avatar' => $fileName]
+            );
+
+            return $avatar;
+        }else{
+
+            return $this->photos
             ->firstOrCreate(
                 ['users_id' => $id],
                 ['avatar' => $fileName]
             );
+        }
     }
     
     public function updateAvatar(int $id, string $fileName)
     {
+
         return $this->photos
             ->createOrUpdate(
                 ['users_id' => $id],
