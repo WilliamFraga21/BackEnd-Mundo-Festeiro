@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use MiniRest\Actions\Prestador\PrestadorProfessionCreateAction;
 use MiniRest\DTO\Prestador\PrestadorProfessionCreateDTO;
 use MiniRest\Helpers\StatusCode\StatusCode;
-
+use MiniRest\Repositories\AvatarRepository;
 class PrestadorController extends Controller
 {
     private PrestadorRepository $prestador;
@@ -40,7 +40,13 @@ class PrestadorController extends Controller
     {
         try {
             
-            Response::json(['prestador' => $this->prestador->find($id)]);
+
+            $prestador = $this->prestador->find($id);
+            $prestador2 = $this->prestador->find2($id);
+            $photo = (new AvatarRepository())->getUserAvatar($prestador2);
+
+
+            Response::json(['prestador' => $prestador,'photo'=> asset("avatar/" . $photo)]);
 
 
         } catch (PrestadorNotFoundException $e) {
@@ -51,7 +57,10 @@ class PrestadorController extends Controller
     public function me(Request $request)
     {
         try {
-            Response::json(['prestador' => $this->prestador->me(Auth::id($request))]);
+            $prestador = $this->prestador->me(Auth::id($request));
+
+            $photo = (new AvatarRepository())->getUserAvatar(Auth::id($request));
+            Response::json(['prestador' => $prestador, 'photo' => asset("avatar/" . $photo)]);
         } catch (ModelNotFoundException $exception) {
             // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
         }

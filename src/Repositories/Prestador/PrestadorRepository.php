@@ -114,6 +114,18 @@ class PrestadorRepository
 
 
     }
+    public function find2(int|string $prestadorId)
+    {
+
+        $prestadorinfo = Prestador::select('prestador.users_id')
+                                    ->where('prestador.id', $prestadorId)
+                                    ->join('users', 'prestador.users_id','=','users.id')
+                                    ->first();
+        
+        return $prestadorinfo->users_id;
+
+
+    }
 
     public function me(int $userId)
     {
