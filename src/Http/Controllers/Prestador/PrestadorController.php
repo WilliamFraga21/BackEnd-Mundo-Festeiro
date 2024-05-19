@@ -35,9 +35,11 @@ class PrestadorController extends Controller
         $prestadores = $this->prestador->getAll();
 
         foreach($prestadores as $prestador){
-            // dd($prestador['prestadorInfo']->users_id);
             $photo = (new AvatarRepository())->getUserAvatar($prestador['prestadorInfo']->users_id);
             $photoPrestador = asset("avatar/" . $photo);
+            if ($photo == null) {
+                $photoPrestador = null;
+            }
             $data[]= [
                 'prestadorInfo' => $prestador['prestadorInfo'],
                 'prestadorprofessions' => $prestador['prestadorprofessions'],
@@ -51,14 +53,14 @@ class PrestadorController extends Controller
     public function findById(int $id)
     {
         try {
-            
-
             $prestador = $this->prestador->find($id);
             $prestador2 = $this->prestador->find2($id);
             $photo = (new AvatarRepository())->getUserAvatar($prestador2);
-
-
-            Response::json(['prestador' => $prestador,'photo'=> asset("avatar/" . $photo)]);
+            if ($photo == null) {
+                Response::json(['prestador' => $prestador,'photo'=> null]);
+            }else{
+                Response::json(['prestador' => $prestador,'photo'=> asset("avatar/" . $photo)]);
+            }
 
 
         } catch (PrestadorNotFoundException $e) {
@@ -70,9 +72,13 @@ class PrestadorController extends Controller
     {
         try {
             $prestador = $this->prestador->me(Auth::id($request));
-
             $photo = (new AvatarRepository())->getUserAvatar(Auth::id($request));
-            Response::json(['prestador' => $prestador, 'photo' => asset("avatar/" . $photo)]);
+            if ($photo== null) {
+                Response::json(['prestador' => $prestador, 'photo' => null]);
+            } else {
+                Response::json(['prestador' => $prestador, 'photo' => asset("avatar/" . $photo)]);
+            }
+            
         } catch (ModelNotFoundException $exception) {
             // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
         }

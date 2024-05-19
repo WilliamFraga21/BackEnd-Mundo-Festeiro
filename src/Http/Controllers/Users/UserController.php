@@ -29,8 +29,12 @@ class UserController extends Controller
         $userId = Auth::id($request);
         $user = (new UserRepository())->me($userId);
         $photo = (new AvatarRepository())->getUserAvatar($userId);
-
-        Response::json(['user' => $user, 'photo' => asset("avatar/" . $photo)]);
+        if ($photo == null) {
+            $photo = null;
+            Response::json(['user' => $user, 'photo' => $photo]);
+        }else{
+            Response::json(['user' => $user, 'photo' => asset("avatar/" . $photo)]);
+        }
     }
 
     /**
