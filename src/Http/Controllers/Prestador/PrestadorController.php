@@ -32,8 +32,20 @@ class PrestadorController extends Controller
 
     public function index()
     {   
-        
-        Response::json(['prestador' => $this->prestador->getAll()]);
+        $prestadores = $this->prestador->getAll();
+
+        foreach($prestadores as $prestador){
+            // dd($prestador['prestadorInfo']->users_id);
+            $photo = (new AvatarRepository())->getUserAvatar($prestador['prestadorInfo']->users_id);
+            $photoPrestador = asset("avatar/" . $photo);
+            $data[]= [
+                'prestadorInfo' => $prestador['prestadorInfo'],
+                'prestadorprofessions' => $prestador['prestadorprofessions'],
+                'infoPrestadorEnd' => $prestador['infoPrestadorEnd'],
+                'photo' => $photoPrestador,
+            ];
+        }
+        Response::json(['prestador' => $data]);
     }
 
     public function findById(int $id)

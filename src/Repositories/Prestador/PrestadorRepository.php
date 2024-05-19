@@ -31,7 +31,7 @@ class PrestadorRepository
         $data = [];
 
         foreach ($prestadores as $prestador) {
-            $prestadorinfo = Prestador::select('prestador.id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno', 'users.shippingAddress', 'users.shippingState', 'users.shippingCity','users.created_at','prestador.curriculo','prestador.localidade_id')
+            $prestadorinfo = Prestador::select('prestador.id','prestador.users_id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno', 'users.shippingAddress', 'users.shippingState', 'users.shippingCity','users.created_at','prestador.curriculo','prestador.localidade_id')
             ->where('users_id', $prestador->users_id)
             ->join('users', 'prestador.users_id','=','users.id')
                 ->first();
