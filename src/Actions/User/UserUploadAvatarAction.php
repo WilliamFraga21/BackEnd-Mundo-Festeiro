@@ -6,7 +6,7 @@ use MiniRest\Exceptions\UploadErrorException;
 use MiniRest\Http\Request\Request;
 use MiniRest\Repositories\AvatarRepository;
 use MiniRest\Storage\Acl\PublicAcl;
-use MiniRest\Storage\S3Storage;
+use MiniRest\Storage\DiskStorage;
 use MiniRest\Storage\UUIDFileName;
 use PDOException;
 
@@ -17,18 +17,18 @@ class UserUploadAvatarAction
      */
     public function execute(Request $request, int $userId): string
     {
+        $basePath = __DIR__ . '/../../../storage/';
         $file = $request->files('avatar');
-        $storage = new S3Storage(new PublicAcl());
+        $storage = new DiskStorage($basePath);
         $name = UUIDFileName::uuidFileName($file['name']);
-
         try {
-            (new AvatarRepository())->storeAvatar($userId, $name);
-            $storage->upload("avatar/" . $name, $file['tmp_name']);
+            $avatar = (new AvatarRepository())->storeAvatar($userId, $name);
+            $storage->put("avatar/" . $name, $file['tmp_name']);
+            return $name;
         } catch (PDOException $exception) {
             throw new UploadErrorException($exception->getMessage());
         }
-
-        return ($storage->generatePublicdUrl("avatar/" . $name));
+        
     }
 
 }

@@ -4,7 +4,7 @@ namespace MiniRest\Actions\User;
 
 use MiniRest\Exceptions\AvatarNotFoundException;
 use MiniRest\Repositories\AvatarRepository;
-use MiniRest\Storage\S3Storage;
+use MiniRest\Storage\DiskStorage;
 use PDOException;
 
 class UserGetAvatarAction
@@ -14,7 +14,8 @@ class UserGetAvatarAction
      */
     public function execute(int $userId): string
     {
-        $storage = new S3Storage();
+        $basePath = __DIR__ . '/../../../storage/';
+        $storage = new DiskStorage($basePath);
 
         $name = (new AvatarRepository())->getUserAvatar($userId);
 
@@ -22,6 +23,6 @@ class UserGetAvatarAction
             throw new AvatarNotFoundException();
         }
 
-        return ($storage->generatePublicdUrl("avatar/" . $name));
+        return ($storage->get("avatar/" . $name));
     }
 }

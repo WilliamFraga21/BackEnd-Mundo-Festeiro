@@ -11,6 +11,7 @@ use MiniRest\Http\Controllers\Evento\EventoPrestadorController;
 use MiniRest\Http\Controllers\Prestador\PrestadorController;
 use MiniRest\Http\Controllers\Prestador\PrestadorProfessionController;
 use MiniRest\Http\Controllers\Professions\ProfessionsController;
+use MiniRest\Http\Controllers\AvatarController;
 
 
 Router::post('/auth/login', [AuthController::class, 'login']);
@@ -48,8 +49,9 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     
     
     Router::post('/evento/aceitar', [EventoPrestadorController::class, 'store']);
-
-
+    
+    
+    Router::post('/user/avatar/create', [AvatarController::class, 'uploadAvatar']);
 
 
 
