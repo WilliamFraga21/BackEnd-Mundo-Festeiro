@@ -34,9 +34,9 @@ class EventoPrestadorController extends Controller
                 new EventoPrestadorDTO($request)
             );
             if ($eventoId == 'Usuário sem Permissão') {
-                Response::json(['error' => 'Usuário sem Permissão'], StatusCode::SERVER_ERROR);
+                Response::json(['error' => 'Usuário sem Permissão'], StatusCode::ACCESS_NOT_ALLOWED);
             }elseif($eventoId == 'Prestador não encontrado') {
-                Response::json(['error' => 'Prestador não encontrado'], StatusCode::SERVER_ERROR);
+                Response::json(['error' => 'Prestador não encontrado'], StatusCode::ACCESS_NOT_ALLOWED);
             }else{
                 Response::json(['success' => ['message' => 'Prestador aceito com sucesso','infos' => $eventoId]]);
             }

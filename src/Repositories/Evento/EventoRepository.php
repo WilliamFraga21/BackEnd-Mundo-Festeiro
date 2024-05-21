@@ -32,6 +32,7 @@ class EventoRepository
 
     public function me(int $userId)
     {
+        $idEvent = null;
         $Evento = $this->evento->select('*')->where('users_id', $userId)->get();
         $iduser = $this->user->where('id',$userId)->first();
         foreach ($Evento as $evento) {
@@ -49,11 +50,19 @@ class EventoRepository
             ];
             $idEvent[] = $object;
         }
+
+        if ($idEvent == null) {
+            
+            return null;
+        }else {
+
+            return $idEvent;
+        }
         
-        return $idEvent;
     }
     public function all()
     {
+        $idEvent = null;
         $Evento = $this->evento->select('*')->get();
         foreach ($Evento as $evento) {
             $iduser = $this->user->where('id',$evento->users_id)->first();
@@ -72,11 +81,18 @@ class EventoRepository
             $idEvent[] = $object;
         }
         
-        return $idEvent;
+        if ($idEvent == null) {
+            
+            return null;
+        }else {
+
+            return $idEvent;
+        }
     }
 
     public function find(int $eventoid)
     {
+        $idEvent = null;
         $Evento = $this->evento->select('*')->where('id', $eventoid)->get();
         foreach ($Evento as $evento) {
             $iduser = $this->user->where('id',$evento->users_id)->first();
@@ -95,7 +111,13 @@ class EventoRepository
             $idEvent[] = $object;
         }
         
-        return $idEvent;
+        if ($idEvent == null) {
+            
+            return null;
+        }else {
+
+            return $idEvent;
+        }
     } 
 
 
@@ -117,6 +139,12 @@ class EventoRepository
         }
     
         return $this->evento->where('users_id',$userId)->where('id',$id)->first();
+    } 
+    public function ifuserevento(int $userId, $id)
+    {
+        
+    
+        return $this->evento->select('deleted_at')->where('users_id',$userId)->where('id',$id)->first();
     } 
     
     

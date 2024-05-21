@@ -28,7 +28,7 @@ class AvatarController
 
         try {
             $avatar = (new UserUploadAvatarAction())->execute($request, $userId);
-            dd($avatar);
+
             Response::json(['success' => ['message' => 'Upload efetuado com sucesso', 'avatar_url' => asset("avatar/" . $avatar)]]);
         } catch (UploadErrorException $e) {
             Response::json(['error' => ['message' => 'Error ao fazer o upload do arquivo']], $e->getCode());

@@ -37,15 +37,20 @@ class PrestadorProfessionController extends Controller
     public function me(Request $request)
     {
         try {
-            try {
                 $idPrestador = $this->prestador->meProfession(Auth::id($request));
-                
-            } catch (ModelNotFoundException $exception) {
-                // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
-            }
-            Response::json(['prestador' => $this->prestadorPrefesion->me($idPrestador->id)]);
+                // dd($idPrestador);
+
+                if ($idPrestador == null) {
+                    Response::json(['error' => 'Evento não tem Profissão cadastrada até o momento!'],  StatusCode::ACCESS_NOT_ALLOWED);
+                }else{
+                    
+                    Response::json(['prestador' => $this->prestadorPrefesion->me($idPrestador->id)]);
+                }
+
+
+
         } catch (ModelNotFoundException $exception) {
-            Response::json(['error' => 'Prestador Não tem Profissão até o momento!!', $exception->getMessage()], StatusCode::SERVER_ERROR);
+            Response::json(['error' => 'Prestador Não tem Profissão até o momento!!', $exception->getMessage()], StatusCode::ACCESS_NOT_ALLOWED);
         }
     }
 
@@ -55,11 +60,11 @@ class PrestadorProfessionController extends Controller
         $idPrestador = $this->prestador->meProfession(Auth::id($request));
 
         if (!$idPrestador) {
-            Response::json(['error' => 'Usuário não cadastrado como prestador'], StatusCode::SERVER_ERROR);
+            Response::json(['error' => 'Usuário não cadastrado como prestador'], StatusCode::ACCESS_NOT_ALLOWED);
             return;
         }
         if ($this->prestadorPrefesion->ifdellid($idPrestador->id,$idprofession) == null ) {
-            Response::json(['error' => 'Profissão já deletada ou nenhuma profissão encontrada'], StatusCode::SERVER_ERROR);
+            Response::json(['error' => 'Profissão já deletada ou nenhuma profissão encontrada'], StatusCode::ACCESS_NOT_ALLOWED);
             return;
         }
         Response::json(['Profissão Deletada:' => $this->prestadorPrefesion->dellid($idPrestador->id,$idprofession)]);   
@@ -79,20 +84,18 @@ class PrestadorProfessionController extends Controller
         }
         
         try {
-            try {
+            
                 $idPrestador = $this->prestador->meProfession(Auth::id($request));
-                
-            } catch (ModelNotFoundException $exception) {
-                // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
-            }
-
-            $prestadorId = (new PrestadorProfessionCreateAction())->execute(
-
-                new PrestadorProfessionCreateDTO($request),
-                $idPrestador->id
-            );
-
-            Response::json(['success' => ['message' => 'Profissao Prestador cadastrado com sucesso']]);
+                if ($idPrestador == null) {
+                    Response::json(['error' => 'Pretador Não cadastrado ou nenhuma profissão cadastrada até o momento'],  StatusCode::ACCESS_NOT_ALLOWED);
+                }else{
+    
+                $prestadorId = (new PrestadorProfessionCreateAction())->execute(
+                    new PrestadorProfessionCreateDTO($request),
+                    $idPrestador->id
+                );
+                Response::json(['success' => ['message' => 'Profissao Prestador cadastrado com sucesso']]);
+                }
         } catch (DatabaseInsertException $exception) {
             Response::json(['error' => ['message' => $exception->getMessage()]], $exception->getCode());
         }
@@ -115,14 +118,19 @@ class PrestadorProfessionController extends Controller
 
         try {
             $idPrestador = $this->prestador->meProfession(Auth::id($request));
-            (new PrestadorProfessionUpdateAction())->execute(
-    
-                new PrestadorProfessionCreateDTO($request),
-                $idPrestador->id
-            );
-            Response::json(['success' => ['message' => 'Profissão atualizada com sucesso']]);
+
+            if ($idPrestador == null) {
+                Response::json(['error' => 'Pretador Não cadastrado ou nenhuma profissão cadastrada até o momento'],  StatusCode::ACCESS_NOT_ALLOWED);
+            }else{
+                (new PrestadorProfessionUpdateAction())->execute(
+        
+                    new PrestadorProfessionCreateDTO($request),
+                    $idPrestador->id
+                );
+                Response::json(['success' => ['message' => 'Profissão atualizada com sucesso']]);
+            }
         } catch (ModelNotFoundException $exception) {
-            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
+            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::ACCESS_NOT_ALLOWED);
         }
 
         

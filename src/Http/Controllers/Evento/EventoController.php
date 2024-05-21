@@ -37,7 +37,15 @@ class EventoController extends Controller
     public function findById(int $id)
     {
         try {
-            Response::json(['Evento' => $this->Evento->find($id)]);
+
+
+
+            if ($this->Evento->find($id) == null) {
+                Response::json(['error' => 'Nenhum evento encontrado no ID fornecido!'], StatusCode::ACCESS_NOT_ALLOWED);
+            }else{
+
+                Response::json(['Evento' => $this->Evento->find($id)]);
+            }
         } catch (\Exception $e) {
             Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
         }
@@ -55,12 +63,16 @@ class EventoController extends Controller
     {
         try {
 
-            $dateEvento = $this->Evento->me(Auth::id($request));
 
-            // dd($dateEvento);
+            if ($this->Evento->me(Auth::id($request)) == null) {
+                
+                Response::json(['error'=>'Nenhum evento criado/encontrado no seu cadastrado'], StatusCode::ACCESS_NOT_ALLOWED);
+            }else {
+
+                Response::json(['Evento' => $this->Evento->me(Auth::id($request))]);
+            }
 
 
-            Response::json(['Evento' => $this->Evento->me(Auth::id($request))]);
         } catch (ModelNotFoundException $exception) {
             // Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
         }
@@ -71,18 +83,18 @@ class EventoController extends Controller
         try {
             $idUser = Auth::id($request);
             if ($this->EventoProfession->ifdellidPro((int)$idProf,$idUser) == NULL) {
-                Response::json(['error' => 'Você não pode deletar ou alterar Profissões de eventos de outros usuarios!!'], StatusCode::SERVER_ERROR);
+                Response::json(['error' => 'Você não pode deletar ou alterar Profissões de eventos de outros usuarios!!'], StatusCode::ACCESS_NOT_ALLOWED);
                 return;
             }
             if ($this->EventoProfession->ifdellidPro((int)$idProf,$idUser) == 'ja deletada') {
-                Response::json(['error' => 'Profissão já deletada'], StatusCode::SERVER_ERROR);
+                Response::json(['error' => 'Profissão já deletada'], StatusCode::ACCESS_NOT_ALLOWED);
                 return;
             }
 
             // dd($this->EventoProfession->ifdellidPro((int)$idEvento,$idUser));
             Response::json(['success' => 'Profissão deletada',$this->EventoProfession->dellidPro((int)$idProf,(int)$idProf)]);
         } catch (ModelNotFoundException $exception) {
-            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
+            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::ACCESS_NOT_ALLOWED);
         }
     }
     public function delete(Request $request,$idEvent)
@@ -90,18 +102,18 @@ class EventoController extends Controller
         try {
             $idUser = Auth::id($request);
             if ($this->Evento->ifdellid($idUser,(int)$idEvent) == NULL) {
-                Response::json(['error' => 'Você não pode deletar ou alterar eventos de outros usuarios!!'], StatusCode::SERVER_ERROR);
+                Response::json(['error' => 'Você não pode deletar ou alterar eventos de outros usuarios!!'], StatusCode::ACCESS_NOT_ALLOWED);
                 return;
             }
             if ($this->Evento->ifdellid($idUser,(int)$idEvent) == 'ja deletado') {
-                Response::json(['error' => 'Evento já deletado'], StatusCode::SERVER_ERROR);
+                Response::json(['error' => 'Evento já deletado'], StatusCode::ACCESS_NOT_ALLOWED);
                 return;
             }
 
             // dd($this->EventoProfession->ifdellidPro((int)$idEvento,$idUser));
             Response::json(['success' => 'Evento deletado',$this->Evento->dellid((int)$idEvent)]);
         } catch (ModelNotFoundException $exception) {
-            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::SERVER_ERROR);
+            Response::json(['error' => 'Usuário não cadastrado como prestador', $exception->getMessage()], StatusCode::ACCESS_NOT_ALLOWED);
         }
     }
 
@@ -155,7 +167,7 @@ class EventoController extends Controller
             'bairro' => 'required',
             'cidade' => 'required',
             'estado' => 'required',
-            'professions' => 'required|array:int',
+            'professions' => 'required|array',
         ])->validate();
 
         if (!$validation) {
@@ -164,9 +176,9 @@ class EventoController extends Controller
         }
 
         $idUser = Auth::id($request);
-        // dd($this->Evento->ifdellid($idUser,(int)$id));
-        if ($this->Evento->ifdellid($idUser,(int)$id) == NULL) {
-            Response::json(['error' => 'Você não pode deletar ou alterar eventos de outros usuarios!!'], StatusCode::SERVER_ERROR);
+        // dd($this->Evento->ifuserevento($idUser,(int)$id));
+        if ($this->Evento->ifuserevento($idUser,(int)$id) == NULL) {
+            Response::json(['error' => 'Você não pode deletar ou alterar eventos de outros usuarios!!'], StatusCode::ACCESS_NOT_ALLOWED);
             return;
         }
 

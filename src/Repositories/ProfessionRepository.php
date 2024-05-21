@@ -18,7 +18,8 @@ class ProfessionRepository
 
     public function getAll()
     {
-        $profissao = $this->pofissoes->select('*')->get();
+        $profissao = $this->pofissoes->select('id', 'profissao as name')->get();
+
     
         return $profissao;
     }

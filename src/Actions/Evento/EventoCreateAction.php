@@ -23,10 +23,10 @@ class EventoCreateAction
             $idLocalidade = (new LocalidadeRepository())->storeLocalidade($eventoData);
             $eventoId = (new EventoRepository())->store($userId, $eventoData,$idLocalidade);
 
-            // foreach  ($eventoData['professions'] as $profession){
+            foreach  ($eventoData['professions'] as $profession){
                 
-            //     $professionId = (new EventoProfessionRepository())->store($profession,$eventoId);
-            // }
+                $professionId = (new EventoProfessionRepository())->store($profession,$eventoId);
+            }
             
         
 

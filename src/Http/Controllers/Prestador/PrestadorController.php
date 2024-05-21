@@ -131,12 +131,19 @@ class PrestadorController extends Controller
             return;
         }
 
-        (new PrestadorUpdateAction())->execute(
+        $prestador = (new PrestadorUpdateAction())->execute(
             Auth::id($request),
             new PrestadorCreateDTO($request)
         );
 
-        Response::json(['success' => ['message' => 'prestador atualizado com sucesso']]);
+        if ($prestador == 'prestador não encontrado') {
+            Response::json(['error' => 'Você não é um prestador'], StatusCode::ACCESS_NOT_ALLOWED);
+            
+        }else{
+
+            Response::json(['success' => ['message' => 'prestador atualizado com sucesso']]);
+        }
+
 
     }
 }

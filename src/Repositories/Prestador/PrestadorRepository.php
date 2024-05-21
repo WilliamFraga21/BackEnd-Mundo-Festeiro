@@ -209,6 +209,7 @@ class PrestadorRepository
                 ['localidade_id' => $localidade],
                 [
                     'promotorEvento' => $data['promotorEvento'],
+                    'curriculo' => $data['curriculo'],
                 ]
             );
     }

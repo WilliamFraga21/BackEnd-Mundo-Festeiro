@@ -25,17 +25,25 @@ class PrestadorUpdateAction
         DB::beginTransaction();
         try {
 
-            $prestador = Prestador::where('users_id', $userId)->firstOrFail();
-            $prestadorId = $prestador->users_id;
+            $prestador = Prestador::where('users_id', $userId)->first();
+            if ($prestador == null) {
+                return 'prestador não encontrado';
+            }else{
 
-
-
-            $idLocalidade = (new LocalidadeRepository())->storeLocalidade($prestadorData);
-            (new PrestadorRepository())->updatePrestador($userId, $prestadorData,$idLocalidade);
-
-
-
-            DB::commit();
+    
+                $prestadorId = $prestador->users_id;
+    
+    
+    
+                $idLocalidade = (new LocalidadeRepository())->storeLocalidade($prestadorData);
+                (new PrestadorRepository())->updatePrestador($userId, $prestadorData,$idLocalidade);
+    
+    
+    
+                DB::commit();
+                
+                
+            }
         } catch (\Exception $exception) {
             DB::rollback();
             throw new DatabaseInsertException(
