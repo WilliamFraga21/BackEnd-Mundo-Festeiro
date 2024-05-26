@@ -30,9 +30,9 @@ class PrestadorController extends Controller
         $this->prestadorPrefesion = new PrestadorProfesionRepository();
     }
 
-    public function index()
+    public function index($id)
     {   
-        $prestadores = $this->prestador->getAll();
+        $prestadores = $this->prestador->getAll($id);
 
         foreach($prestadores as $prestador){
             $photo = (new AvatarRepository())->getUserAvatar($prestador['prestadorInfo']->users_id);

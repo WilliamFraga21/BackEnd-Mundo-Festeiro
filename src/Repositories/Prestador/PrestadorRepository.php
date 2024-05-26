@@ -25,9 +25,10 @@ class PrestadorRepository
         $this->localidade = new Localidade();
     }
 
-    public function getAll()
+    public function getAll($id)
     {
-        $prestadores = Prestador::all();
+        $prestadores = Prestador::select('*')->where('profissao_id',$id)->join('prestador_has_profissao','prestador.id','=','prestador_has_profissao.prestador_id')->get();
+        // dd($prestadores);
         $data = [];
 
         foreach ($prestadores as $prestador) {
@@ -36,6 +37,7 @@ class PrestadorRepository
             ->join('users', 'prestador.users_id','=','users.id')
                 ->first();
             
+                
             $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
                 
                 if ($this->prestadorprofession->where('prestador_id',$prestadorinfo->id)->first()) {

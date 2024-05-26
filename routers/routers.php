@@ -16,15 +16,15 @@ use MiniRest\Http\Controllers\AvatarController;
 
 Router::post('/auth/login', [AuthController::class, 'login']);
 Router::post('/api/user/create', [UserController::class, 'store']);
-Router::get('/prestador/getALL', [PrestadorController::class, 'index']);
+Router::get('/prestador/getALL/{id}', [PrestadorController::class, 'index']);
 Router::get('/profissao/getALL', [ProfessionsController::class, 'index']);
-Router::get('/evento', [EventoController::class, 'all']);
+Router::get('/evento/{id}', [EventoController::class, 'all']);
+Router::get('/user/getAll', [UserController::class, 'index']);
 
 
 Router::prefix('/api')->group([AuthMiddleware::class], function () {
 
     // User
-    Router::get('/user/getAll', [UserController::class, 'index']);
     Router::patch('/user/update', [UserController::class, 'update']);
     Router::get('/user/me', [UserController::class, 'me']);
     
@@ -51,8 +51,8 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/evento/aceitar', [EventoPrestadorController::class, 'store']);
     
     
-    Router::post('/user/avatar/create', [AvatarController::class, 'uploadAvatar']);
     Router::get('/user/avatar/{userId?}', [AvatarController::class, 'avatar']);
+    Router::post('/user/avatar/create', [AvatarController::class, 'uploadAvatar']);
 
 
 

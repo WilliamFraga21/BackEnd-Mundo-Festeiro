@@ -60,10 +60,10 @@ class EventoRepository
         }
         
     }
-    public function all()
+    public function all($id)
     {
         $idEvent = null;
-        $Evento = $this->evento->select('*')->get();
+        $Evento = Evento::select('*')->where('profissao_id',$id)->join('evento_has_profissao','evento.id','=','evento_has_profissao.evento_id')->get();
         foreach ($Evento as $evento) {
             $iduser = $this->user->where('id',$evento->users_id)->first();
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
