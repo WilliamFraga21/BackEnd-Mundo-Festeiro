@@ -38,7 +38,7 @@ class EventoRepository
         foreach ($Evento as $evento) {
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
             $idprofession = DB::table('evento_has_profissao')
-                                ->select('profissao', 'profissao_id')
+                                ->select('profissao', 'profissao_id','quantidade')
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
@@ -68,7 +68,7 @@ class EventoRepository
             $iduser = $this->user->where('id',$evento->users_id)->first();
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
             $idprofession = DB::table('evento_has_profissao')
-                                ->select('profissao', 'profissao_id')
+                                ->select('profissao', 'profissao_id','quantidade')
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
@@ -98,7 +98,7 @@ class EventoRepository
             $iduser = $this->user->where('id',$evento->users_id)->first();
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
             $idprofession = DB::table('evento_has_profissao')
-                                ->select('profissao', 'profissao_id')
+                                ->select('profissao', 'profissao_id','quantidade')
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();

@@ -14,5 +14,5 @@ function url(): string
 
 function asset(string $file): string
 {
-    return $_SERVER['HTTP_HOST'] . '/storage/' . $file;
+    return 'http://'. $_SERVER['HTTP_HOST'] . '/storage/' . $file;
 }

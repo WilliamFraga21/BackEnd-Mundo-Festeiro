@@ -49,8 +49,8 @@ class AuthController
         Response::json([
             'success' => 'Valid token',
             'user_id' => Auth::id($request),
-            'user_email' => $userInfo->user_email,
-            'user_name' => $userInfo->user_name
+            // 'user_email' => $userInfo->user_email,
+            // 'user_name' => $userInfo->user_name
         ]);
         return;
     }
