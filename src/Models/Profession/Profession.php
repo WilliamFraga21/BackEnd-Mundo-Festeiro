@@ -8,7 +8,8 @@ class Profession extends Model
 
     protected $table = 'profissao';
     protected $fillable = [
-        'profissao'
+        'profissao',
+        'iconURL',
     ];
 }
 

@@ -19,4 +19,8 @@ class ProfessionsController extends Controller
     {
         Response::json([$this->profissao->getAll()]);
     }
+    public function index2()
+    {
+        Response::json(['professions' => $this->profissao->getAll()]);
+    }
 }

@@ -8,6 +8,7 @@ use MiniRest\Http\Controllers\{
 };
 use MiniRest\Http\Controllers\Evento\EventoController;
 use MiniRest\Http\Controllers\Evento\EventoPrestadorController;
+use MiniRest\Http\Controllers\Evento\EventoPhotoController;
 use MiniRest\Http\Controllers\Prestador\PrestadorController;
 use MiniRest\Http\Controllers\Prestador\PrestadorProfessionController;
 use MiniRest\Http\Controllers\Professions\ProfessionsController;
@@ -18,6 +19,7 @@ Router::post('/auth/login', [AuthController::class, 'login']);
 Router::post('/api/user/create', [UserController::class, 'store']);
 Router::get('/prestador/getALL/{id}', [PrestadorController::class, 'index']);
 Router::get('/profissao/getALL', [ProfessionsController::class, 'index']);
+Router::get('/profissao/getALL2', [ProfessionsController::class, 'index2']);
 Router::get('/evento/{id}', [EventoController::class, 'all']);
 Router::get('/user/getAll', [UserController::class, 'index']);
 
@@ -53,6 +55,8 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     
     Router::get('/user/avatar/{userId?}', [AvatarController::class, 'avatar']);
     Router::post('/user/avatar/create', [AvatarController::class, 'uploadAvatar']);
+    Router::post('/evento/create/photo/{id}', [EventoPhotoController::class, 'uploadPhoto']);
+    Router::get('/evento/getphoto/{userId?}', [EventoPhotoController::class, 'avatar']);
 
 
 

@@ -8,6 +8,7 @@ use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Evento\Evento;
 use MiniRest\Models\Evento\EventoProfession;
 use MiniRest\Models\User;
+use MiniRest\Models\Evento\EventoIMG;
 use MiniRest\Models\Localidade\Localidade;
 use MiniRest\Models\Profession\Profession;
 use Illuminate\Database\Capsule\Manager as DB;
@@ -16,6 +17,7 @@ use SoftDeletes;
 class EventoRepository
 {
     private Evento $evento;
+    private EventoIMG $eventoimg;
     private User $user;
     private Localidade $localidade;
     private Profession $profession;
@@ -23,11 +25,45 @@ class EventoRepository
 
     public function __construct()
     {
+        $this->eventoimg = new EventoIMG();
         $this->evento = new Evento();
         $this->user = new User();
         $this->localidade = new Localidade();
         $this->profession = new Profession();
         $this->eventoprofession = new EventoProfession();
+    }
+
+
+
+    public function ifUserEventoPhoto(int $id)
+    {
+       $evento = $this->evento->where('users_id','=',$id)->first();
+    //    dd($evento);
+       return $evento;
+    } 
+
+    public function storePhoto(int $idEvento, string $fileName)
+    {
+        if ($this->getEventoPhoto($idEvento)) {
+            $avatar = $this->eventoimg->where('evento_id', $idEvento)
+            ->update(
+                ['img' => $fileName]
+            );
+
+            return $avatar;
+        }else{
+
+            return $this->eventoimg
+            ->firstOrCreate(
+                ['evento_id' => $idEvento],
+                ['img' => $fileName]
+            );
+        }
+    }
+
+    public function getEventoPhoto(int $id)
+    {
+        return $this->eventoimg->select('img')->where('evento_id', '=', $id)->value('img');
     }
 
     public function me(int $userId)
@@ -42,11 +78,18 @@ class EventoRepository
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
+
+            $photo = $this->getEventoPhoto($evento->id);
+
+            if ($photo == null) {
+                $photo = null;
+            }
             $object = [
                 'user' => $iduser,
                 'evento' => $evento,
                 'localidadeEvento' => $idlocalidade,
-                'profissao' => $idprofession
+                'profissao' => $idprofession,
+                'photo' => $photo
             ];
             $idEvent[] = $object;
         }
@@ -72,11 +115,17 @@ class EventoRepository
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
+                $photo = $this->getEventoPhoto($evento->id);
+
+                                if ($photo == null) {
+                                    $photo = null;
+                                }
             $object = [
                 'user' => $iduser,
                 'evento' => $evento,
                 'localidadeEvento' => $idlocalidade,
-                'profissao' => $idprofession
+                'profissao' => $idprofession,
+                'photo' => $photo
             ];
             $idEvent[] = $object;
         }
@@ -102,11 +151,17 @@ class EventoRepository
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
+                                $photo = $this->getEventoPhoto($evento->id);
+
+                                if ($photo == null) {
+                                    $photo = null;
+                                }
             $object = [
                 'user' => $iduser,
                 'evento' => $evento,
                 'localidadeEvento' => $idlocalidade,
-                'profissao' => $idprofession
+                'profissao' => $idprofession,
+                'photo' => $photo
             ];
             $idEvent[] = $object;
         }

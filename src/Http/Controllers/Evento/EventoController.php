@@ -43,8 +43,22 @@ class EventoController extends Controller
             if ($this->Evento->find($id) == null) {
                 Response::json(['error' => 'Nenhum evento encontrado no ID fornecido!'], StatusCode::ACCESS_NOT_ALLOWED);
             }else{
+                    $eventos = $this->Evento->find($id);
+                foreach($eventos as $evento){
+                    $photoEvento = asset("evento/" . $evento['photo']);
+                    if ($photoEvento == null) {
+                        $photoEvento = null;
+                    }
+                    $data[]= [
+                        'user' => $evento['user'],
+                        'evento' => $evento['evento'],
+                        'localidadeEvento' => $evento['localidadeEvento'],
+                        'profissao' => $evento['profissao'],
+                        'photo' => $photoEvento,
+                    ];
+                }
 
-                Response::json(['Evento' => $this->Evento->find($id)]);
+                Response::json(['Evento' => $data]);
             }
         } catch (\Exception $e) {
             Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
@@ -53,7 +67,23 @@ class EventoController extends Controller
     public function all($id)
     {
         try {
-            Response::json(['Evento' => $this->Evento->all($id)]);
+
+
+            $eventos = $this->Evento->all($id);
+            foreach($eventos as $evento){
+                $photoEvento = asset("evento/" . $evento['photo']);
+                if ($photoEvento == null) {
+                    $photoEvento = null;
+                }
+                $data[]= [
+                    'user' => $evento['user'],
+                    'evento' => $evento['evento'],
+                    'localidadeEvento' => $evento['localidadeEvento'],
+                    'profissao' => $evento['profissao'],
+                    'photo' => $photoEvento,
+                ];
+            }
+            Response::json(['Evento' => $data]);
         } catch (\Exception $e) {
             Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
         }
@@ -68,8 +98,21 @@ class EventoController extends Controller
                 
                 Response::json(['error'=>'Nenhum evento criado/encontrado no seu cadastrado'], StatusCode::ACCESS_NOT_ALLOWED);
             }else {
-
-                Response::json(['Evento' => $this->Evento->me(Auth::id($request))]);
+                $eventos = $this->Evento->me(Auth::id($request));
+                foreach($eventos as $evento){
+                    $photoEvento = asset("evento/" . $evento['photo']);
+                    if ($photoEvento == null) {
+                        $photoEvento = null;
+                    }
+                    $data[]= [
+                        'user' => $evento['user'],
+                        'evento' => $evento['evento'],
+                        'localidadeEvento' => $evento['localidadeEvento'],
+                        'profissao' => $evento['profissao'],
+                        'photo' => $photoEvento,
+                    ];
+                }
+                Response::json(['Evento' => $data]);
             }
 
 
