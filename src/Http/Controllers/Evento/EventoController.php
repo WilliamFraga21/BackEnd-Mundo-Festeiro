@@ -46,7 +46,7 @@ class EventoController extends Controller
                     $eventos = $this->Evento->find($id);
                 foreach($eventos as $evento){
                     $photoEvento = asset("evento/" . $evento['photo']);
-                    if ($photoEvento == null) {
+                    if ($evento['photo'] == null) {
                         $photoEvento = null;
                     }
                     $data[]= [
@@ -72,7 +72,7 @@ class EventoController extends Controller
             $eventos = $this->Evento->all($id);
             foreach($eventos as $evento){
                 $photoEvento = asset("evento/" . $evento['photo']);
-                if ($photoEvento == null) {
+                if ($evento['photo'] == null) {
                     $photoEvento = null;
                 }
                 $data[]= [
@@ -101,7 +101,7 @@ class EventoController extends Controller
                 $eventos = $this->Evento->me(Auth::id($request));
                 foreach($eventos as $evento){
                     $photoEvento = asset("evento/" . $evento['photo']);
-                    if ($photoEvento == null) {
+                    if ($evento['photo'] == null) {
                         $photoEvento = null;
                     }
                     $data[]= [

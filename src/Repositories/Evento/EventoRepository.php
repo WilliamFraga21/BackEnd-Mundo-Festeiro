@@ -80,7 +80,7 @@ class EventoRepository
                                 ->get();
 
             $photo = $this->getEventoPhoto($evento->id);
-
+            
             if ($photo == null) {
                 $photo = null;
             }
@@ -156,6 +156,7 @@ class EventoRepository
                                 if ($photo == null) {
                                     $photo = null;
                                 }
+                                
             $object = [
                 'user' => $iduser,
                 'evento' => $evento,
