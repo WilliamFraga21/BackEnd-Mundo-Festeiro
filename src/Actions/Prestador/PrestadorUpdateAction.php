@@ -35,8 +35,7 @@ class PrestadorUpdateAction
     
     
     
-                $idLocalidade = (new LocalidadeRepository())->storeLocalidade($prestadorData);
-                (new PrestadorRepository())->updatePrestador($userId, $prestadorData,$idLocalidade);
+                (new PrestadorRepository())->updatePrestador($userId, $prestadorData);
     
     
     
