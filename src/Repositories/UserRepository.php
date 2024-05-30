@@ -35,14 +35,27 @@ class UserRepository
         ];
     }
 
-    public function store(array $user)
+    public function store(array $user,$localidade)
     {
-        $this->user->create($user);
+        $idUser = $this->user->create([
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'contactno' => $user['contactno'],
+            'password' => $user['password'],
+            'localidade_id' => $localidade,
+        ]);
+        // dd($idUser);
     }
 
-    public function update(int $id, array $user)
+    public function update(int $id, array $user,$localidade)
     {
-        $this->user->where('id', '=', $id)->update($user);
+        $this->user->where('id', '=', $id)->update([
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'contactno' => $user['contactno'],
+            'password' => $user['password'],
+            'localidade_id' => $localidade,
+        ]);
     }
 
     public function remove(int $id, array $user)

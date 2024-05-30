@@ -12,10 +12,10 @@ class UserCreateDTO implements DTO
     public string $email;
     public string $contactno;
     public string $password;
-    public string $shippingAddress;
-    public string $shippingState;
-    public string $shippingCity;
-    public string $shippingPincode;
+    public string $endereco;
+    public string $bairro;
+    public string $cidade;
+    public string $estado;
 
 
 
@@ -27,10 +27,10 @@ class UserCreateDTO implements DTO
         $this->email       = $request->json('email');
         $this->contactno               = $request->json('contactno');
         $this->password             = $request->json('password');
-        $this->shippingAddress                = $request->json('shippingAddress');
-        $this->shippingState                  = $request->json('shippingState');
-        $this->shippingCity                  = $request->json('shippingCity');
-        $this->shippingPincode                  = $request->json('shippingPincode');
+        $this->endereco                = $request->json('endereco');
+        $this->bairro                  = $request->json('bairro');
+        $this->cidade                  = $request->json('cidade');
+        $this->estado                  = $request->json('estado');
         
 
     }
@@ -44,10 +44,10 @@ class UserCreateDTO implements DTO
             'email' => $this->email,
             'contactno' => $this->contactno, 
             'password' => $this->password,
-            'shippingAddress' => $this->shippingAddress,
-            'shippingState' => $this->shippingState,
-            'shippingCity' => $this->shippingCity,
-            'shippingPincode' => $this->shippingPincode,
+            'endereco' => $this->endereco,
+            'bairro' => $this->bairro,
+            'cidade' => $this->cidade,
+            'estado' => $this->estado,
             
         ];
     }

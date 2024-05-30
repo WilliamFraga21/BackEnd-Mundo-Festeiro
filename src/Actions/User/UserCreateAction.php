@@ -6,6 +6,7 @@ use MiniRest\DTO\AddressCreateDTO;
 use MiniRest\DTO\User\UserCreateDTO;
 use MiniRest\Repositories\AddressRepository;
 use MiniRest\Repositories\UserRepository;
+use MiniRest\Repositories\Localidade\LocalidadeRepository;
 
 class UserCreateAction
 {
@@ -17,7 +18,7 @@ class UserCreateAction
         $user = $userDTO->toArray();
         $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
 
-
-        (new userRepository())->store($user);
+        $idLocalidade = (new LocalidadeRepository())->storeLocalidade($user);
+        (new userRepository())->store($user,$idLocalidade);
     }
 }

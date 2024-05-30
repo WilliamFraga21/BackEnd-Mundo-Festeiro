@@ -49,10 +49,10 @@ class UserController extends Controller
             'email' => 'required|string|unique:users,email',
             'contactno' => 'required|string',
             'password' => 'required|password:min_length=8',
-            'shippingAddress' => 'required|string',
-            'shippingState' => 'required|string',
-            'shippingCity' => 'required|string',
-            'shippingPincode' => 'required|string',
+            'endereco' => 'required|string',
+            'bairro' => 'required|string',
+            'cidade' => 'required|string',
+            'estado' => 'required|string',
             
         ])->validate();
 
@@ -80,10 +80,10 @@ class UserController extends Controller
             'email' => 'required|string',
             'contactno' => 'required|string',
             'password' => 'required|password:min_length=8',
-            'shippingAddress' => 'required|string',
-            'shippingState' => 'required|string',
-            'shippingCity' => 'required|string',
-            'shippingPincode' => 'required|string',
+            'endereco' => 'required|string',
+            'bairro' => 'required|string',
+            'cidade' => 'required|string',
+            'estado' => 'required|string',
             
         ])->validate();
 

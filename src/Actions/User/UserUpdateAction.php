@@ -4,6 +4,7 @@ namespace MiniRest\Actions\User;
 
 use MiniRest\DTO\User\UserCreateDTO;
 use MiniRest\Repositories\UserRepository;
+use MiniRest\Repositories\Localidade\LocalidadeRepository;
 
 class UserUpdateAction
 {
@@ -17,6 +18,7 @@ class UserUpdateAction
 
         $user = $userDTO->toArray();
         $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
-        (new userRepository())->update($id, $user);
+        $idLocalidade = (new LocalidadeRepository())->storeLocalidade($user);
+        (new userRepository())->update($id, $user,$idLocalidade);
     }
 }

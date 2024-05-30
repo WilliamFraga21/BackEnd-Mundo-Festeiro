@@ -15,15 +15,11 @@ class User extends Model
         'email',
         'contactno' ,
         'password',
-        'shippingAddress' ,
-        'shippingState' ,
-        'shippingCity' ,
-        'shippingPincode' ,
-        'billingAddress' ,
-        'billingState' ,
-        'billingCity',
-        'billingPincode' ,
-        'regDate' ,
+        'endereco' ,
+        'bairro' ,
+        'cidade' ,
+        'estado' ,
+        'localidade_id' ,
     ];
 
     protected $hidden = [
