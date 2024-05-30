@@ -2,8 +2,10 @@
 
 namespace MiniRest\Http\Controllers\Prestador;
 
+use MiniRest\Actions\Prestador\ContratarPrestadorCreateAction;
 use MiniRest\Actions\Prestador\PrestadorCreateAction;
 use MiniRest\Actions\Prestador\PrestadorUpdateAction;
+use MiniRest\Actions\Prestador\PrestadorAceitarUpdateAction;
 use MiniRest\DTO\Prestador\PrestadorCreateDTO;
 use MiniRest\Exceptions\DatabaseInsertException;
 use MiniRest\Exceptions\InvalidJsonResponseException;
@@ -113,8 +115,43 @@ class PrestadorController extends Controller
 
     }
 
+    public function storeContratar(int $idPrestador,Request $request)
+    {
+       
+        try {
+
+            $prestadorId = (new ContratarPrestadorCreateAction())->execute(
+                Auth::id($request),
+                $idPrestador
+            );
+            Response::json(['success' => ['message' => 'Proposta Enviada','proposta:' => $prestadorId]]);
+        } catch (DatabaseInsertException $exception) {
+            Response::json(['error' => ['message' => $exception->getMessage()]], $exception->getCode());
+        }
+
+
+    }
+
     
 
+    public function aceietarProposta(Request $request,int $idProposta)
+    {
+
+        $prestador = (new PrestadorAceitarUpdateAction())->execute(
+            Auth::id($request),
+            $idProposta
+        );
+
+        if ($prestador == 'prestador não encontrado') {
+            Response::json(['error' => 'Você não é um prestador'], StatusCode::ACCESS_NOT_ALLOWED);
+            
+        }else{
+
+            Response::json(['success' => ['message' => 'Proposta aceita com sucesso']]);
+        }
+
+
+    }
     public function update(Request $request)
     {
         $validation = $request->rules([

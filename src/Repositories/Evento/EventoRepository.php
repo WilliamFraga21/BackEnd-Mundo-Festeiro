@@ -116,7 +116,6 @@ class EventoRepository
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
                 $photo = $this->getEventoPhoto($evento->id);
-
                                 if ($photo == null) {
                                     $photo = null;
                                 }
@@ -152,7 +151,7 @@ class EventoRepository
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
                                 $photo = $this->getEventoPhoto($evento->id);
-
+                                
                                 if ($photo == null) {
                                     $photo = null;
                                 }

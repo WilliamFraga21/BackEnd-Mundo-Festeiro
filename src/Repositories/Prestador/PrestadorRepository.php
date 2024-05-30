@@ -6,6 +6,7 @@ use MiniRest\Exceptions\DatabaseInsertException;
 use MiniRest\Exceptions\PrestadorNotFoundException;
 use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Prestador\Prestador;
+use MiniRest\Models\Prestador\PrestadorAceitar;
 use MiniRest\Models\Profession\Profession;
 use MiniRest\Models\Localidade\Localidade;
 use MiniRest\Models\Prestador\PrestadorProfissao;
@@ -17,12 +18,14 @@ class PrestadorRepository
     private Profession $profession;
     private PrestadorProfissao $prestadorprofession;
     private Localidade $localidade;
+    private PrestadorAceitar $prestadorAceitar;
 
     public function __construct()
     {
         $this->prestador = new Prestador();
         $this->prestadorprofession = new PrestadorProfissao();
         $this->localidade = new Localidade();
+        $this->prestadorAceitar = new PrestadorAceitar();
     }
 
     public function getAll($id)
@@ -127,6 +130,38 @@ class PrestadorRepository
         return $prestadorinfo->users_id;
 
 
+    } 
+    public function contrataPrestador($data,$idUser)
+    {
+        // dd($prestador = $this->prestadorAceitar->firstOrCreate(
+        //     [
+        //         'prestador_id' => $data,
+        //         'users_id' => $idUser,
+        //     ],
+        //     [
+        //         'aceitarProposta' => 0,
+        //     ]
+        // )
+        // );
+        $prestador = $this->prestadorAceitar->firstOrCreate(
+            [ 'prestador_id' => $data,
+            'users_id' => $idUser,],
+            [
+                'aceitarProposta' => 0,
+                'prestador_id' => $data,
+                'users_id' => $idUser,
+                ]
+            );
+            
+        return $prestador;
+
+
+    }
+    public function PrestadorAceitar($id,$idprestador)
+    {
+
+        $prestador = $this->prestadorAceitar->where('id',$id)->where('prestador_id',$idprestador)->update(['aceitarProposta' => 1]);
+        return $prestador;
     }
 
     public function me(int $userId)

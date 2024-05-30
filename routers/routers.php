@@ -57,7 +57,9 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/user/avatar/create', [AvatarController::class, 'uploadAvatar']);
     Router::post('/evento/create/photo/{id}', [EventoPhotoController::class, 'uploadPhoto']);
     Router::get('/evento/getphoto/{userId?}', [EventoPhotoController::class, 'avatar']);
-
-
+    
+    
+    Router::post('/prestador/contratar/{id}', [PrestadorController::class, 'storeContratar']);
+    Router::post('/prestador/contratar/aceitar/{id}', [PrestadorController::class, 'aceietarProposta']);
 
 });
