@@ -90,10 +90,6 @@ class PrestadorController extends Controller
     {
         $validation = $request->rules([
             'promotorEvento' => 'required',
-            'endereco' => 'required',
-            'bairro' => 'required',
-            'cidade' => 'required',
-            'estado' => 'required',
             'curriculo' => 'required',
         ])->validate();
 
@@ -156,10 +152,6 @@ class PrestadorController extends Controller
     {
         $validation = $request->rules([
             'promotorEvento' => 'required',
-            'endereco' => 'required',
-            'bairro' => 'required',
-            'cidade' => 'required',
-            'estado' => 'required',
             'curriculo' => 'required',
         ])->validate();
 

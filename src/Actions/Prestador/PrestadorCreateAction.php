@@ -21,8 +21,7 @@ class PrestadorCreateAction
         DB::beginTransaction();
         try {
             
-            $idLocalidade = (new LocalidadeRepository())->storeLocalidade($prestadorData);
-            $prestadorId = (new PrestadorRepository())->storePrestador($userId, $prestadorData,$idLocalidade);
+            $prestadorId = (new PrestadorRepository())->storePrestador($userId, $prestadorData);
             // dd($prestadorId);
 
 

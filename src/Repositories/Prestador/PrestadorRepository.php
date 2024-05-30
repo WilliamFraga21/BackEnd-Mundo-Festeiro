@@ -213,7 +213,7 @@ class PrestadorRepository
     /**
      * @throws DatabaseInsertException
      */
-    public function storePrestador(int $userId, array $data, int $localidade)
+    public function storePrestador(int $userId, array $data)
     {
 
         // dd($localidade);
@@ -228,7 +228,6 @@ class PrestadorRepository
             ->firstOrCreate(
                 ['users_id' => $userId],
                 [
-                    'localidade_id' => $localidade,
                     'users_id' => $userId,
                     'promotorEvento' => $data['promotorEvento'],
                     'curriculo' => $data['curriculo'],
@@ -238,12 +237,11 @@ class PrestadorRepository
         return $id->id;
     }
 
-    public function updatePrestador(int $userId, array $data, $localidade)
+    public function updatePrestador(int $userId, array $data)
     {
         return $this->prestador
             ->where('users_id', $userId)
             ->update(
-                ['localidade_id' => $localidade],
                 [
                     'promotorEvento' => $data['promotorEvento'],
                     'curriculo' => $data['curriculo'],
