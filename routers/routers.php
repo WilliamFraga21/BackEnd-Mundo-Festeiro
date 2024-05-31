@@ -51,7 +51,9 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::get('/evento/find/{id}', [EventoController::class, 'findById']);
     
     
-    Router::post('/evento/aceitar', [EventoPrestadorController::class, 'store']);
+    Router::post('/evento/enviarproposta', [EventoPrestadorController::class, 'store']);
+    Router::get('/evento/getprestadores/{id?}', [EventoPrestadorController::class, 'getPrestadores']);
+    Router::post('/evento/aceitarproposta/{id?}', [EventoPrestadorController::class, 'aceitarproposta']);
     
     
     Router::get('/user/avatar/{userId?}', [AvatarController::class, 'avatar']);
