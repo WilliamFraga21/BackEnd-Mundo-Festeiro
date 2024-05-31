@@ -127,12 +127,35 @@ class PrestadorController extends Controller
 
 
     }
+    public function getPropostas(Request $request)
+    {
+       
+        try {
+            if ($this->prestador->getpropostas(Auth::id($request)) == "Prestador não encontrado") {
+                Response::json(['error' => 'Você não é um prestador'], StatusCode::ACCESS_NOT_ALLOWED);
+
+            }else{
+                $prestador = $this->prestador->getpropostas(Auth::id($request));
+                Response::json(['propostas' => $prestador]);
+
+
+            }
+            
+            
+
+
+        } catch (PrestadorNotFoundException $e) {
+            Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
+        }
+
+
+    }
 
     
 
     public function aceietarProposta(Request $request,int $idProposta)
     {
-
+        
         $prestador = (new PrestadorAceitarUpdateAction())->execute(
             Auth::id($request),
             $idProposta

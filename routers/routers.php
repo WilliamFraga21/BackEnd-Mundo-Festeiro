@@ -40,6 +40,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/prestador/updateProfession', [PrestadorProfessionController::class, 'update']);
     Router::get('/prestadorprofession/me', [PrestadorProfessionController::class, 'me']);
     Router::post('/prestadorprofession/delete/{id}', [PrestadorProfessionController::class, 'delete']);
+    Router::get('/prestador/propostas', [PrestadorController::class, 'getPropostas']);
     
     
     Router::post('/evento/create', [EventoController::class, 'store']);

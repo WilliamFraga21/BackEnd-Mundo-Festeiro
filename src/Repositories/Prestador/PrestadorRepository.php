@@ -131,6 +131,25 @@ class PrestadorRepository
 
 
     } 
+    public function getpropostas(int|string $userid)
+    {
+
+        $prestadorid = $this->prestador->where('users_id', $userid)->first();
+        if ($prestadorid == null ) {
+           return "Prestador não encontrado";
+        }else{
+
+            $prestadorinfo = Prestador::select('contrar_prestador.id','contrar_prestador.aceitarProposta','contrar_prestador.prestador_id','contrar_prestador.users_id','contrar_prestador.updated_at','contrar_prestador.created_at')
+                                        ->where('contrar_prestador.id', $prestadorid->id)
+                                        ->join('contrar_prestador', 'prestador.id','=','contrar_prestador.prestador_id')
+                                        ->first();
+            return $prestadorinfo;
+        }
+
+
+
+
+    } 
     public function contrataPrestador($data,$idUser)
     {
         // dd($prestador = $this->prestadorAceitar->firstOrCreate(
