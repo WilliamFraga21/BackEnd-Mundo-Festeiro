@@ -27,7 +27,7 @@ class EventoPrestadorController extends Controller
     public function store(Request $request)
     {   
         $validation = $request->rules([
-            'prestador_id' => 'required',
+            'profissao' => 'required',
             'evento_id' => 'required',
             ])->validate();
             
@@ -36,8 +36,11 @@ class EventoPrestadorController extends Controller
                 return;
             }
         try {
+            $prestador = $this->Evento->getPrestador(Auth::id($request));
+            // dd($prestador->id);
             $eventoId = (new EventoPrestadorCreateAction())->execute(
-                Auth::id($request),
+                // Auth::id($request),
+                $prestador->id,
                 new EventoPrestadorDTO($request)
             );
             if ($eventoId == 'Usuário sem Permissão') {
@@ -45,7 +48,7 @@ class EventoPrestadorController extends Controller
             }elseif($eventoId == 'Prestador não encontrado') {
                 Response::json(['error' => 'Prestador não encontrado'], StatusCode::ACCESS_NOT_ALLOWED);
             }else{
-                Response::json(['success' => ['message' => 'Prestador aceito com sucesso','infos' => $eventoId]]);
+                Response::json(['success' => ['message' => 'Proposta Enviada com sucesso']]);
             }
         } catch (DatabaseInsertException $exception) {
             Response::json(['error' => ['message' => $exception->getMessage()]], $exception->getCode());

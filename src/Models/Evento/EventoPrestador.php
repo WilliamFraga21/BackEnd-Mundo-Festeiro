@@ -13,6 +13,7 @@ class EventoPrestador extends Model
         'prestador_id',
         'evento_id',
         'aceitarPrestador',
+        'profissao',
     ];
     protected $dates = ['deleted_at'];
 }

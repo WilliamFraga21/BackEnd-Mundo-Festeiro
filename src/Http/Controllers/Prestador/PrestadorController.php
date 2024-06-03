@@ -45,7 +45,6 @@ class PrestadorController extends Controller
             $data[]= [
                 'prestadorInfo' => $prestador['prestadorInfo'],
                 'prestadorprofessions' => $prestador['prestadorprofessions'],
-                'infoPrestadorEnd' => $prestador['infoPrestadorEnd'],
                 'photo' => $photoPrestador,
             ];
         }
@@ -137,6 +136,29 @@ class PrestadorController extends Controller
             }else{
                 $prestador = $this->prestador->getpropostas(Auth::id($request));
                 Response::json(['propostas' => $prestador]);
+
+
+            }
+            
+            
+
+
+        } catch (PrestadorNotFoundException $e) {
+            Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());
+        }
+
+
+    } 
+    public function getEventsAp(Request $request)
+    {
+       
+        try {
+            if ($this->prestador->getEventos(Auth::id($request)) == "Prestador não encontrado") {
+                Response::json(['error' => 'Você não é um prestador'], StatusCode::ACCESS_NOT_ALLOWED);
+
+            }else{
+                $prestador = $this->prestador->getEventos(Auth::id($request));
+                Response::json(['eventos' => $prestador]);
 
 
             }

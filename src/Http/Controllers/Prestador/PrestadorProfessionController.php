@@ -84,7 +84,7 @@ class PrestadorProfessionController extends Controller
         }
         
         try {
-            
+                    
                 $idPrestador = $this->prestador->meProfession(Auth::id($request));
                 if ($idPrestador == null) {
                     Response::json(['error' => 'Pretador Não cadastrado ou nenhuma profissão cadastrada até o momento'],  StatusCode::ACCESS_NOT_ALLOWED);

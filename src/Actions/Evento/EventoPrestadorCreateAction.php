@@ -13,11 +13,11 @@ class EventoPrestadorCreateAction
     /**
      * @throws DatabaseInsertException
      */
-    public function execute($iduser,EventoPrestadorDTO $eventoPrestadorCreateDTO)
+    public function execute($prestador,EventoPrestadorDTO $eventoPrestadorCreateDTO)
     {
         $eventoPrestadorData = $eventoPrestadorCreateDTO->toArray();
         try {
-            $eventoPrestadorId = (new EventoPrestadorRepository())->store($iduser, $eventoPrestadorData);
+            $eventoPrestadorId = (new EventoPrestadorRepository())->store($prestador ,$eventoPrestadorData);
             return $eventoPrestadorId;
         } catch (DatabaseInsertException $exception) {
 

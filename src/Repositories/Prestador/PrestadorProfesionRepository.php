@@ -54,12 +54,12 @@ class PrestadorProfesionRepository
      */
     public function store(array $data ,int $idPrestador)
     {
-        if ($this->byid($data['profissao_id'],$idPrestador)) {
-            throw new DatabaseInsertException(
-                'error ao fazer o insert, Profissão do prestador já foi cadastrado.',
-                StatusCode::NOT_FOUND
-            );
-        }
+        // if ($this->byid($data['profissao_id'],$idPrestador)) {
+        //     throw new DatabaseInsertException(
+        //         'error ao fazer o insert, Profissão do prestador já foi cadastrado.',
+        //         StatusCode::NOT_FOUND
+        //     );
+        // }
         $id = $this->prestadorProfesion
             ->firstOrCreate(
                 [

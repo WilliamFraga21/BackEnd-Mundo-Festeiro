@@ -8,6 +8,8 @@ use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Prestador\Prestador;
 use MiniRest\Models\Prestador\PrestadorAceitar;
 use MiniRest\Models\Profession\Profession;
+use MiniRest\Models\Evento\EventoPrestador;
+use MiniRest\Models\Evento\Evento;
 use MiniRest\Models\Localidade\Localidade;
 use MiniRest\Models\Prestador\PrestadorProfissao;
 use Illuminate\Database\Capsule\Manager as DB;
@@ -19,6 +21,8 @@ class PrestadorRepository
     private PrestadorProfissao $prestadorprofession;
     private Localidade $localidade;
     private PrestadorAceitar $prestadorAceitar;
+    private EventoPrestador $prestadorEvento;
+    private Evento $evento;
 
     public function __construct()
     {
@@ -26,6 +30,8 @@ class PrestadorRepository
         $this->prestadorprofession = new PrestadorProfissao();
         $this->localidade = new Localidade();
         $this->prestadorAceitar = new PrestadorAceitar();
+        $this->prestadorEvento = new EventoPrestador();
+        $this->evento = new Evento();
     }
 
     public function getAll($id)
@@ -35,13 +41,12 @@ class PrestadorRepository
         $data = [];
 
         foreach ($prestadores as $prestador) {
-            $prestadorinfo = Prestador::select('prestador.id','prestador.users_id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno', 'users.shippingAddress', 'users.shippingState', 'users.shippingCity','users.created_at','prestador.curriculo','prestador.localidade_id')
+            $prestadorinfo = Prestador::select('prestador.id','prestador.users_id','prestador.promotorEvento', 'users.name', 'users.localidade_id','users.email', 'users.contactno','users.created_at','prestador.curriculo')
             ->where('users_id', $prestador->users_id)
             ->join('users', 'prestador.users_id','=','users.id')
                 ->first();
             
-                
-            $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
+                $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
                 
                 if ($this->prestadorprofession->where('prestador_id',$prestadorinfo->id)->first()) {
                     # code...
@@ -75,7 +80,6 @@ class PrestadorRepository
                 'prestadorInfo' => $prestadorinfo,
                 'prestadorprofessions' => $profissaoArray,
                 'infoPrestadorEnd' => $infoPrestadorEnd,
-
             ];
         }
 
@@ -90,11 +94,11 @@ class PrestadorRepository
     public function find(int|string $prestadorId)
     {
 
-        $prestadorinfo = Prestador::select('prestador.id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno', 'users.shippingAddress', 'users.shippingState', 'users.shippingCity','users.created_at','prestador.curriculo','prestador.localidade_id')
+        $prestadorinfo = Prestador::select('prestador.id','prestador.users_id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno','users.localidade_id','users.created_at','prestador.curriculo')
                                     ->where('prestador.id', $prestadorId)
                                     ->join('users', 'prestador.users_id','=','users.id')
                                     ->first();
-        $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
+            $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
             if ($this->prestadorprofession->where('prestador_id',$prestadorinfo->id)->first()) {
                 $prestadorProfessions = $this->prestadorprofession->where('prestador_id', $prestadorinfo->id)->get();
                 $profissaoArray = [];
@@ -131,6 +135,10 @@ class PrestadorRepository
 
 
     } 
+    public function getPrestador($data)
+    {
+        return $this->prestador->where('users_id',$data)->first();
+    } 
     public function getpropostas(int|string $userid)
     {
 
@@ -144,6 +152,41 @@ class PrestadorRepository
                                         ->join('contrar_prestador', 'prestador.id','=','contrar_prestador.prestador_id')
                                         ->first();
             return $prestadorinfo;
+        }
+
+
+
+
+    }  
+    public function getEventos(int|string $userid)
+    {
+
+        $prestadorid = $this->prestador->where('users_id', $userid)->first();
+        if ($prestadorid == null ) {
+           return "Prestador não encontrado";
+        }else{
+
+            $prestadorInfo = Evento::select(
+                'prestador_has_evento.evento_id',
+                'evento.id as evento_id',
+                'evento.nomeEvento',
+                'evento.tipoEvento',
+                'evento.descricaoEvento',
+                'imgevento.img as evento_imagem',
+            
+            )
+            ->join('prestador_has_evento', 'evento.id', '=', 'prestador_has_evento.evento_id')
+            ->leftjoin('imgevento', 'evento.id', '=', 'imgevento.evento_id')
+            ->where('prestador_has_evento.prestador_id', $prestadorid->id)
+            ->get();
+        
+    
+    
+
+                // Exibe as informações
+                return $prestadorInfo;
+        
+
         }
 
 
@@ -186,11 +229,11 @@ class PrestadorRepository
     public function me(int $userId)
     {
 
-        $prestadorinfo = Prestador::select('prestador.id','prestador.promotorEvento', 'users.name', 'users.email', 'users.contactno', 'users.shippingAddress', 'users.shippingState', 'users.shippingCity','users.created_at','prestador.curriculo','prestador.localidade_id')
+        $prestadorinfo = Prestador::select('prestador.id','prestador.users_id','prestador.promotorEvento', 'users.name', 'users.email','users.localidade_id', 'users.contactno','users.created_at','prestador.curriculo')
                                     ->where('users_id', $userId)
                                     ->join('users', 'prestador.users_id','=','users.id')
                                     ->first();
-        $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
+                                    $infoPrestadorEnd = $this->localidade->where('id',$prestadorinfo->localidade_id)->first();
             if ($this->prestadorprofession->where('prestador_id',$prestadorinfo->id)->first()) {
                 $prestadorProfessions = $this->prestadorprofession->where('prestador_id', $prestadorinfo->id)->get();
                 $profissaoArray = [];
