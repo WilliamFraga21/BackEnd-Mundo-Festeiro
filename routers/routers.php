@@ -22,6 +22,8 @@ Router::get('/profissao/getALL', [ProfessionsController::class, 'index']);
 Router::get('/profissao/getALL2', [ProfessionsController::class, 'index2']);
 Router::get('/evento/{id}', [EventoController::class, 'all']);
 Router::get('/user/getAll', [UserController::class, 'index']);
+Router::get('/prestador/id/{id}', [PrestadorController::class, 'findById']);
+Router::get('/evento/find/{id}', [EventoController::class, 'findById']);
 
 
 Router::prefix('/api')->group([AuthMiddleware::class], function () {
@@ -35,7 +37,6 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/prestador/create', [PrestadorController::class, 'store']);
     Router::post('/prestador/update', [PrestadorController::class, 'update']);
     Router::get('/prestador/me', [PrestadorController::class, 'me']);
-    Router::get('/prestador/id/{id}', [PrestadorController::class, 'findById']);
     Router::post('/prestador/createProfession', [PrestadorProfessionController::class, 'store']);
     Router::post('/prestador/updateProfession', [PrestadorProfessionController::class, 'update']);
     Router::get('/prestadorprofession/me', [PrestadorProfessionController::class, 'me']);
@@ -48,7 +49,6 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::delete('/evento/deletepro/{id}', [EventoController::class, 'deletePro']);
     Router::delete('/evento/delete/{id}', [EventoController::class, 'delete']);
     Router::get('/evento/me', [EventoController::class, 'me']);
-    Router::get('/evento/find/{id}', [EventoController::class, 'findById']);
     
     
     Router::post('/evento/enviarproposta', [EventoPrestadorController::class, 'store']);

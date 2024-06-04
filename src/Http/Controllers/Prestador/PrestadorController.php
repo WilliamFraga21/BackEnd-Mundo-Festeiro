@@ -45,6 +45,7 @@ class PrestadorController extends Controller
             $data[]= [
                 'prestadorInfo' => $prestador['prestadorInfo'],
                 'prestadorprofessions' => $prestador['prestadorprofessions'],
+                'infoPrestadorEnd' => $prestador['infoPrestadorEnd'],
                 'photo' => $photoPrestador,
             ];
         }

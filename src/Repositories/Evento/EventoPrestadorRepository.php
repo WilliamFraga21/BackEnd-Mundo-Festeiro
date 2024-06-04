@@ -88,10 +88,12 @@ class EventoPrestadorRepository
                 'prestador_has_evento.aceitarPrestador',
                 'prestador_has_evento.prestador_id',
                 'prestador_has_evento.evento_id',
+                'prestador_has_evento.profissao',
                 'users.name as user_name',
                 'users.email',
                 'users.contactno',
-                'users.created_at'
+                'users.created_at',
+                'prestador.curriculo',
             )
                 ->join('prestador', 'prestador_has_evento.prestador_id', '=', 'prestador.id')
                 ->join('users', 'prestador.users_id', '=', 'users.id')
