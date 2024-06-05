@@ -11,6 +11,7 @@ class PrestadorAceitar extends Model
     protected $table = 'contrar_prestador';
     protected $fillable = [
         'aceitarProposta',
+        'profession',
         'prestador_id',
         'users_id',
     ];

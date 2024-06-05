@@ -9,6 +9,7 @@ use MiniRest\Models\Prestador\Prestador;
 use MiniRest\Models\Prestador\PrestadorAceitar;
 use MiniRest\Models\Profession\Profession;
 use MiniRest\Models\Evento\EventoPrestador;
+use MiniRest\Models\User;
 use MiniRest\Models\Evento\Evento;
 use MiniRest\Models\Localidade\Localidade;
 use MiniRest\Models\Prestador\PrestadorProfissao;
@@ -23,9 +24,11 @@ class PrestadorRepository
     private PrestadorAceitar $prestadorAceitar;
     private EventoPrestador $prestadorEvento;
     private Evento $evento;
+    private User $user;
 
     public function __construct()
     {
+        $this->user = new User();
         $this->prestador = new Prestador();
         $this->prestadorprofession = new PrestadorProfissao();
         $this->localidade = new Localidade();
@@ -141,17 +144,19 @@ class PrestadorRepository
     } 
     public function getpropostas(int|string $userid)
     {
-
         $prestadorid = $this->prestador->where('users_id', $userid)->first();
         if ($prestadorid == null ) {
-           return "Prestador não encontrado";
+            return "Prestador não encontrado";
         }else{
-
-            $prestadorinfo = Prestador::select('contrar_prestador.id','contrar_prestador.aceitarProposta','contrar_prestador.prestador_id','contrar_prestador.users_id','contrar_prestador.updated_at','contrar_prestador.created_at')
-                                        ->where('contrar_prestador.id', $prestadorid->id)
-                                        ->join('contrar_prestador', 'prestador.id','=','contrar_prestador.prestador_id')
-                                        ->first();
-            return $prestadorinfo;
+            
+            $propostas = User::select("users.name","users.email","users.contactno","users.id as userID","contrar_prestador.id as propostaID","contrar_prestador.profession as profissao",'aceitarProposta',"contrar_prestador.prestador_id","contrar_prestador.created_at as dataProposta")
+            ->where('contrar_prestador.prestador_id',$prestadorid->id)
+            ->join('contrar_prestador','users.id', '=' ,'contrar_prestador.users_id')
+            ->get();
+            // dd($propostas);
+            // $prestadorinfo = $this->prestadorAceitar->where('prestador_id',$prestadorid->id)->get();
+            // $prestadorinfo =Prestador::select("*")->get();
+            return $propostas;
         }
 
 
@@ -206,15 +211,18 @@ class PrestadorRepository
         // )
         // );
         $prestador = $this->prestadorAceitar->firstOrCreate(
-            [ 'prestador_id' => $data,
+            [ 'prestador_id' => $data['idprestador'],
+            'profession' => $data['profession'],
             'users_id' => $idUser,],
             [
                 'aceitarProposta' => 0,
-                'prestador_id' => $data,
+                'prestador_id' => $data['idprestador'],
+                'profession' => $data['profession'],
                 'users_id' => $idUser,
                 ]
             );
             
+            // dd($prestador);
         return $prestador;
 
 

@@ -7,6 +7,7 @@ use MiniRest\Actions\Prestador\PrestadorCreateAction;
 use MiniRest\Actions\Prestador\PrestadorUpdateAction;
 use MiniRest\Actions\Prestador\PrestadorAceitarUpdateAction;
 use MiniRest\DTO\Prestador\PrestadorCreateDTO;
+use MiniRest\DTO\Prestador\PrestadorAceitarCreateDTO;
 use MiniRest\Exceptions\DatabaseInsertException;
 use MiniRest\Exceptions\InvalidJsonResponseException;
 use MiniRest\Exceptions\PrestadorNotFoundException;
@@ -111,15 +112,25 @@ class PrestadorController extends Controller
 
     }
 
-    public function storeContratar(int $idPrestador,Request $request)
+    public function storeContratar(Request $request)
     {
-       
-        try {
+        $validation = $request->rules([
+            'profession' => 'required',
+            'idprestador' => 'required',
+        ])->validate();
 
+        if (!$validation) {
+            $request->errors();
+            return;
+        }
+        
+        try {
+            // dd($request);
             $prestadorId = (new ContratarPrestadorCreateAction())->execute(
                 Auth::id($request),
-                $idPrestador
+                new PrestadorAceitarCreateDTO($request)
             );
+            // dd($prestadorId);
             Response::json(['success' => ['message' => 'Proposta Enviada','proposta:' => $prestadorId]]);
         } catch (DatabaseInsertException $exception) {
             Response::json(['error' => ['message' => $exception->getMessage()]], $exception->getCode());
@@ -129,20 +140,28 @@ class PrestadorController extends Controller
     }
     public function getPropostas(Request $request)
     {
-       
+        
         try {
             if ($this->prestador->getpropostas(Auth::id($request)) == "Prestador não encontrado") {
                 Response::json(['error' => 'Você não é um prestador'], StatusCode::ACCESS_NOT_ALLOWED);
 
             }else{
-                $prestador = $this->prestador->getpropostas(Auth::id($request));
-                Response::json(['propostas' => $prestador]);
+                $prestadores = $this->prestador->getpropostas(Auth::id($request));
 
 
+                foreach($prestadores as $prestador){
+                    $photo = (new AvatarRepository())->getUserAvatar($prestador['userID']);
+                    $photoUser = asset("avatar/" . $photo);
+                    if ($photo == null) {
+                        $photoUser = null;
+                    }
+                    $data[]= [
+                        'infosUserProposta' => $prestador,
+                        'photo' => $photoUser,
+                    ];
+                }
+                Response::json(['propostas' => $data]);
             }
-            
-            
-
 
         } catch (PrestadorNotFoundException $e) {
             Response::json(['error' => ['message' => $e->getMessage()]], $e->getCode());

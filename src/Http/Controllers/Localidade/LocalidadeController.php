@@ -25,10 +25,10 @@ class LocalidadeController extends Controller
         $this->prestador = new PrestadorRepository();
     }
 
-    public function index()
-    {   
-        Response::json(['prestador' => $this->prestador->getAll()]);
-    }
+    // public function index()
+    // {   
+    //     Response::json(['prestador' => $this->prestador->getAll()]);
+    // }
 
     // public function findById(int $prestadorId)
     // {

@@ -22,7 +22,7 @@ class PrestadorCreateAction
         try {
             
             $prestadorId = (new PrestadorRepository())->storePrestador($userId, $prestadorData);
-            // dd($prestadorId);
+            dd($prestadorId);
 
 
             DB::commit();

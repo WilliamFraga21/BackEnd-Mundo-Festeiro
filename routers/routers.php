@@ -64,7 +64,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     
     Router::get('/prestador/propostas', [PrestadorController::class, 'getPropostas']);
     Router::get('/prestador/eventos', [PrestadorController::class, 'getEventsAp']);
-    Router::post('/prestador/contratar/{id}', [PrestadorController::class, 'storeContratar']);
+    Router::post('/prestador/contratar', [PrestadorController::class, 'storeContratar']);
     Router::post('/prestador/contratar/aceitar/{id}', [PrestadorController::class, 'aceietarProposta']);
 
 });

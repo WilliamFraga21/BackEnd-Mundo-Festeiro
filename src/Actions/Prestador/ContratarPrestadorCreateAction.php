@@ -1,6 +1,7 @@
 <?php
 
 namespace MiniRest\Actions\Prestador;
+use MiniRest\DTO\Prestador\PrestadorAceitarCreateDTO;
 
 use Illuminate\Database\Capsule\Manager as DB;
 use MiniRest\Exceptions\DatabaseInsertException;
@@ -11,14 +12,14 @@ class ContratarPrestadorCreateAction
     /**
      * @throws DatabaseInsertException
      */
-    public function execute(int $userId, int $idPrestador)
+    public function execute(int $userId,PrestadorAceitarCreateDTO $prestadorData)
     {
-        // $prestadorData = $prestadorCreateDTO->toArray();
+        $prestadorAceitarDTO = $prestadorData->toArray();
         // dd($userId);
 
         DB::beginTransaction();
         try {
-            $prestadorId = (new PrestadorRepository())->contrataPrestador($idPrestador, $userId);
+            $prestadorId = (new PrestadorRepository())->contrataPrestador($prestadorAceitarDTO, $userId);
 
             // dd((new PrestadorRepository())->contrataPrestador($idPrestador, $userId));
 
