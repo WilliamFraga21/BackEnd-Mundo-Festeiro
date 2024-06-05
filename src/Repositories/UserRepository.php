@@ -4,16 +4,19 @@ namespace MiniRest\Repositories;
 
 use MiniRest\Models\Photos;
 use MiniRest\Models\User;
+use MiniRest\Models\Localidade\Localidade;
 
 class UserRepository
 {
     protected User $user;
     protected Photos $Photos;
+    protected Localidade $localidade;
 
     public function __construct()
     {
         $this->user = new User();
         $this->Photos = new Photos();
+        $this->localidade = new Localidade();
     }
 
     public function getAll()
@@ -28,10 +31,11 @@ class UserRepository
         $user = $this->user->where('id', '=', $userId)
             ->first();
 
-
-
+        $localidadeinfo = $this->localidade->where('id', '=', $user->localidade_id)->first();
+        // dd($localidadeinfo);
         return [
             'user' => $user,
+            'localidade' => $localidadeinfo,
         ];
     }
 
