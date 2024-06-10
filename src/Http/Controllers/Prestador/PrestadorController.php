@@ -56,13 +56,41 @@ class PrestadorController extends Controller
     public function findById(int $id)
     {
         try {
-            $prestador = $this->prestador->find($id);
+            $prestadors = $this->prestador->find($id);
             $prestador2 = $this->prestador->find2($id);
-            $photo = (new AvatarRepository())->getUserAvatar($prestador2);
+            
+            
+            foreach($prestadors as $prestador){
+                $photo = (new AvatarRepository())->getUserAvatar($prestador2);
+                $photoPrestador = asset("avatar/" . $photo);
+                if ($photo == null) {
+                    $photoPrestador = null;
+                }
+                $data[]= [
+                    'prestadorInfo' => $prestador['prestadorInfo'],
+                    'prestadorprofessions' => $prestador['prestadorprofessions'],
+                    'infoPrestadorEnd' => $prestador['infoPrestadorEnd'],
+                    'photo' => $photoPrestador,
+                ];
+            }
             if ($photo == null) {
-                Response::json(['prestador' => $prestador,'photo'=> null]);
+                Response::json(['prestador' => $data]);
             }else{
-                Response::json(['prestador' => $prestador,'photo'=> asset("avatar/" . $photo)]);
+                foreach($prestadors as $prestador){
+                    $photo = (new AvatarRepository())->getUserAvatar($prestador2);
+                    $photoPrestador = asset("avatar/" . $photo);
+                    if ($photo == null) {
+                        $photoPrestador = null;
+                    }
+                    $data[]= [
+                        'prestadorInfo' => $prestador['prestadorInfo'],
+                        'prestadorprofessions' => $prestador['prestadorprofessions'],
+                        'infoPrestadorEnd' => $prestador['infoPrestadorEnd'],
+                        'photo' => $photoPrestador,
+                    ];
+                }
+                Response::json(['prestador' => $data]);
+
             }
 
 
@@ -174,11 +202,36 @@ class PrestadorController extends Controller
        
         try {
             if ($this->prestador->getEventos(Auth::id($request)) == "Prestador não encontrado") {
+
+
                 Response::json(['error' => 'Você não é um prestador'], StatusCode::ACCESS_NOT_ALLOWED);
 
             }else{
                 $prestador = $this->prestador->getEventos(Auth::id($request));
-                Response::json(['eventos' => $prestador]);
+
+
+
+                foreach($prestador as $evento){
+                    $photoEvento = asset("evento/" . $evento['evento_imagem']);
+                    if ($evento['evento_imagem'] == null) {
+                        $photoEvento = null;
+                    }
+                    $data[]= [
+                        'evento_id' => $evento['evento_id'],
+                        'nomeEvento' => $evento['nomeEvento'],
+                        'tipoEvento' => $evento['tipoEvento'],
+                        'descricaoEvento' => $evento['descricaoEvento'],
+                        'evento_imagem' => $photoEvento,
+                    ];
+                }
+
+
+
+
+
+
+
+                Response::json(['eventos' => $data]);
 
 
             }

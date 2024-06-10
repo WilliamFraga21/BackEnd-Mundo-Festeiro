@@ -29,11 +29,23 @@ class UserController extends Controller
         $userId = Auth::id($request);
         $user = (new UserRepository())->me($userId);
         $photo = (new AvatarRepository())->getUserAvatar($userId);
+        $photoEvento = asset("avatar/" . $photo);
         if ($photo == null) {
             $photo = null;
-            Response::json(['user' => $user, 'photo' => $photo]);
+            
+            $data [] = [
+                'user' => $user['user'],
+                'localidade' => $user['localidade'],
+                'photo' => $photo,
+            ];
+            Response::json(['userinfos' => $data]);
         }else{
-            Response::json(['user' => $user, 'photo' => asset("avatar/" . $photo)]);
+            $data [] = [
+                'user' => $user['user'],
+                'localidade' => $user['localidade'],
+                'photo' => $photoEvento,
+            ];
+            Response::json(['userinfos' => $data]);
         }
     }
 
@@ -53,6 +65,7 @@ class UserController extends Controller
             'bairro' => 'required|string',
             'cidade' => 'required|string',
             'estado' => 'required|string',
+            'idade' => 'required',
             
         ])->validate();
 
@@ -84,6 +97,7 @@ class UserController extends Controller
             'bairro' => 'required|string',
             'cidade' => 'required|string',
             'estado' => 'required|string',
+            'idade' => 'required',
             
         ])->validate();
 

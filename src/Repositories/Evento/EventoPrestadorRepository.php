@@ -8,6 +8,7 @@ use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Prestador\Prestador;
 use MiniRest\Models\Prestador\PrestadorProfissao;
 use MiniRest\Models\Evento\EventoPrestador;
+use MiniRest\Models\Localidade\Localidade;
 use MiniRest\Models\Photos;
 use MiniRest\Models\Evento\Evento;
 use SoftDeletes;
@@ -19,6 +20,7 @@ class EventoPrestadorRepository
     private Prestador $Prestador;
     private Evento $Evento;
     private Photos $photo;
+    private Localidade $localidade;
     public function __construct()
     {
         $this->prestadorProfessions = new PrestadorProfissao();
@@ -26,6 +28,7 @@ class EventoPrestadorRepository
         $this->Prestador = new Prestador();
         $this->Evento = new Evento();
         $this->photo = new Photos();
+        $this->localidade = new Localidade();
     }
     public function ifEventoid(int $userId, $data)
     {
@@ -90,9 +93,12 @@ class EventoPrestadorRepository
                 'prestador_has_evento.evento_id',
                 'prestador_has_evento.profissao',
                 'users.name as user_name',
+                'users.id as idUser',
                 'users.email',
+                'users.idade',
                 'users.contactno',
                 'users.created_at',
+                'users.localidade_id as localidadeUser',
                 'prestador.curriculo',
             )
                 ->join('prestador', 'prestador_has_evento.prestador_id', '=', 'prestador.id')
@@ -116,16 +122,21 @@ class EventoPrestadorRepository
                     ->select('profissao.profissao', 'prestador_has_profissao.tempoexperiencia', 'prestador_has_profissao.valorDiaServicoProfissao', 'prestador_has_profissao.valorHoraServicoProfissao')
                     ->get();
         
+
+                    $localidade = Localidade::where('id',$prestadorInfo->localidadeUser)->first();
                 // Obtém a foto do usuário
-                $avatar = Photos::where('avatar.users_id', $prestadorInfo->prestador_id)
+                $avatar = Photos::where('avatar.users_id', $prestadorInfo->idUser)
                     ->select('avatar.avatar')
                     ->first();
+
+
         
                 // Adiciona todas as informações do prestador a um array
                 $prestadoresData[] = (object)[
                     'prestadorInfo' => $prestadorInfo,
                     'professions' => $professions,
-                    'avatar' => $avatar ? $avatar->avatar : null,
+                    'localidade' => $localidade,
+                    'photo' => $avatar ? $avatar->avatar : null,
                 ];
             }
         

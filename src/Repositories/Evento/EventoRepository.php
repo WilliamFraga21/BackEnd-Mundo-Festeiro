@@ -62,7 +62,9 @@ class EventoRepository
     }
 
     public function getEventoPhoto(int $id)
-    {
+    {   
+        // dd($id);
+        // dd($this->eventoimg->select('img')->where('evento_id', '=', $id)->value('img'));
         return $this->eventoimg->select('img')->where('evento_id', '=', $id)->value('img');
     }
 
@@ -74,7 +76,7 @@ class EventoRepository
         foreach ($Evento as $evento) {
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
             $idprofession = DB::table('evento_has_profissao')
-                                ->select('profissao', 'profissao_id','quantidade')
+                                ->select('profissao', 'profissao_id','quantidade','iconURL')
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
@@ -111,14 +113,15 @@ class EventoRepository
             $iduser = $this->user->where('id',$evento->users_id)->first();
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
             $idprofession = DB::table('evento_has_profissao')
-                                ->select('profissao', 'profissao_id','quantidade')
+                                ->select('profissao', 'profissao_id','quantidade','iconURL')
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();
                 $photo = $this->getEventoPhoto($evento->id);
-                                if ($photo == null) {
-                                    $photo = null;
-                                }
+                                // if ($photo == null) {
+                                //     $photo = null;
+                                // }
+                                // dd($photo);
             $object = [
                 'user' => $iduser,
                 'evento' => $evento,
@@ -146,7 +149,7 @@ class EventoRepository
             $iduser = $this->user->where('id',$evento->users_id)->first();
             $idlocalidade = $this->localidade->where('id',$evento->localidade_id)->first();
             $idprofession = DB::table('evento_has_profissao')
-                                ->select('profissao', 'profissao_id','quantidade')
+                                ->select('profissao', 'profissao_id','quantidade','iconURL')
                                 ->join('profissao', 'evento_has_profissao.profissao_id', '=', 'profissao.id')
                                 ->where('evento_has_profissao.evento_id', $evento->id)
                                 ->get();

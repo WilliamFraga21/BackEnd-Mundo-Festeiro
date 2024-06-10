@@ -66,7 +66,21 @@ class EventoPrestadorController extends Controller
                 Response::json(['error' => 'Nenhum prestador encontrado para o evento.'], StatusCode::ACCESS_NOT_ALLOWED);
 
             } else {
-                Response::json(['prestadores' => $this->Evento->getPrestadores($id)]);
+
+                $prestadores = $this->Evento->getPrestadores($id);
+                foreach($prestadores as $evento){
+                    $photoEvento = asset("avatar/" . $evento->photo);
+                    if ($evento->photo == null) {
+                        $photoEvento = null;
+                    }
+                    $data[]= [
+                        'prestadorInfo' => $evento->prestadorInfo,
+                        'professions' => $evento->professions,
+                        'localidade' => $evento->localidade,
+                        'photo' => $photoEvento,
+                    ];
+                }
+                Response::json(['prestadores' => $data]);
             }
             
         } catch (DatabaseInsertException $exception) {
