@@ -8,6 +8,8 @@ use MiniRest\Helpers\StatusCode\StatusCode;
 use MiniRest\Models\Prestador\Prestador;
 use MiniRest\Models\Prestador\PrestadorProfissao;
 use MiniRest\Models\Evento\EventoPrestador;
+use MiniRest\Models\Evento\EventoProfession;
+use MiniRest\Models\Profession\Profession;
 use MiniRest\Models\Localidade\Localidade;
 use MiniRest\Models\Photos;
 use MiniRest\Models\Evento\Evento;
@@ -17,13 +19,17 @@ class EventoPrestadorRepository
 {
     private EventoPrestador $EventoPrestador;
     private PrestadorProfissao $prestadorProfessions;
+    private Profession $profession;
+    private EventoProfession $eventoProfessions;
     private Prestador $Prestador;
     private Evento $Evento;
     private Photos $photo;
     private Localidade $localidade;
     public function __construct()
     {
+        $this->profession = new Profession();
         $this->prestadorProfessions = new PrestadorProfissao();
+        $this->eventoProfessions = new EventoProfession();
         $this->EventoPrestador = new EventoPrestador();
         $this->Prestador = new Prestador();
         $this->Evento = new Evento();
@@ -52,6 +58,16 @@ class EventoPrestadorRepository
         //     return 'Usuário sem Permissão';
         // }
         // dd($data);
+
+
+
+        $dwadwa = $this->attEventoProfissoes($data['profissao'],$data['evento_id']);
+
+        if ($dwadwa ==  'Profissão Sem Vagas disponivel') {
+           return 'Profissão Sem Vagas disponivel';
+        }
+
+
         if ($this->ifPrestadorId($prestador) == null) {
             return 'Prestador não encontrado';
         }
@@ -60,6 +76,31 @@ class EventoPrestadorRepository
             'profissao' => $data['profissao'],
             'prestador_id' => $prestador,
         ]);
+        return $evento;
+        
+    }   
+    public function attEventoProfissoes($profissao,$idEvento)
+    {
+        // if ($this->ifEventoid($iduser,$data) == null) {
+        //     return 'Usuário sem Permissão';
+        // }
+        // dd($data);
+
+
+        $idprofissao = $this->profession->select('id')->where('profissao','=',$profissao)->first();
+        // dd($idprofissao->id);
+        $evento = $this->eventoProfessions->select('quantidade')->where('profissao_id','=',$idprofissao->id)
+        ->where('evento_id','=',$idEvento)->first();
+        // dd($evento->quantidade);
+
+        if ($evento->quantidade <= 0) {
+            return 'Profissão Sem Vagas disponivel';
+        }
+        $evento2 = $this->eventoProfessions->where('profissao_id','=',$idprofissao->id)
+        ->where('evento_id','=',$idEvento)->update([ 
+            'quantidade' => $evento->quantidade -1
+        ]);
+        // dd($evento2);
         return $evento;
         
     } 

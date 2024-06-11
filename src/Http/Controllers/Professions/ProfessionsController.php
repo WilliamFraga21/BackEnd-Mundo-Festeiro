@@ -15,9 +15,13 @@ class ProfessionsController extends Controller
         $this->profissao = new ProfessionRepository();
     }
 
-    public function index()
+    public function indexPrestadores()
     {
-        Response::json([$this->profissao->getAll()]);
+        Response::json([$this->profissao->getAllPrestadores()]);
+    }
+    public function indexEventos()
+    {
+        Response::json([$this->profissao->getAllEventos()]);
     }
     public function index2()
     {

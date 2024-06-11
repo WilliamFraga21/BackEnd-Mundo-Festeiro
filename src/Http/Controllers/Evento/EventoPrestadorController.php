@@ -47,6 +47,8 @@ class EventoPrestadorController extends Controller
                 Response::json(['error' => 'Usuário sem Permissão'], StatusCode::ACCESS_NOT_ALLOWED);
             }elseif($eventoId == 'Prestador não encontrado') {
                 Response::json(['error' => 'Prestador não encontrado'], StatusCode::ACCESS_NOT_ALLOWED);
+            }elseif($eventoId == 'Profissão Sem Vagas disponivel') {
+                Response::json(['error' => 'Profissão Sem Vagas disponivel'], StatusCode::ACCESS_NOT_ALLOWED);
             }else{
                 Response::json(['success' => ['message' => 'Proposta Enviada com sucesso']]);
             }
