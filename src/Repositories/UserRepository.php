@@ -47,6 +47,7 @@ class UserRepository
             'contactno' => $user['contactno'],
             'password' => $user['password'],
             'localidade_id' => $localidade,
+            'idade' => $user['idade'],
         ]);
         // dd($idUser);
     }
@@ -59,6 +60,8 @@ class UserRepository
             'contactno' => $user['contactno'],
             'password' => $user['password'],
             'localidade_id' => $localidade,
+            'idade' => $user['idade'],
+
         ]);
     }
 

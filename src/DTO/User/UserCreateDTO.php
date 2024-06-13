@@ -16,6 +16,7 @@ class UserCreateDTO implements DTO
     public string $bairro;
     public string $cidade;
     public string $estado;
+    public int $idade;
 
 
 
@@ -31,6 +32,7 @@ class UserCreateDTO implements DTO
         $this->bairro                  = $request->json('bairro');
         $this->cidade                  = $request->json('cidade');
         $this->estado                  = $request->json('estado');
+        $this->idade                 = $request->json('idade');
         
 
     }
@@ -48,6 +50,7 @@ class UserCreateDTO implements DTO
             'bairro' => $this->bairro,
             'cidade' => $this->cidade,
             'estado' => $this->estado,
+            'idade' => $this->idade,
             
         ];
     }

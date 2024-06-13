@@ -25,7 +25,7 @@ Router::get('/evento/{id}', [EventoController::class, 'all']);
 Router::get('/user/getAll', [UserController::class, 'index']);
 Router::get('/prestador/id/{id}', [PrestadorController::class, 'findById']);
 Router::get('/evento/find/{id}', [EventoController::class, 'findById']);
-
+Router::get('/profissao/getALL', [ProfessionsController::class, 'index']);
 
 Router::prefix('/api')->group([AuthMiddleware::class], function () {
 

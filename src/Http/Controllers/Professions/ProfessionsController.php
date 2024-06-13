@@ -17,11 +17,15 @@ class ProfessionsController extends Controller
 
     public function indexPrestadores()
     {
-        Response::json([$this->profissao->getAllPrestadores()]);
+        Response::json(['professions' => $this->profissao->getAllPrestadores()]);
+    }
+    public function index()
+    {
+        Response::json([$this->profissao->getAll()]);
     }
     public function indexEventos()
     {
-        Response::json([$this->profissao->getAllEventos()]);
+        Response::json(['professions' => $this->profissao->getAllEventos()]);
     }
     public function index2()
     {
