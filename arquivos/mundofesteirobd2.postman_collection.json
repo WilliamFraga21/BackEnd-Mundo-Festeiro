@@ -1,0 +1,1224 @@
+{
+	"info": {
+		"_postman_id": "f9b65487-177d-4666-97e4-fec57a299f38",
+		"name": "mundofesteirobd2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26336262",
+		"_collection_link": "https://planetary-firefly-377778.postman.co/workspace/Team-Workspace~1df3bbb9-0125-4220-81ce-bcdb38ba9514/collection/26336262-f9b65487-177d-4666-97e4-fec57a299f38?action=share&source=collection_link&creator=26336262"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "AlterUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiZW1haWwiOiJkd2Fkd2FkZGRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTcxMTA4MjAsImV4cCI6MTcxNzY2NjM3NX0.ICLLe2HA_DgP2JqYzeS73ccChEV_-wQPUq1OJCIBPkE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lindo123\", \r\n    \"email\": \"dwadwaddd@gmail.com\",\r\n    \"contactno\": \"11970415085\", \r\n    \"password\": \"Mamaco1234@\",\r\n    \"endereco\": \"rua teste\",\r\n    \"bairro\": \"São Paulo\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"55\",\r\n    \"idade\": \"55\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/user/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJ3aWxsaWFtZnJhZ2Fjb250YUBnbWFpbC5jb20iLCJuYW1lIjoiV0lMTElBTSIsImlhdCI6MTcxMDQ0NDM5MSwiZXhwIjoxNzEwOTk5OTQ2fQ.Ji9NDkkGCrYaVtVhga7Gfz4v2_4xPswvFBJ4XphyDc4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"mlnomoi@gmail.com\",\r\n    \"password\":\"Mamaco1234@\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"mlnomoi\", \r\n    \"email\": \"mlnomoi@gmail.com\",\r\n    \"contactno\": \"11970415085\", \r\n    \"password\": \"Mamaco1234@\",\r\n    \"endereco\": \"rua teste\",\r\n    \"bairro\": \"São Paulo\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"55\",\r\n    \"idade\": \"55\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/user/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJodGh0aHRodGh0aHRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTYzMjExMTQsImV4cCI6MTcxNjg3NjY2OX0.vujb659BoUP823BZy99HdJUuFSN6M_5gpM5l32t-1-g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/user/getAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UploadPhotoMe",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywiZW1haWwiOiJtbG5vbW9pQGdtYWlsLmNvbSIsIm5hbWUiOiJtbG5vbW9pIiwiaWF0IjoxNzE3OTU5ODk5LCJleHAiOjE3MTg1MTU0NTR9.uWcyKBCZoq4Yhp1SmBk8WGZ6O7JlVekdv7WmCr3w0ww",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/willi/Pictures/Papel de parede/arya-stark-game-of-thrones-uhdpaper.com-4K-67.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/user/avatar/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"avatar",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPhotoUser Me/Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywiZW1haWwiOiJtbG5vbW9pQGdtYWlsLmNvbSIsIm5hbWUiOiJtbG5vbW9pIiwiaWF0IjoxNzE3OTU5ODk5LCJleHAiOjE3MTg1MTU0NTR9.uWcyKBCZoq4Yhp1SmBk8WGZ6O7JlVekdv7WmCr3w0ww",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/user/avatar/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"avatar",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetMeUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywiZW1haWwiOiJtbG5vbW9pQGdtYWlsLmNvbSIsIm5hbWUiOiJtbG5vbW9pIiwiaWF0IjoxNzE3OTU5ODk5LCJleHAiOjE3MTg1MTU0NTR9.uWcyKBCZoq4Yhp1SmBk8WGZ6O7JlVekdv7WmCr3w0ww",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/user/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProfessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/profissao/getALL2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"profissao",
+								"getALL2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ValidToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJ3aWxsaWFtZndyYWdhY29kZGQ1NXdhZHdhbnRhQGdtYWlsLmNvbSIsIm5hbWUiOiJXSUxMSUFNIiwiaWF0IjoxNzE1NTQ5MjMwLCJleHAiOjE3MTYxMDQ3ODV9.iI-OR8tN8wdTMAiTnUEyCQkYqUOGSiitjWpc59wX4eU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetALLPrestadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/profissao/getALLPrestadores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"profissao",
+								"getALLPrestadores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetALLEventos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/profissao/getALLEventos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"profissao",
+								"getALLEventos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prestador",
+			"item": [
+				{
+					"name": "Professions",
+					"item": [
+						{
+							"name": "CreatePrestadorProfession",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywiZW1haWwiOiJtbG5vbW9pQGdtYWlsLmNvbSIsIm5hbWUiOiJtbG5vbW9pIiwiaWF0IjoxNzE3OTU5ODk5LCJleHAiOjE3MTg1MTU0NTR9.uWcyKBCZoq4Yhp1SmBk8WGZ6O7JlVekdv7WmCr3w0ww",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"profession\":[\r\n    {\r\n        \r\n        \"profissao_id\" : 22,\r\n        \"valorDiaServicoProfissao\":1200,\r\n        \"valorHoraServicoProfissao\":1210,\r\n        \"tempoexperiencia\":44 \r\n    },\r\n    {\r\n        \r\n        \"profissao_id\" : 23,\r\n        \"valorDiaServicoProfissao\":1200,\r\n        \"valorHoraServicoProfissao\":1210,\r\n        \"tempoexperiencia\" : 55\r\n    }\r\n]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/prestador/createProfession",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"prestador",
+										"createProfession"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdatePrestadorProfession",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NCwiZW1haWwiOiJoaGhoaGhoaGhoaGhoaEBnbWFpbC5jb20iLCJuYW1lIjoiTGFyaXNzYWFhYWFhYSIsImlhdCI6MTcxNzQyNTI2OCwiZXhwIjoxNzE3OTgwODIzfQ.coeZS_gutE-H0wLy4OPbNOAQ4ZpGo9fflV_bYcy7-U4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"profession\":[\r\n    {\r\n        \r\n        \"profissao_id\" : 22,\r\n        \"valorDiaServicoProfissao\":1203213210,\r\n        \"valorHoraServicoProfissao\":1210,\r\n        \"tempoexperiencia\":22 \r\n    },\r\n    {\r\n        \r\n        \"profissao_id\" : 23,\r\n        \"valorDiaServicoProfissao\":5232132323232,\r\n        \"valorHoraServicoProfissao\":1210,\r\n        \"tempoexperiencia\":23 \r\n    }\r\n]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/prestador/updateProfession",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"prestador",
+										"updateProfession"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetPrestadorProfessionMe",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhIiwiaWF0IjoxNzE3NjI3MDg1LCJleHAiOjE3MTgxODI2NDB9.shebdXAK69YGggCRKdTaE_ObAl1KjxNxlEbrG4FtGwc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/prestadorprofession/me",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"prestadorprofession",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeletePrestadorProfession",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJodGh0aHRodGh0aHRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTYzMjExMTQsImV4cCI6MTcxNjg3NjY2OX0.vujb659BoUP823BZy99HdJUuFSN6M_5gpM5l32t-1-g",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/prestadorprofession/delete/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"prestadorprofession",
+										"delete",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CreatePrestador",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywiZW1haWwiOiJtbG5vbW9pQGdtYWlsLmNvbSIsIm5hbWUiOiJtbG5vbW9pIiwiaWF0IjoxNzE3OTU5ODk5LCJleHAiOjE3MTg1MTU0NTR9.uWcyKBCZoq4Yhp1SmBk8WGZ6O7JlVekdv7WmCr3w0ww",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"promotorEvento\" : 0,\r\n    \"curriculo\": \"dwadwadawbkygbdbwau nhiu budgiouwauhb uiodahow dhiauobghdp anwpi dwphaohid ubhpwa da w calagno\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/prestador/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"prestador",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePrestador",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiZW1haWwiOiJkd2Fkd2FkZGRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTcxMTA4MjAsImV4cCI6MTcxNzY2NjM3NX0.ICLLe2HA_DgP2JqYzeS73ccChEV_-wQPUq1OJCIBPkE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"promotorEvento\" : 1,\r\n    \"curriculo\": \"dwadwadsadwa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/prestador/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"prestador",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetMe",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhIiwiaWF0IjoxNzE3NjI3MDg1LCJleHAiOjE3MTgxODI2NDB9.shebdXAK69YGggCRKdTaE_ObAl1KjxNxlEbrG4FtGwc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/prestador/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"prestador",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPrestadorByID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NCwiZW1haWwiOiJoaGhoaGhoaGhoaGhoaEBnbWFpbC5jb20iLCJuYW1lIjoiTGFyaXNzYWFhYWFhYSIsImlhdCI6MTcxNzQyNTI2OCwiZXhwIjoxNzE3OTgwODIzfQ.coeZS_gutE-H0wLy4OPbNOAQ4ZpGo9fflV_bYcy7-U4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:8000/prestador/id/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"prestador",
+								"id",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/prestador/getALL/22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"prestador",
+								"getALL",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ContratarPrestador",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NiwiZW1haWwiOiJkd2Fkd2Fkd2FAZ21haWwuY29tIiwibmFtZSI6Ikxhcmlzc2FhYWFhYWEiLCJpYXQiOjE3MTc1OTAxODQsImV4cCI6MTcxODE0NTczOX0.FaVpr8b9DvX3A79QBNbYoWHMfwiVuyabCGwhtl1PCF4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profession\":\"Bartender\",\r\n    \"idprestador\":4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/prestador/contratar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"prestador",
+								"contratar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AceitarProposta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhYWFhYWFhIiwiaWF0IjoxNzE3NTQwMzQwLCJleHAiOjE3MTgwOTU4OTV9.r0xp9gMhRhZAAMf7gdkvGfyXwJxKRTJ7uOfHe4iwBoQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/prestador/contratar/aceitar/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"prestador",
+								"contratar",
+								"aceitar",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPropostasPrestador",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhYWFhYWFhIiwiaWF0IjoxNzE3NTQwMzQwLCJleHAiOjE3MTgwOTU4OTV9.r0xp9gMhRhZAAMf7gdkvGfyXwJxKRTJ7uOfHe4iwBoQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/prestador/propostas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"prestador",
+								"propostas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEventosAP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhYWFhYWFhIiwiaWF0IjoxNzE3NDM0NjQzLCJleHAiOjE3MTc5OTAxOTh9.GBF0FPMesq9Gad65DUpZC156Rk5qFIpOeCeCQPJ3jo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/prestador/eventos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"prestador",
+								"eventos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Evento",
+			"item": [
+				{
+					"name": "EventoPrestador",
+					"item": [
+						{
+							"name": "EnviarPropostaEvento",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NywiZW1haWwiOiJtbG5vbW9pQGdtYWlsLmNvbSIsIm5hbWUiOiJtbG5vbW9pIiwiaWF0IjoxNzE3OTU5ODk5LCJleHAiOjE3MTg1MTU0NTR9.uWcyKBCZoq4Yhp1SmBk8WGZ6O7JlVekdv7WmCr3w0ww",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"evento_id\": 1,\r\n    \"profissao\": \"Bartender\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/evento/enviarproposta",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"evento",
+										"enviarproposta"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetPrestadoresEventoByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJsYXJpc3NhM0BnbWFpbC5jb20iLCJuYW1lIjoiTGFyaXNzYWFhYWFhYSIsImlhdCI6MTcxNzQyNDE5MiwiZXhwIjoxNzE3OTc5NzQ3fQ.Wd2Od5oWZ14C28ZgFA5t3jAhpApO17WzX5woJZaxRs4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/evento/getprestadores/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"evento",
+										"getprestadores",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AceitarPrestadorEvento",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NCwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJXSUxMSUFNIiwiaWF0IjoxNzE3MzU3OTMzLCJleHAiOjE3MTc5MTM0ODh9.ZpOut0U3Aclr9W9rGfMM6gkR_JZYXvZfNtpll77s2vc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/evento/aceitarproposta/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"evento",
+										"aceitarproposta",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CreateEvento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhIiwiaWF0IjoxNzE3NjI3MDg1LCJleHAiOjE3MTgxODI2NDB9.shebdXAK69YGggCRKdTaE_ObAl1KjxNxlEbrG4FtGwc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeEvento\" :\"Evento 213\",\r\n    \"tipoEvento\" : \"Festa\",\r\n    \"data\":\"2024-07-21\",\r\n    \"quantidadePessoas\" : 1 ,\r\n    \"quantidadeFuncionarios\" : 1, \r\n    \"statusEvento\" :  \"ativo\" ,\r\n    \"descricaoEvento\" : \"Festa 12312adwadw\",\r\n    \"endereco\" : \"Av irecê\" ,\r\n    \"bairro\" : \"Guarapiranga\",\r\n    \"cidade\" : \"São Paulo\" ,\r\n    \"estado\" : \"São Paulo\" ,\r\n    \"professions\" : [\r\n        {\r\n         \"id\": 1,\"quantidade\": 4            \r\n        },\r\n         {\r\n         \"id\": 2,\"quantidade\": 99             \r\n        }\r\n        \r\n    ] \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/evento/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"evento",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateEvento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJodGh0aHRodGh0aHRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTYzMjExMTQsImV4cCI6MTcxNjg3NjY2OX0.vujb659BoUP823BZy99HdJUuFSN6M_5gpM5l32t-1-g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeEvento\" :\"wdawdadwa321\",\r\n    \"tipoEvento\" : \"6565fgesfsfse\",\r\n    \"data\" : \"2000-07-21\" ,\r\n    \"quantidadePessoas\" : 15432 ,\r\n    \"quantidadeFuncionarios\" : 132, \r\n    \"statusEvento\" :  \"ativo\" ,\r\n    \"descricaoEvento\" : \"Festa 1231dads2adwadw\",\r\n    \"endereco\" : \"Av irdwaecê\" ,\r\n    \"bairro\" : \"Guarapidwadwaranga\",\r\n    \"cidade\" : \"São Pdwaaulo\" ,\r\n    \"estado\" : \"São Pdasaulo\" ,\r\n    \"professions\" : [\r\n            {\r\n            \"id\": 13,\"quantidade\": 3321312            \r\n            },\r\n            {\r\n            \"id\": 16,\"quantidade\": 321321             \r\n            }\r\n            \r\n        ] \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/evento/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"evento",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProfissionEventID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJodGh0aHRodGh0aHRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTYzMjExMTQsImV4cCI6MTcxNjg3NjY2OX0.vujb659BoUP823BZy99HdJUuFSN6M_5gpM5l32t-1-g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/evento/deletepro/40",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"evento",
+								"deletepro",
+								"40"
+							],
+							"query": [
+								{
+									"key": "idevento",
+									"value": "45",
+									"disabled": true
+								},
+								{
+									"key": "idpro",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteEventID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJodGh0aHRodGh0aHRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTYzMjExMTQsImV4cCI6MTcxNjg3NjY2OX0.vujb659BoUP823BZy99HdJUuFSN6M_5gpM5l32t-1-g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/evento/delete/16",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"evento",
+								"delete",
+								"16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetEventoMe",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhIiwiaWF0IjoxNzE3NjkyMTk0LCJleHAiOjE3MTgyNDc3NDl9.L_C0UDfSKPMezActFnniP7QJlNSdN2xyq-o5BZLXrvw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/evento/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"evento",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFindEvento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJodGh0aHRodGh0aHRAZ21haWwuY29tIiwibmFtZSI6IldJTExJQU0iLCJpYXQiOjE3MTY5NDU1MDUsImV4cCI6MTcxNzUwMTA2MH0.oMNmIXmTILkAAt30wIbTY-mm4DBzqzA8A0Aa_HdgvmA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/evento/find/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"evento",
+								"find",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllEvento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/evento/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"evento",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreatePhotoEvent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ3aWxsaWFtQGdtYWlsLmNvbSIsIm5hbWUiOiJMYXJpc3NhIiwiaWF0IjoxNzE3NjI3MDg1LCJleHAiOjE3MTgxODI2NDB9.shebdXAK69YGggCRKdTaE_ObAl1KjxNxlEbrG4FtGwc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img",
+									"type": "file",
+									"src": "postman-cloud:///1ef20535-789d-4580-aba0-334219a96de0"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/evento/create/photo/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"evento",
+								"create",
+								"photo",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
