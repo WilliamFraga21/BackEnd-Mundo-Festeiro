@@ -4,16 +4,19 @@ namespace MiniRest\Repositories;
 
 use MiniRest\Models\Photos;
 use MiniRest\Models\User;
+use MiniRest\Models\Carrinho\Carrinho;
 use MiniRest\Models\Localidade\Localidade;
 
 class UserRepository
 {
     protected User $user;
+    protected Carrinho $carrinho;
     protected Photos $Photos;
     protected Localidade $localidade;
 
     public function __construct()
     {
+        $this->carrinho = new Carrinho();
         $this->user = new User();
         $this->Photos = new Photos();
         $this->localidade = new Localidade();
@@ -49,7 +52,16 @@ class UserRepository
             'localidade_id' => $localidade,
             'idade' => $user['idade'],
         ]);
-        // dd($idUser);
+
+
+        $idCarrinho = $this->carrinho->create(
+            [
+                'users_id' => $idUser->id
+            ]
+        );
+
+
+//         dd($idCarrinho->id);
     }
 
     public function update(int $id, array $user,$localidade)
