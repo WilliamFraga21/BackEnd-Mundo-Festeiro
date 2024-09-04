@@ -12,6 +12,7 @@ use MiniRest\Http\Controllers\Produtos\SubProdutos\SubCategoriaController;
 use MiniRest\Http\Controllers\Produtos\SubProdutos\TamanhoController;
 use MiniRest\Http\Controllers\Produtos\ProdutosController;
 use MiniRest\Http\Controllers\Produtos\ProdutosVariacoesController;
+use MiniRest\Http\Controllers\FavoritosControoler;
 
 
 
@@ -98,12 +99,20 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/createtamanho', [TamanhoController::class, 'storeTamanho']);
     Router::post('/createcores', [CoresController::class, 'storeCores']);
 
+
+
+
+
+
     Router::post('/createproduto', [ProdutosController::class, 'storeProduto']);
     Router::post('/updateproduto', [ProdutosController::class, 'updateProduto']);
     Router::post('/createprodutoVari', [ProdutosVariacoesController::class, 'storeProdutoVari']);
     Router::post('/updateprodutoVari', [ProdutosVariacoesController::class, 'updateProdutoVari']);
 
 
+    Router::post('/addfavorito/{id}', [FavoritosControoler::class, 'storeFavoritos']);
+    Router::delete('/deletafavorito/{id}', [FavoritosControoler::class, 'delete']);
+    Router::get('/favoritosme', [FavoritosControoler::class, 'index']);
 
 
 
