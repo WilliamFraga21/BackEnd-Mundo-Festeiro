@@ -14,6 +14,7 @@ use MiniRest\Http\Controllers\Produtos\ProdutosController;
 use MiniRest\Http\Controllers\Produtos\ProdutosVariacoesController;
 use MiniRest\Http\Controllers\FavoritosControoler;
 use MiniRest\Http\Controllers\ItensCarrinhoController;
+use MiniRest\Http\Controllers\PedidoController;
 
 
 
@@ -122,6 +123,8 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::get('/carrinhome', [ItensCarrinhoController::class, 'index']);
 
 
+    Router::post('/fazerpedido', [PedidoController::class, 'store']);
+    Router::get('/Meuspedidos', [PedidoController::class, 'index']);
 
 
 });
