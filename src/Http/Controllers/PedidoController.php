@@ -49,11 +49,20 @@ class PedidoController extends Controller
 
 
 
-    public function index(Request $request)
+    public function index (Request $request)
     {
 
 
         Response::json([ 'Pedido' => $this->pedidoRepository->get(Auth::id($request))]);
+
+
+
+    }
+    public function indexadmin (Request $request)
+    {
+
+
+        Response::json([ 'Pedido' => $this->pedidoRepository->getadmin(Auth::id($request))]);
 
 
 

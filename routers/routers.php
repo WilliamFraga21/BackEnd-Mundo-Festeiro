@@ -125,6 +125,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
 
     Router::post('/fazerpedido', [PedidoController::class, 'store']);
     Router::get('/Meuspedidos', [PedidoController::class, 'index']);
+    Router::get('/admin/pedidos', [PedidoController::class, 'indexadmin']);
 
 
 });
