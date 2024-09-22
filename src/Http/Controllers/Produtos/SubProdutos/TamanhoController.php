@@ -48,12 +48,22 @@ class TamanhoController extends Controller
         }
 
 
-        $tamanhoDTO = new TamanhoDTO($request);
-        (new TamanhoCreateAction())->execute($tamanhoDTO);
+        if(Auth::id($request) == 1){
 
-        Response::json([
-            'message'=>'Tamanho criado com sucesso!',
-        ], StatusCode::CREATED);
+
+            $tamanhoDTO = new TamanhoDTO($request);
+            (new TamanhoCreateAction())->execute($tamanhoDTO);
+
+            Response::json([
+                'message'=>'Tamanho criado com sucesso!',
+            ], StatusCode::CREATED);
+
+
+
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
 
     }
 

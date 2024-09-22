@@ -186,7 +186,7 @@ class PedidoRepository
 
 
 
-    public function getadmin(int $user)
+    public function getadmin()
     {
 
 

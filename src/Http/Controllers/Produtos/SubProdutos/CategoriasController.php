@@ -51,12 +51,20 @@ class CategoriasController extends Controller
         }
 
 
-        $categoriaDTO = new CategoriasDTO($request);
-        (new CategoriaCreateAction())->execute($categoriaDTO);
+        if(Auth::id($request) == 1){
 
-        Response::json([
-            'message'=>'Categoria criada com sucesso!',
-        ], StatusCode::CREATED);
+            $categoriaDTO = new CategoriasDTO($request);
+            (new CategoriaCreateAction())->execute($categoriaDTO);
+
+            Response::json([
+                'message'=>'Categoria criada com sucesso!',
+            ], StatusCode::CREATED);
+
+
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
 
     }
 

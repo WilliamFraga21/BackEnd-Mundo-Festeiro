@@ -65,13 +65,21 @@ class ProdutosVariacoesController extends Controller
             return;
         }
 
+        if (Auth::id($request) == 1){
 
-        $produtoDTO = new ProdutosVariacoesDTO($request);
-        (new ProdutosVariacoesCreateAction())->execute($produtoDTO);
 
-        Response::json([
-            'message'=>'Produto(Variação) criado com sucesso!',
-        ], StatusCode::CREATED);
+            $produtoDTO = new ProdutosVariacoesDTO($request);
+            (new ProdutosVariacoesCreateAction())->execute($produtoDTO);
+
+            Response::json([
+                'message'=>'Produto(Variação) criado com sucesso!',
+            ], StatusCode::CREATED);
+        }else{
+
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
+
 
     }
 
@@ -92,13 +100,19 @@ class ProdutosVariacoesController extends Controller
             return;
         }
 
+        if (Auth::id($request) == 1){
 
-        $produtoDTO = new ProdutosVariacoesUpdateDTO($request);
-        (new ProdutosVariacoesUpdateAction())->execute($produtoDTO);
 
-        Response::json([
-            'message'=>'Produto(Variação) Atualizado com sucesso!',
-        ], StatusCode::CREATED);
+            $produtoDTO = new ProdutosVariacoesUpdateDTO($request);
+            (new ProdutosVariacoesUpdateAction())->execute($produtoDTO);
+
+            Response::json([
+                'message'=>'Produto(Variação) Atualizado com sucesso!',
+            ], StatusCode::CREATED);
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
 
     }
 

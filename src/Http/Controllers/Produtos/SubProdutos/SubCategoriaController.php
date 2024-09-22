@@ -41,12 +41,21 @@ class SubCategoriaController extends Controller
             return;
         }
 
-        $categoriaDTO = new SubCategoriaDTO($request);
-        (new SubCaregoriaCreateAction())->execute($categoriaDTO);
+        if(Auth::id($request) == 1){
 
-        Response::json([
-            'message'=>'SubCategoria criada com sucesso!',
-        ], StatusCode::CREATED);
+
+            $categoriaDTO = new SubCategoriaDTO($request);
+            (new SubCaregoriaCreateAction())->execute($categoriaDTO);
+
+            Response::json([
+                'message'=>'SubCategoria criada com sucesso!',
+            ], StatusCode::CREATED);
+
+
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
 
     }
 

@@ -61,8 +61,15 @@ class PedidoController extends Controller
     public function indexadmin (Request $request)
     {
 
+        if (Auth::id($request) == 1){
 
-        Response::json([ 'Pedido' => $this->pedidoRepository->getadmin(Auth::id($request))]);
+
+            Response::json([ 'Pedido' => $this->pedidoRepository->getadmin()]);
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
+
 
 
 

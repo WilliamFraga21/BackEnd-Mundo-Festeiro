@@ -96,6 +96,12 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/prestador/contratar/aceitar/{id}', [PrestadorController::class, 'aceietarProposta']);
 
 
+
+
+
+
+
+
     Router::post('/createcategoria', [CategoriasController::class, 'storeCategorias']);
     Router::post('/createsubcategoria', [SubCategoriaController::class, 'storeSubCategoria']);
     Router::post('/createtamanho', [TamanhoController::class, 'storeTamanho']);

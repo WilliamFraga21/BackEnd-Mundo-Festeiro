@@ -50,12 +50,24 @@ class CoresController extends Controller
             return;
         }
 
-        $tamanhoDTO = new CoresDTO($request);
-        (new CoresCreateAction())->execute($tamanhoDTO);
 
-        Response::json([
-            'message'=>'Cor criada com sucesso!',
-        ], StatusCode::CREATED);
+
+        if(Auth::id($request) == 1){
+
+
+            $tamanhoDTO = new CoresDTO($request);
+            (new CoresCreateAction())->execute($tamanhoDTO);
+
+            Response::json([
+                'message'=>'Cor criada com sucesso!',
+            ], StatusCode::CREATED);
+
+        }else{
+
+
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
 
     }
 

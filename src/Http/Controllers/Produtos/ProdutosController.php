@@ -47,12 +47,19 @@ class ProdutosController extends Controller
         }
 
 
-        $produtoDTO = new ProdutosDTO($request);
-        (new ProdutosCreateAction())->execute($produtoDTO);
+        if(Auth::id($request) == 1){
 
-        Response::json([
-            'message'=>'Produto criado com sucesso!',
-        ], StatusCode::CREATED);
+
+            $produtoDTO = new ProdutosDTO($request);
+            (new ProdutosCreateAction())->execute($produtoDTO);
+
+            Response::json([
+                'message'=>'Produto criado com sucesso!',
+            ], StatusCode::CREATED);
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
 
     }
 
@@ -73,13 +80,20 @@ class ProdutosController extends Controller
             return;
         }
 
+        if(Auth::id($request) == 1){
 
-        $produtoDTO = new ProdutoUpdateDTO($request);
-        (new ProdutoUpdateAction())->execute($produtoDTO);
 
-        Response::json([
-            'message'=>'Produto Atualizado com sucesso!',
-        ], StatusCode::CREATED);
+            $produtoDTO = new ProdutoUpdateDTO($request);
+            (new ProdutoUpdateAction())->execute($produtoDTO);
+
+            Response::json([
+                'message'=>'Produto Atualizado com sucesso!',
+            ], StatusCode::CREATED);
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
+
 
     }
 
