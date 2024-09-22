@@ -96,8 +96,18 @@ class ItensCarrinhoController extends Controller
     public function index(Request $request)
     {
 
+    $validation = $this->carrinhoRepository->get(Auth::id($request));
 
-        Response::json(['Carrinho' => $this->carrinhoRepository->get(Auth::id($request))]);
+        if ($validation == null){
+
+            Response::json(['error' => 'Carrinho Vazio'], StatusCode::REQUEST_ERROR);
+
+        }else{
+
+            Response::json(['Carrinho' => $validation]);
+        }
+
+
 
 
 

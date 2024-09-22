@@ -4,41 +4,62 @@
 namespace MiniRest\Repositories;
 
 use MiniRest\Models\Favoritos;
+use MiniRest\Models\Produto\Produto\ProdutosVariasoes;
 
 class FavoritosRepository
 {
     private Favoritos $favoritos;
+    private ProdutosVariasoes $produtosVariasoes;
 
     public function __construct()
     {
         $this->favoritos = new Favoritos();
+        $this->produtosVariasoes = new ProdutosVariasoes();
     }
 
     public function store(int $idProduto,int $idUser)
     {
 
-        $id = $this->favoritos
-            ->firstOrCreate(
-                [
-                    'users_id' => $idUser,
-                    'produtosvariasoes_id' => $idProduto,
-                ],
-                [
-                    'users_id' => $idUser,
-                    'produtosvariasoes_id' => $idProduto,
-                ]
-            );
+        $validation = $this->produtosVariasoes->where('id',$idProduto)->first();
+        if ($validation == null){
+            return 'Produto não encontrado';
+        }else{
 
-        return $id->id;
+
+            $id = $this->favoritos
+                ->firstOrCreate(
+                    [
+                        'users_id' => $idUser,
+                        'produtosvariasoes_id' => $idProduto,
+                    ],
+                    [
+                        'users_id' => $idUser,
+                        'produtosvariasoes_id' => $idProduto,
+                    ]
+                );
+
+            return $id->id;
+        }
+
+
 
     }
 
     public function dellid(int $id,int $user)
     {
 
-        $intelFavorito =  $this->favoritos->where('id',$id)->where('users_id',$user)->delete();
+        $validation = $this->favoritos->where('id',$id)->first();
+        if ($validation == null){
+            return 'Produto não encontrado';
+        }else{
 
-        return $intelFavorito;
+            $intelFavorito =  $this->favoritos->where('id',$id)->where('users_id',$user)->delete();
+
+            return $intelFavorito;
+        }
+
+
+
     }
     public function get(int $user)
     {

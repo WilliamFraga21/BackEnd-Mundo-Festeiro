@@ -38,11 +38,18 @@ class FavoritosControoler extends Controller
 
 
 
-        (new FavoritosCreateAction())->execute($idProduto,Auth::id($request));
+        $favorito = (new FavoritosCreateAction())->execute($idProduto,Auth::id($request));
 
-        Response::json([
-            'message'=>'Produto Favoritado com sucesso!',
-        ], StatusCode::CREATED);
+
+        if ($favorito == 'Produto não encontrado'){
+
+            Response::json(['error' => 'Produto não encontrado'], StatusCode::REQUEST_ERROR);
+        }else{
+            Response::json([
+                'message'=>'Produto Favoritado com sucesso!',
+            ], StatusCode::CREATED);
+
+        }
 
     }
 
@@ -50,12 +57,21 @@ class FavoritosControoler extends Controller
     public function delete(Request $request,int $item)
     {
 
-        $itemDeletado = $this->favoritosRepository->dellid($item,Auth::id($request));
 
 
-        Response::json([
-            'message'=>'Produto Deletado com sucesso!',
-        ], StatusCode::CREATED);
+            $itemDeletado = $this->favoritosRepository->dellid($item,Auth::id($request));
+
+
+            if ($itemDeletado == 'Produto não encontrado'){
+                Response::json(['error' => 'Produto não encontrado'], StatusCode::REQUEST_ERROR);
+            }else{
+
+
+                Response::json([
+                    'message'=>'Produto Deletado com sucesso!',
+                ], StatusCode::CREATED);
+            }
+
 
     }
     public function index(Request $request)

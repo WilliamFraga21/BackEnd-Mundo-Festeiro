@@ -41,6 +41,10 @@ class PedidoRepository
 
         $itensDoCarrinho = $this->itensCarrinho->where('carrinho_users_id',$idUser)->get();
 
+
+
+
+
         $valorTotal = null;
         foreach ($itensDoCarrinho as $data){
             $valorTotal += ($data->Quantidade * $data->Valor_Uni);

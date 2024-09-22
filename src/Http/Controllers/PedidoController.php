@@ -36,11 +36,20 @@ class PedidoController extends Controller
     {
 
 
-        $pedido = $this->pedidoRepository->store(Auth::id($request));
+        $validation = $this->carrinhoRepository->get(Auth::id($request));
 
-        Response::json([
-            'message'=>'Pedido Criado com sucesso!','PedidoID' => $pedido
-        ], StatusCode::CREATED);
+        if ($validation == null){
+            Response::json(['error' => 'Carrinho Vazio'], StatusCode::REQUEST_ERROR);
+
+        }else{
+
+            $pedido = $this->pedidoRepository->store(Auth::id($request));
+
+            Response::json([
+                'message'=>'Pedido Criado com sucesso!','PedidoID' => $pedido
+            ], StatusCode::CREATED);
+        }
+
 
     }
 
@@ -52,8 +61,19 @@ class PedidoController extends Controller
     public function index (Request $request)
     {
 
+        $validation = $this->pedidoRepository->get(Auth::id($request));
 
-        Response::json([ 'Pedido' => $this->pedidoRepository->get(Auth::id($request))]);
+        if ($validation == null){
+
+            Response::json(['error' => 'Usuário sem pedidos até o momento'], StatusCode::REQUEST_ERROR);
+
+        }else{
+
+            Response::json([ 'Pedido' => $this->pedidoRepository->get(Auth::id($request))]);
+
+        }
+
+
 
 
 
