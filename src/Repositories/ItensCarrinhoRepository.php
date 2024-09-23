@@ -97,6 +97,19 @@ class ItensCarrinhoRepository
 
         return $itemDeletado;
     }
+
+
+
+
+    public function quantidadeItens(int $user)
+    {
+        $idCarrinho = $this->carrinho->where('users_id',$user)->first();
+        $itensCarrinho =  $this->itensCarrinho->where('carrinho_id',$idCarrinho->id)->get();
+
+        $tamanho = count($itensCarrinho);
+
+        return $tamanho;
+    }
     public function get(int $user)
     {
         $idCarrinho = $this->carrinho->where('users_id',$user)->first();

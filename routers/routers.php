@@ -123,6 +123,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::get('/favoritosme', [FavoritosControoler::class, 'index']);
 
     Router::post('/carrinho', [ItensCarrinhoController::class, 'store']);
+    Router::get('/carrinhoquantidadeitens', [ItensCarrinhoController::class, 'quantidadeItensCarrinho']);
     Router::delete('/carrinhoDeleteProduto/{id}', [ItensCarrinhoController::class, 'delete']);
     Router::post('/carrinhodiminuirproduto/{id}', [ItensCarrinhoController::class, 'menosUmProduto']);
     Router::post('/carrinhoaumentarproduto/{id}', [ItensCarrinhoController::class, 'maisUmProduto']);

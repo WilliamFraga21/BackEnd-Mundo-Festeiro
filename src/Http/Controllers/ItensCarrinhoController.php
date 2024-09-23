@@ -93,27 +93,22 @@ class ItensCarrinhoController extends Controller
         ], StatusCode::CREATED);
 
     }
-    public function index(Request $request)
+
+
+
+    public function quantidadeItensCarrinho(Request $request)
     {
 
-    $validation = $this->carrinhoRepository->get(Auth::id($request));
+        $itemDeletado = $this->carrinhoRepository->quantidadeItens(Auth::id($request));
 
-        if ($validation == null){
 
-            Response::json(['error' => 'Carrinho Vazio'], StatusCode::REQUEST_ERROR);
-
-        }else{
-
-            Response::json(['Carrinho' => $validation]);
-        }
+        Response::json(['Itens' => $itemDeletado]);
 
 
 
 
 
     }
-
-
 
 
 }
