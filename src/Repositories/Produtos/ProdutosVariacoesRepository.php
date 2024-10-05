@@ -3,6 +3,7 @@
 
 namespace MiniRest\Repositories\Produtos;
 
+use Illuminate\Database\Capsule\Manager as DB;
 use MiniRest\Models\Produto\Produto\ProdutosVariasoes;
 use MiniRest\Models\Produto\SubProdutos\Estoque;
 
@@ -40,39 +41,65 @@ class ProdutosVariacoesRepository
     public function getProdutos()
     {
 
-        $produtosAll = $this->produtos->get();
-        $produtoCompleto = null;
-        foreach ($produtosAll as $produto){
-            $categoria = $this->categorias->where('id',$produto->categorias_id)->first();
-            $subcategoria = $this->subCategorias->where('id',$produto->subcategorias_id)->first();
-            $variacoes = $this->produtosVariasoes->where('produtos_id',$produto->id)->get();
-            $variacoesPro = null;
-            foreach ($variacoes as $variacao){
-                $tamanhoPro = $this->tamanho->where('id',$variacao->tamanho_id)->first();
-                $corPro = $this->cores->where('id',$variacao->cores_id)->first();
-                $estoquePro = $this->estoque->where('id',$variacao->estoque_id)->first();
-                $object = [
-                    'id' => $variacao->id,
-                    'Valor' => $variacao->Valor,
-                    'Status' => $variacao->Status,
-                    'Cor' => $corPro->Cor,
-                    'Tamanho' => $tamanhoPro->Tamanho,
-                    'Estoque' => $estoquePro->Quantidade,
 
-                ];
-                $variacoesPro[] = $object;
-            }
+
+        $informacoes = DB::table('produtosvariasoes')
+            ->select(
+                'tamanho.id as tamanhoID',
+                'estoque.id as estoqueID',
+                'cores.id as coresID',
+                'subcategorias.id as subcategoriasID',
+                'categorias.id as categoriasID',
+                'produtos.id as produtosID',
+                'produtosvariasoes.id as produtosvariasoesID',
+                'Tamanho',
+                'estoque.Quantidade as estoqueQuantidade',
+                'Cor',
+                'Codigo_Cor',
+                'cores_id',
+                'tamanho_id',
+                'Valor',
+                'produtos_id',
+                'estoque_id',
+                'produtosvariasoes.Status as produtosvariasoesStatus',
+                'produtos.Status as produtosStatus',
+                'Nome_Produto',
+                'Descricao',
+            )
+            ->join('produtos', 'produtosvariasoes.produtos_id', '=', 'produtos.id')
+            ->join('subcategorias', 'produtos.subcategorias_id', '=', 'subcategorias.id')
+            ->join('categorias', 'produtos.categorias_id', '=', 'categorias.id')
+            ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
+            ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
+            ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
+            ->get();
+
+
+        foreach ($informacoes as $data){
+
+
             $object = [
-                'Nome_Produto' => $produto->Nome_Produto,
-                'Descricao' => $produto->Descricao,
-                'categorias_id' => $produto->categorias_id,
-                'categoria' => $categoria->Categoria,
-                'subcategorias_id' => $produto->subcategorias_id,
-                'subcategorias' => $subcategoria->SubCategoria,
-                'variacoesProduto' => $variacoesPro
+                'Nome_Produto' => $data->Nome_Produto,
+                'ProdutoID' => $data->produtosID,
+                'Descricao' => $data->Descricao,
+                'categorias_id' => $data->categoriasID,
+                'subcategorias_id' => $data->subcategoriasID,
+                'StatusProduto' => $data->produtosStatus,
+                'idVariacao' => $data->produtosvariasoesID,
+                'Valor' => $data->Valor,
+                'StatusVariacao' => $data->produtosvariasoesStatus,
+                'Cor' => $data->Cor,
+                'Tamanho' => $data->Tamanho,
+                'Estoque' => $data->estoqueQuantidade,
+                'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
+
+
             ];
             $produtoCompleto[] = $object;
+
         }
+
+
 
 
         return $produtoCompleto;
@@ -85,39 +112,69 @@ class ProdutosVariacoesRepository
     public function getProdutosCat(int $id)
     {
 
-        $produtosAll = $this->produtos->where('categorias_id',$id)->get();
-        $produtoCompleto = null;
-        foreach ($produtosAll as $produto){
-            $categoria = $this->categorias->where('id',$produto->categorias_id)->first();
-            $subcategoria = $this->subCategorias->where('id',$produto->subcategorias_id)->first();
-            $variacoes = $this->produtosVariasoes->where('produtos_id',$produto->id)->get();
-            $variacoesPro = null;
-            foreach ($variacoes as $variacao){
-                $tamanhoPro = $this->tamanho->where('id',$variacao->tamanho_id)->first();
-                $corPro = $this->cores->where('id',$variacao->cores_id)->first();
-                $estoquePro = $this->estoque->where('id',$variacao->estoque_id)->first();
-                $object = [
-                    'id' => $variacao->id,
-                    'Valor' => $variacao->Valor,
-                    'Status' => $variacao->Status,
-                    'Cor' => $corPro->Cor,
-                    'Tamanho' => $tamanhoPro->Tamanho,
-                    'Estoque' => $estoquePro->Quantidade,
+        $informacoes = DB::table('produtosvariasoes')
+            ->select(
+                'tamanho.id as tamanhoID',
+                'estoque.id as estoqueID',
+                'cores.id as coresID',
+                'subcategorias.id as subcategoriasID',
+                'categorias.id as categoriasID',
+                'produtos.id as produtosID',
+                'produtosvariasoes.id as produtosvariasoesID',
+                'Tamanho',
+                'estoque.Quantidade as estoqueQuantidade',
+                'Cor',
+                'Codigo_Cor',
+                'cores_id',
+                'tamanho_id',
+                'Valor',
+                'produtos_id',
+                'estoque_id',
+                'produtosvariasoes.Status as produtosvariasoesStatus',
+                'produtos.Status as produtosStatus',
+                'Nome_Produto',
+                'Descricao',
+                'Porcentagem',
+                'Tempo',
+                'promo.id as idPromo',
+            )
+            ->join('produtos', 'produtosvariasoes.produtos_id', '=', 'produtos.id')
+            ->join('subcategorias', 'produtos.subcategorias_id', '=', 'subcategorias.id')
+            ->join('categorias', 'produtos.categorias_id', '=', 'categorias.id')
+            ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
+            ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
+            ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
+            ->leftJoin('promo', 'produtosvariasoes.promo_id', '=', 'promo.id')
+            ->where('categorias.id',$id)
+            ->get();
 
-                ];
-                $variacoesPro[] = $object;
-            }
+        foreach ($informacoes as $data){
+
+
             $object = [
-                'Nome_Produto' => $produto->Nome_Produto,
-                'Descricao' => $produto->Descricao,
-                'categorias_id' => $produto->categorias_id,
-                'categoria' => $categoria->Categoria,
-                'subcategorias_id' => $produto->subcategorias_id,
-                'subcategorias' => $subcategoria->SubCategoria,
-                'variacoesProduto' => $variacoesPro
+                'Nome_Produto' => $data->Nome_Produto,
+                'ProdutoID' => $data->produtosID,
+                'Descricao' => $data->Descricao,
+                'categorias_id' => $data->categoriasID,
+                'subcategorias_id' => $data->subcategoriasID,
+                'StatusProduto' => $data->produtosStatus,
+                'idVariacao' => $data->produtosvariasoesID,
+                'Valor' => $data->Valor,
+                'StatusVariacao' => $data->produtosvariasoesStatus,
+                'Cor' => $data->Cor,
+                'Tamanho' => $data->Tamanho,
+                'Estoque' => $data->estoqueQuantidade,
+                'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
+                'Porcentagem' => $data->Porcentagem,
+                'Tempo' => $data->Tempo,
+                'idPromo' => $data->idPromo,
+
+
             ];
             $produtoCompleto[] = $object;
+
         }
+
 
 
         return $produtoCompleto;
@@ -129,40 +186,63 @@ class ProdutosVariacoesRepository
     public function getProdutosSubCat(int $id)
     {
 
-        $produtosAll = $this->produtos->where('subcategorias_id',$id)->get();
+        $informacoes = DB::table('produtosvariasoes')
+            ->select(
+                'tamanho.id as tamanhoID',
+                'estoque.id as estoqueID',
+                'cores.id as coresID',
+                'subcategorias.id as subcategoriasID',
+                'categorias.id as categoriasID',
+                'produtos.id as produtosID',
+                'produtosvariasoes.id as produtosvariasoesID',
+                'Tamanho',
+                'estoque.Quantidade as estoqueQuantidade',
+                'Cor',
+                'Codigo_Cor',
+                'cores_id',
+                'tamanho_id',
+                'Valor',
+                'produtos_id',
+                'estoque_id',
+                'produtosvariasoes.Status as produtosvariasoesStatus',
+                'produtos.Status as produtosStatus',
+                'Nome_Produto',
+                'Descricao',
+            )
+            ->join('produtos', 'produtosvariasoes.produtos_id', '=', 'produtos.id')
+            ->join('subcategorias', 'produtos.subcategorias_id', '=', 'subcategorias.id')
+            ->join('categorias', 'produtos.categorias_id', '=', 'categorias.id')
+            ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
+            ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
+            ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
+            ->where('subcategorias.id',$id)
+            ->get();
 
-        $produtoCompleto = null;
-        foreach ($produtosAll as $produto){
-            $categoria = $this->categorias->where('id',$produto->categorias_id)->first();
-            $subcategoria = $this->subCategorias->where('id',$produto->subcategorias_id)->first();
-            $variacoes = $this->produtosVariasoes->where('produtos_id',$produto->id)->get();
-            $variacoesPro = null;
-            foreach ($variacoes as $variacao){
-                $tamanhoPro = $this->tamanho->where('id',$variacao->tamanho_id)->first();
-                $corPro = $this->cores->where('id',$variacao->cores_id)->first();
-                $estoquePro = $this->estoque->where('id',$variacao->estoque_id)->first();
-                $object = [
-                    'id' => $variacao->id,
-                    'Valor' => $variacao->Valor,
-                    'Status' => $variacao->Status,
-                    'Cor' => $corPro->Cor,
-                    'Tamanho' => $tamanhoPro->Tamanho,
-                    'Estoque' => $estoquePro->Quantidade,
 
-                ];
-                $variacoesPro[] = $object;
-            }
+        foreach ($informacoes as $data){
+
+
             $object = [
-                'Nome_Produto' => $produto->Nome_Produto,
-                'Descricao' => $produto->Descricao,
-                'categorias_id' => $produto->categorias_id,
-                'categoria' => $categoria->Categoria,
-                'subcategorias_id' => $produto->subcategorias_id,
-                'subcategorias' => $subcategoria->SubCategoria,
-                'variacoesProduto' => $variacoesPro
+                'Nome_Produto' => $data->Nome_Produto,
+                'ProdutoID' => $data->produtosID,
+                'Descricao' => $data->Descricao,
+                'categorias_id' => $data->categoriasID,
+                'subcategorias_id' => $data->subcategoriasID,
+                'StatusProduto' => $data->produtosStatus,
+                'idVariacao' => $data->produtosvariasoesID,
+                'Valor' => $data->Valor,
+                'StatusVariacao' => $data->produtosvariasoesStatus,
+                'Cor' => $data->Cor,
+                'Tamanho' => $data->Tamanho,
+                'Estoque' => $data->estoqueQuantidade,
+                'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
+
+
             ];
             $produtoCompleto[] = $object;
+
         }
+
 
 
         return $produtoCompleto;

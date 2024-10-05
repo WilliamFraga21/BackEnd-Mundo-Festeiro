@@ -6,6 +6,9 @@ use MiniRest\Router\Router;
 use MiniRest\Http\Controllers\{
     Users\UserController,AuthController
 };
+use MiniRest\Http\Controllers\Produtos\PromoController;
+
+
 use MiniRest\Http\Controllers\Produtos\SubProdutos\CategoriasController;
 use MiniRest\Http\Controllers\Produtos\SubProdutos\CoresController;
 use MiniRest\Http\Controllers\Produtos\SubProdutos\SubCategoriaController;
@@ -133,6 +136,13 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/fazerpedido', [PedidoController::class, 'store']);
     Router::get('/Meuspedidos', [PedidoController::class, 'index']);
     Router::get('/admin/pedidos', [PedidoController::class, 'indexadmin']);
+
+
+
+
+    Router::post('/admin/createpromo', [PromoController::class, 'storePromo']);
+    Router::post('/admin/addpromo', [PromoController::class, 'addProdutoPromo']);
+    Router::post('/admin/removepromo/{id}', [PromoController::class, 'desativarPromo']);
 
 
 });

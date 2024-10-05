@@ -21,7 +21,10 @@ class ItensCarrinhoController extends Controller
         $this->carrinhoRepository = new ItensCarrinhoRepository();
     }
 
-
+    public function index(Request $request)
+    {
+        Response::json(['Carrinho' => $this->carrinhoRepository->get(Auth::id($request))]);
+    }
 
 
 

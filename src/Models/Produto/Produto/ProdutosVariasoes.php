@@ -17,5 +17,6 @@ class ProdutosVariasoes extends Model
         'produtos_id',
         'estoque_id',
         'Status',
+        'promo_id',
     ];
 }
