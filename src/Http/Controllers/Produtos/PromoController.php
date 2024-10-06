@@ -42,7 +42,7 @@ class PromoController extends Controller
         Response::json(['sucess'=>'Promoção Removida com sucesso'] );
     }
 
-    public function getPromo()
+    public function indexpromo()
     {
 
 

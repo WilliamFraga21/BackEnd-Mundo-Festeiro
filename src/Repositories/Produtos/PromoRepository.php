@@ -75,7 +75,7 @@ class PromoRepository
     {
 
 
-        $idpromo = $this->promo->get();
+        $idpromo = $this->promo->where('Status',1)->get();
 
 
         if (!$idpromo->isEmpty()) {
@@ -98,6 +98,7 @@ class PromoRepository
 
 
     }
+
 
 
 
