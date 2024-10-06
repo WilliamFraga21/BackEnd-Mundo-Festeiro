@@ -4,6 +4,7 @@ namespace MiniRest\Repositories;
 
 use MiniRest\Models\Pagamentos;
 use MiniRest\Models\Cupom;
+use function PHPUnit\Framework\isEmpty;
 
 class CupomRepository
 {
@@ -35,20 +36,63 @@ class CupomRepository
 
     }
 
+    public function getCupom(){
+
+        $cupom = $this->cupom->where('Status', 1)->get();
+
+        if (!$cupom->isEmpty()) {
+            return $cupom;  // Retorna os cupons encontrados
+        } else {
+            return 'Nenhum cupom encontrado';  // Mensagem de que não há cupons
+        }
 
 
-    public function updateStatus(int $id,int $status)
+
+
+    }
+
+    public function getCupomCodigo($id){
+
+        $cupom = $this->cupom->where('Status', 1)->where('Codigo',$id)->first();
+
+        if ($cupom) {
+            return $cupom;  // Retorna os cupons encontrados
+        } else {
+            return 'Nenhum cupom encontrado';  // Mensagem de que não há cupons
+        }
+
+
+
+
+    }
+
+
+
+    public function desativarCupom(int $id)
     {
 
 
-        $pagamentos = $this->pagamentos->where('id',$id)->update(
-            [
-                'status'=>$status,
-            ]
-        );
+        $data = $this->cupom->select('Status')->where('id',$id)->first();
 
 
 
-        return $pagamentos;
+
+        if($data->Status == 0){
+            return 'Cupom já foi desativado';
+        }else{
+
+            $pagamentos = $this->cupom->where('id',$id)->update(
+                [
+                    'status'=> 0,
+                ]
+            );
+
+
+
+            return $pagamentos;
+        }
+
+
+
     }
 }

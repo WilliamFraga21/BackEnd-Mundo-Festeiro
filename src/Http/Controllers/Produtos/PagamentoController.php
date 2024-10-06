@@ -12,6 +12,7 @@ use MiniRest\Http\Controllers\Controller;
 use MiniRest\Http\Request\Request;
 use MiniRest\Http\Response\Response;
 use MiniRest\Repositories\PagamentoRepository;
+use MiniRest\Repositories\CupomRepository;
 use MiniRest\DTO\Produto\ProdutosDTO;
 use MiniRest\Actions\Produtos\ProdutosCreateAction;
 use MiniRest\Models\Produto\Produto\Produtos;
@@ -20,13 +21,75 @@ class PagamentoController extends Controller
 {
 
     private PagamentoRepository $pagamentoRepository;
+    private CupomRepository $cupomRepository;
 
     public function __construct(){
         $this->pagamentoRepository = new PagamentoRepository();
+        $this->cupomRepository = new CupomRepository();
     }
     public function index()
     {
         Response::json(['Tamanhos' => Produtos::query()]);
+
+
+
+    }
+    public function indexCupom()
+    {
+
+        $data = $this->cupomRepository->getCupom();
+
+        if ($data == 'Nenhum cupom encontrado'){
+            Response::json(['error' => $data], StatusCode::ACCESS_NOT_ALLOWED);
+
+        }else{
+
+            Response::json(['Cupoms' => $data]);
+        }
+
+
+
+    }
+
+    public function indexCupomCodigo(Request $request,$id)
+    {
+
+        $data = $this->cupomRepository->getCupomCodigo($id);
+
+        if ($data == 'Nenhum cupom encontrado'){
+            Response::json(['error' => $data], StatusCode::ACCESS_NOT_ALLOWED);
+
+        }else{
+
+            Response::json(['Cupom' => $data]);
+        }
+
+
+
+    }
+    public function desativarCupomStatus(Request $request,$id)
+    {
+
+
+        if(Auth::id($request) == 1){
+
+
+            $data = $this->cupomRepository->desativarCupom($id);
+
+            if ($data == 'Cupom já foi desativado'){
+                Response::json(['error' => $data], StatusCode::ACCESS_NOT_ALLOWED);
+
+            }else{
+
+                Response::json([
+                    'message'=>'Cupom desativado com sucesso!',
+                ], StatusCode::CREATED);
+            }
+
+        }else{
+            Response::json(['error' => 'Você não é ADM do sistema'], StatusCode::ACCESS_NOT_ALLOWED);
+        }
+
 
 
 

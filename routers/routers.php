@@ -149,6 +149,9 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
 
     Router::post('/admin/createPagamento', [PagamentoController::class, 'storePagamento']);
     Router::post('/admin/createCupom', [PagamentoController::class, 'storeCupom']);
+    Router::post('/admin/desativarcupom/{id}', [PagamentoController::class, 'desativarCupomStatus']);
+    Router::get('/admincupoms', [PagamentoController::class, 'indexCupom']);
+    Router::get('/cupoms/{id}', [PagamentoController::class, 'indexCupomCodigo']);
 
 
 });
