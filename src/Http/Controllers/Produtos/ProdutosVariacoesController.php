@@ -40,6 +40,22 @@ class ProdutosVariacoesController extends Controller
 
         Response::json(['Produtos' => $this->produtosVariacoesRepository->getProdutosCat($id)]);
     }
+    public function indexPromo(Request $request,int $id)
+    {
+
+
+        $data= $this->produtosVariacoesRepository->getProdutosPromo($id);
+
+        if ($data == 'Nenhum Produto com Promoção'){
+            Response::json(['error' => $data], StatusCode::ACCESS_NOT_ALLOWED);
+
+        }else{
+
+            Response::json(['Produtos' => $data]);
+        }
+
+
+    }
 
 
 

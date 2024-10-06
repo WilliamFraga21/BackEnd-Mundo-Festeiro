@@ -10,5 +10,6 @@ class Promo extends Model
     protected $fillable = [
         'Porcentagem',
         'Tempo',
+        'Status',
     ];
 }

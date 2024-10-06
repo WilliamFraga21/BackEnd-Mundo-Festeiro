@@ -9,6 +9,7 @@ use MiniRest\Models\Produto\SubProdutos\Estoque;
 
 
 use MiniRest\Models\Produto\Produto\Produtos;
+use MiniRest\Models\Promo;
 use MiniRest\Models\Produto\SubProdutos\SubCategorias;
 use MiniRest\Models\Produto\SubProdutos\Tamanho;
 use MiniRest\Models\Produto\SubProdutos\Categorias;
@@ -22,6 +23,7 @@ class ProdutosVariacoesRepository
     private Tamanho $tamanho;
     private Categorias $categorias;
     private Cores $cores;
+    private Promo $promo;
 
 
 
@@ -36,6 +38,7 @@ class ProdutosVariacoesRepository
         $this->tamanho = new Tamanho();
         $this->categorias = new Categorias();
         $this->cores = new Cores();
+        $this->promo = new Promo();
     }
 
     public function getProdutos()
@@ -107,6 +110,93 @@ class ProdutosVariacoesRepository
 
 
     }
+
+
+
+
+    public function getProdutosPromo($id)
+    {
+
+
+
+
+
+
+
+
+        $informacoes = DB::table('produtosvariasoes')
+            ->select(
+                'tamanho.id as tamanhoID',
+                'estoque.id as estoqueID',
+                'cores.id as coresID',
+                'subcategorias.id as subcategoriasID',
+                'categorias.id as categoriasID',
+                'produtos.id as produtosID',
+                'produtosvariasoes.id as produtosvariasoesID',
+                'Tamanho',
+                'estoque.Quantidade as estoqueQuantidade',
+                'Cor',
+                'Codigo_Cor',
+                'cores_id',
+                'tamanho_id',
+                'Valor',
+                'produtos_id',
+                'estoque_id',
+                'produtosvariasoes.Status as produtosvariasoesStatus',
+                'produtos.Status as produtosStatus',
+                'Nome_Produto',
+                'Descricao',
+            )
+            ->join('produtos', 'produtosvariasoes.produtos_id', '=', 'produtos.id')
+            ->join('subcategorias', 'produtos.subcategorias_id', '=', 'subcategorias.id')
+            ->join('categorias', 'produtos.categorias_id', '=', 'categorias.id')
+            ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
+            ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
+            ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
+            ->where('produtosvariasoes.promo_id',$id)
+            ->get();
+
+        if ($informacoes->isEmpty()){
+            return 'Nenhum Produto com Promoção';
+        }else{
+
+            foreach ($informacoes as $data){
+
+
+                $object = [
+                    'Nome_Produto' => $data->Nome_Produto,
+                    'ProdutoID' => $data->produtosID,
+                    'Descricao' => $data->Descricao,
+                    'categorias_id' => $data->categoriasID,
+                    'subcategorias_id' => $data->subcategoriasID,
+                    'StatusProduto' => $data->produtosStatus,
+                    'idVariacao' => $data->produtosvariasoesID,
+                    'Valor' => $data->Valor,
+                    'StatusVariacao' => $data->produtosvariasoesStatus,
+                    'Cor' => $data->Cor,
+                    'Tamanho' => $data->Tamanho,
+                    'Estoque' => $data->estoqueQuantidade,
+                    'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
+
+
+                ];
+                $produtoCompleto[] = $object;
+
+            }
+
+
+
+
+            return $produtoCompleto;
+        }
+
+
+
+
+    }
+
+
+
 
 
     public function getProdutosCat(int $id)

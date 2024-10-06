@@ -120,6 +120,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::post('/updateproduto', [ProdutosController::class, 'updateProduto']);
     Router::post('/createprodutoVari', [ProdutosVariacoesController::class, 'storeProdutoVari']);
     Router::post('/updateprodutoVari', [ProdutosVariacoesController::class, 'updateProdutoVari']);
+    Router::get('/Promo/{id}', [ProdutosVariacoesController::class, 'indexPromo']);
 
 
     Router::post('/addfavorito/{id}', [FavoritosControoler::class, 'storeFavoritos']);
@@ -142,7 +143,6 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
 
 
     Router::post('/admin/createpromo', [PromoController::class, 'storePromo']);
-    Router::get('/Promo', [PromoController::class, 'getPromo']);
     Router::post('/admin/addpromo', [PromoController::class, 'addProdutoPromo']);
     Router::post('/admin/removepromo/{id}', [PromoController::class, 'desativarPromo']);
 

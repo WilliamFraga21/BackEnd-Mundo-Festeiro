@@ -39,7 +39,7 @@ class PromoController extends Controller
 
 
         $this->promoRepository->updatePromoDesativar($id);
-        Response::json(['Promoção Removida com sucesso'] );
+        Response::json(['sucess'=>'Promoção Removida com sucesso'] );
     }
 
     public function getPromo()
