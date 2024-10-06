@@ -70,6 +70,23 @@ class PromoRepository
 
 
     }
+
+    public function indexPromo()
+    {
+
+
+        $idpromo = $this->promo->get();
+
+
+        if (!$idpromo->isEmpty()) {
+            return $idpromo;  // Retorna os cupons encontrados
+        } else {
+            return 'Nenhuma Promoção encontrada';  // Mensagem de que não há cupons
+        }
+
+
+
+    }
     public function addPromoProduto(array $data)
     {
 

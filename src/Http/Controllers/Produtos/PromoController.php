@@ -42,7 +42,20 @@ class PromoController extends Controller
         Response::json(['Promoção Removida com sucesso'] );
     }
 
+    public function getPromo()
+    {
 
+
+        $data = $this->promoRepository->indexPromo();
+
+        if ($data == 'Nenhuma Promoção encontrada'){
+            Response::json(['error' => $data], StatusCode::ACCESS_NOT_ALLOWED);
+
+        }else{
+
+            Response::json(['Promo' => $data]);
+        }
+    }
 
 
 

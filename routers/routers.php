@@ -142,6 +142,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
 
 
     Router::post('/admin/createpromo', [PromoController::class, 'storePromo']);
+    Router::get('/Promo', [PromoController::class, 'getPromo']);
     Router::post('/admin/addpromo', [PromoController::class, 'addProdutoPromo']);
     Router::post('/admin/removepromo/{id}', [PromoController::class, 'desativarPromo']);
 
