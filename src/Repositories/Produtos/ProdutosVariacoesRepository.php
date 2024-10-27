@@ -185,10 +185,6 @@ class ProdutosVariacoesRepository
                     'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
 
 
-
-
-
-
                 ];
                 $produtoCompleto[] = $object;
 
