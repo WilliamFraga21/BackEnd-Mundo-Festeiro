@@ -181,7 +181,7 @@ class ProdutosVariacoesRepository
                     'Estoque' => $data->estoqueQuantidade,
                     'Porcentagem' => $data->Porcentagem,
                     'Tempo' => $data->Tempo,
-                    'valorComDesconto' => ($data->Valor*$data->Porcentagem)/100,
+                    'valorComDesconto' => $data->Valor - ($data->Valor * $data->Porcentagem) / 100,
                     'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
 
 
