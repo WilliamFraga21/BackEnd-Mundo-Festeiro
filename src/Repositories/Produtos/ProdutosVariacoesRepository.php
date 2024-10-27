@@ -146,6 +146,8 @@ class ProdutosVariacoesRepository
                 'produtos.Status as produtosStatus',
                 'Nome_Produto',
                 'Descricao',
+                'Porcentagem',
+                'Tempo',
             )
             ->join('produtos', 'produtosvariasoes.produtos_id', '=', 'produtos.id')
             ->join('subcategorias', 'produtos.subcategorias_id', '=', 'subcategorias.id')
@@ -153,6 +155,7 @@ class ProdutosVariacoesRepository
             ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
             ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
             ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
+            ->join('promo', 'produtosvariasoes.promo_id', '=', 'promo.id')
             ->where('produtosvariasoes.promo_id',$id)
             ->get();
 
@@ -176,7 +179,14 @@ class ProdutosVariacoesRepository
                     'Cor' => $data->Cor,
                     'Tamanho' => $data->Tamanho,
                     'Estoque' => $data->estoqueQuantidade,
+                    'Porcentagem' => $data->Porcentagem,
+                    'Tempo' => $data->Tempo,
+                    'valorComDesconto' => ($data->Valor*$data->Porcentagem)/100,
                     'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
+
+
+
+
 
 
                 ];
