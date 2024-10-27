@@ -58,6 +58,7 @@ class CategoriasRepository
                 $categoriasComSubcategorias[$item->idCategoria] = [
                     'idCategoria' => $item->idCategoria,
                     'Categoria' => $item->Categoria,
+                    'subCategoria' => $item->SubCategoria,
                     'Subcategorias' => []
                 ];
             }
