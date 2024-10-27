@@ -38,7 +38,13 @@ class CategoriasRepository
 
     public function getCategoria()
     {
-        return $this->subCategorias->select('categorias.id as idCategoria','Categoria','subcategorias.id as idSubCategoria','SubCategoria')
-            ->join('categorias','subcategorias.categorias_id','=','categorias.id')->get();
+        return $this->categorias->select(
+            'categorias.id as idCategoria',
+            'categorias.Categoria',
+            'subcategorias.id as idSubCategoria',
+            'subcategorias.SubCategoria'
+        )
+            ->leftJoin('subcategorias', 'categorias.id', '=', 'subcategorias.categorias_id')
+            ->get();
     }
 }
