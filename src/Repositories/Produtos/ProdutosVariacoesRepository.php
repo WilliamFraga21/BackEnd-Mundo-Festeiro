@@ -263,6 +263,7 @@ class ProdutosVariacoesRepository
                 'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
                 'Porcentagem' => $data->Porcentagem,
                 'Tempo' => $data->Tempo,
+                'valorComDesconto' => $data->Valor - ($data->Valor * $data->Porcentagem) / 100,
                 'idPromo' => $data->idPromo,
 
 
@@ -303,6 +304,8 @@ class ProdutosVariacoesRepository
                 'produtosvariasoes.Status as produtosvariasoesStatus',
                 'produtos.Status as produtosStatus',
                 'Nome_Produto',
+                'Porcentagem',
+                'Tempo',
                 'Descricao',
             )
             ->join('produtos', 'produtosvariasoes.produtos_id', '=', 'produtos.id')
@@ -310,6 +313,8 @@ class ProdutosVariacoesRepository
             ->join('categorias', 'produtos.categorias_id', '=', 'categorias.id')
             ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
             ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
+            ->leftJoin('promo', 'produtosvariasoes.promo_id', '=', 'promo.id')
+
             ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
             ->where('subcategorias.id',$id)
             ->get();
@@ -331,6 +336,9 @@ class ProdutosVariacoesRepository
                 'Cor' => $data->Cor,
                 'Tamanho' => $data->Tamanho,
                 'Estoque' => $data->estoqueQuantidade,
+                'Porcentagem' => $data->Porcentagem,
+                'Tempo' => $data->Tempo,
+                'valorComDesconto' => $data->Valor - ($data->Valor * $data->Porcentagem) / 100,
                 'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
 
 
