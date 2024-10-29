@@ -3,6 +3,7 @@
 
 namespace MiniRest\Repositories;
 
+use Illuminate\Database\Capsule\Manager as DB;
 use MiniRest\Models\Favoritos;
 use MiniRest\Models\Produto\Produto\ProdutosVariasoes;
 
@@ -64,9 +65,84 @@ class FavoritosRepository
     public function get(int $user)
     {
 
-        $intelFavorito =  $this->favoritos->where('users_id',$user)->get();
+        $informacoes = DB::table('produtosvariasoes')
+            ->select(
+                'tamanho.id as tamanhoID',
+                'estoque.id as estoqueID',
+                'cores.id as coresID',
+                'subcategorias.id as subcategoriasID',
+                'categorias.id as categoriasID',
+                'produtos.id as produtosID',
+                'produtosvariasoes.id as produtosvariasoesID',
+                'Tamanho',
+                'estoque.Quantidade as estoqueQuantidade',
+                'Cor',
+                'Codigo_Cor',
+                'cores_id',
+                'tamanho_id',
+                'Categoria',
+                'SubCategoria',
+                'Valor',
+                'produtos_id',
+                'estoque_id',
+                'produtosvariasoes.Status as produtosvariasoesStatus',
+                'produtos.Status as produtosStatus',
+                'Nome_Produto',
+                'Descricao',
+                'Porcentagem',
+                'Tempo'
+            )
+            ->join('produtos', 'produtosvariasoes.produtos_id', '=', 'produtos.id')
+            ->join('subcategorias', 'produtos.subcategorias_id', '=', 'subcategorias.id')
+            ->join('categorias', 'produtos.categorias_id', '=', 'categorias.id')
+            ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
+            ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
+            ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
+            ->join('promo', 'produtosvariasoes.promo_id', '=', 'promo.id')
+            ->join('favoritos', 'favoritos.produtosvariasoes_id', '=', 'produtosvariasoes.id') // Corrigido para referenciar 'favoritos'
+            ->where('users_id', $user)
+            ->get();
 
-        return $intelFavorito;
+
+        if ($informacoes->isEmpty()){
+            return 'Nenhum Produto com Promoção';
+        }else{
+
+            foreach ($informacoes as $data){
+
+
+
+                $object = [
+                    'Nome_Produto' => $data->Nome_Produto,
+                    'ProdutoID' => $data->produtosID,
+                    'Descricao' => $data->Descricao,
+                    'categorias_id' => $data->categoriasID,
+                    'Categoria' => $data->Categoria,
+                    'SubCategoria' => $data->SubCategoria,
+                    'subcategorias_id' => $data->subcategoriasID,
+                    'StatusProduto' => $data->produtosStatus,
+                    'idVariacao' => $data->produtosvariasoesID,
+                    'Valor' => $data->Valor,
+                    'StatusVariacao' => $data->produtosvariasoesStatus,
+                    'Cor' => $data->Cor,
+                    'Tamanho' => $data->Tamanho,
+                    'Estoque' => $data->estoqueQuantidade,
+                    'Porcentagem' => $data->Porcentagem,
+                    'Tempo' => $data->Tempo,
+                    'valorComDesconto' => $data->Valor - ($data->Valor * $data->Porcentagem) / 100,
+                    'StatusProdutoVariacao' => $data->produtosvariasoesStatus,
+
+
+                ];
+                $produtoCompleto[] = $object;
+
+            }
+
+
+
+
+            return $produtoCompleto;
+        }
     }
 
 
