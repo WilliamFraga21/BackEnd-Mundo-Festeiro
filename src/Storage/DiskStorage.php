@@ -2,6 +2,8 @@
 
 namespace MiniRest\Storage;
 
+use Exception;
+
 class DiskStorage extends Storage
 {
     private string $basePath;
@@ -11,13 +13,20 @@ class DiskStorage extends Storage
         $this->basePath = $basePath;
     }
 
-    public function put($path, $contents)
+    public function put($fileName, $imageData)
     {
-        $fullPath = $this->basePath . '/' . $path;
-        file_put_contents($fullPath, file_get_contents($contents));
+        $filePath = $this->basePath . '/' . $fileName;
 
+        // Verifique se o caminho do arquivo contém caracteres nulos
+        if (strpos($filePath, "\0") !== false) {
+            throw new Exception("O caminho do arquivo contém caracteres nulos.");
+        }
+
+        // Salve a imagem diretamente no caminho correto
+        file_put_contents($filePath, $imageData);
     }
-    
+
+
     public function get($path)
     {
         $fullPath = $this->basePath . '/' . $path;

@@ -17,12 +17,20 @@ class Request extends RequestValidator
     }
 
     public function post($key, $default = null) {
+        // Verifica se existe dado JSON e tenta capturar a chave
+        $jsonData = $this->getJsonData();
+        if (isset($jsonData[$key])) {
+            return $jsonData[$key];
+        }
+
+        // Caso contrário, verifica se existe no $_POST
         if (isset($_POST[$key])) {
             return $_POST[$key];
         }
 
         return $default;
     }
+
 
     public function files($key, $default = null) {
         if (isset($_FILES[$key])) {

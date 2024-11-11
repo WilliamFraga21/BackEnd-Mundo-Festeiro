@@ -30,6 +30,8 @@ use MiniRest\Http\Controllers\Prestador\PrestadorProfessionController;
 use MiniRest\Http\Controllers\Professions\ProfessionsController;
 use MiniRest\Http\Controllers\AvatarController;
 
+use MiniRest\Http\Controllers\FacialController;
+
 
 Router::post('/auth/login', [AuthController::class, 'login']);
 Router::post('/api/user/create', [UserController::class, 'store']);
@@ -155,5 +157,7 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::get('/admincupoms', [PagamentoController::class, 'indexCupom']);
     Router::get('/cupoms/{id}', [PagamentoController::class, 'indexCupomCodigo']);
 
+    Router::post('/cadastrarRosto', [FacialController::class, 'reconhecer']);
+    Router::post('/reconhecer', [FacialController::class, 'verificarReconhecimento']);
 
 });
