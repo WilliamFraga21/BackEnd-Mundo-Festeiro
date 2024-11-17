@@ -157,7 +157,8 @@ Router::prefix('/api')->group([AuthMiddleware::class], function () {
     Router::get('/admincupoms', [PagamentoController::class, 'indexCupom']);
     Router::get('/cupoms/{id}', [PagamentoController::class, 'indexCupomCodigo']);
 
-    Router::post('/cadastrarRosto', [FacialController::class, 'reconhecer']);
-    Router::post('/reconhecer', [FacialController::class, 'verificarReconhecimento']);
+    Router::post('/cadastrarfoto', [FacialController::class, 'enviarParaPython']);
+    Router::post('/reconhecer', [FacialController::class, 'reconhecerRosto']);
+    Router::get('/getchamadaById/{id}', [FacialController::class, 'byid']);
 
 });
