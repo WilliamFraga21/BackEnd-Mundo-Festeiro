@@ -112,12 +112,17 @@ class ItensCarrinhoRepository
     }
     public function get(int $user)
     {
-        $idCarrinho = $this->carrinho->where('users_id',$user)->first();
-        $itensCarrinho =  $this->itensCarrinho->where('carrinho_id',$idCarrinho->id)->get();
-        $produtoCompleto = null;
+        // Recupera o carrinho do usuário
+        $idCarrinho = $this->carrinho->where('users_id', $user)->first();
+        $itensCarrinho = $this->itensCarrinho->where('carrinho_id', $idCarrinho->id)->get();
 
-        foreach ($itensCarrinho as $data){
+        $produtoCompleto = [];
+        $valorTotalCarrinho = 0;  // Variável para armazenar o valor total do carrinho
 
+        // Itera pelos itens do carrinho
+        foreach ($itensCarrinho as $data) {
+
+            // Busca informações detalhadas do produto e suas variações
             $informacoes = DB::table('produtosvariasoes')
                 ->select(
                     'tamanho.id as tamanhoID',
@@ -154,10 +159,15 @@ class ItensCarrinhoRepository
                 ->join('cores', 'produtosvariasoes.cores_id', '=', 'cores.id')
                 ->join('estoque', 'produtosvariasoes.estoque_id', '=', 'estoque.id')
                 ->join('tamanho', 'produtosvariasoes.tamanho_id', '=', 'tamanho.id')
-                ->join('itenscarrinho', 'itenscarrinho.produtosvariasoes_id', '=', 'produtosvariasoes.id') // Adiciona o JOIN correto para a tabela 'itenscarrinho'
+                ->join('itenscarrinho', 'itenscarrinho.produtosvariasoes_id', '=', 'produtosvariasoes.id')
                 ->where('produtosvariasoes.id', $data->produtosvariasoes_id)
                 ->first();
 
+            // Cálculo do valor total de cada item (Valor Unitário * Quantidade)
+            $valorTotalItem = $informacoes->Valor_Uni * $informacoes->itenscarrinhoQuantidade;
+            $valorTotalCarrinho += $valorTotalItem; // Adiciona ao valor total do carrinho
+
+            // Cria o objeto para cada item no carrinho
             $object = [
                 'Nome_Produto' => $informacoes->Nome_Produto,
                 'ProdutoID' => $informacoes->produtosID,
@@ -177,14 +187,18 @@ class ItensCarrinhoRepository
                 'StatusProdutoVariacao' => $informacoes->produtosvariasoesStatus,
                 'QuantidadeItemCarrinho' => $informacoes->itenscarrinhoQuantidade,
                 'Valor_Uni' => $informacoes->Valor_Uni,
-
-
+                'ValorTotalItem' => $valorTotalItem,  // Adiciona o valor total do item
             ];
+
+            // Adiciona o item à lista de produtos completos
             $produtoCompleto[] = $object;
-
-
         }
-        return $produtoCompleto;
+
+        // Retorna a lista de produtos e o valor total do carrinho
+        return [
+            'produtos' => $produtoCompleto,
+            'valorTotalCarrinho' => $valorTotalCarrinho, // Envia o valor total do carrinho
+        ];
     }
 
 
